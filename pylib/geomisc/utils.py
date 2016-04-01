@@ -61,6 +61,34 @@ boro = {k.upper():v for k,v in boro.items()}
 def city2boro(city):
     return boro.get(city.upper())
 
+def split_csv(s):
+    return [t.strip() for t in s.split(',')]
+
+# 
+# An overly simple address splitter, used in our test suites only.
+# Expects an address of the form:
+#
+#   "43 Mercer Street, Manhattan" 
+#
+# And retruns a dict of the form:
+#
+#   { "street_name":"Mercer Street", "house_number":"43", "boro_name":"Manhattan" }
+#
+def split_address(rawaddr):
+    terms = split_csv(rawaddr)
+    if len(terms) != 2:
+        return None
+    street_address,boro_name = tuple(terms)
+    t = split_street_address(street_address)
+    if t is None:
+        return None
+    house_number,street_name = t
+    return {
+        "street_name":street_name,
+        "house_number":house_number,
+        "boro_name":boro_name
+    }
+
 #
 # Address normalization
 #
@@ -70,7 +98,11 @@ pat['terms'] = re.compile('^\s*(.*?)\s*,\s*(.*?)\s*,\s*(.*?)\s*$')
 pat['street_addr'] = re.compile('^(\d+)\s+(.*)$');
 pat['state_and_zip'] = re.compile('^(\S+)\s+(\d+)$');
 
+
+
+
 #
+# Deprecated address splitter 
 # Takes a string of the form:
 #
 #    '43 Mercer Street, New York, NY 10013'
@@ -81,14 +113,14 @@ pat['state_and_zip'] = re.compile('^(\S+)\s+(\d+)$');
 #
 # Optional 'upper' argument forces street_name to upper case.
 #
-def split_address(raw,upper=False):
+def _split_address(raw,upper=False):
     m = re.match(pat['terms'],raw)
     if m:
         (street_addr,city,state_and_zip) = m.groups() 
-        t = _split_street_address(street_addr)
+        t = split_street_address(street_addr)
         if t is None: return None
         (house_number,street_name) = t 
-        t = _split_state_and_zip(state_and_zip)
+        t = split_state_and_zip(state_and_zip)
         if t is None: return None
         (state,zipcode) = t
         if upper: street_name = street_name.upper()
@@ -102,7 +134,7 @@ def split_address(raw,upper=False):
 
 
 # 'NY 10013' -> ('NY','10013')
-def _split_state_and_zip(state_and_zip):
+def split_state_and_zip(state_and_zip):
     m = re.match(pat['state_and_zip'],state_and_zip)
     if m:
         (state,zipcode) = m.groups()
@@ -112,7 +144,7 @@ def _split_state_and_zip(state_and_zip):
 
 
 # '43 Mercer Street' -> (43,'Mercer Street')
-def _split_street_address(street_addr):
+def split_street_address(street_addr):
     m = re.match(pat['street_addr'],street_addr)
     if m:
         (house_number,street_name) = m.groups()
