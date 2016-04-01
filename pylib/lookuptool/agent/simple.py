@@ -1,5 +1,5 @@
 import psycopg2.extras
-from nychpd.agent.base import AgentBase
+from lookuptool.agent.base import AgentBase
 
 class SimpleAgent(AgentBase):
     '''

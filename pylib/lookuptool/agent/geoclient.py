@@ -1,6 +1,6 @@
 from collections import defaultdict
-from nychpd.agent.base import AgentBase
-from nychpd.geo.utils import normalize_street_name, city2boro
+from lookuptool.agent.base import AgentBase
+from lookuptool.geoutils import normalize_street_name, city2boro
 
 
 #

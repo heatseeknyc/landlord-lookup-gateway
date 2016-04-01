@@ -1,6 +1,15 @@
-from nychpd.agent.base import AgentBase
+#
+# A "partial lookup" agent, the pulls information from local tables only, 
+# given a BBL as the search key.  Useful for testing the local aspects of 
+# the lookup service, before these results get mixed in with what we
+# get from the NYC Geoclient API.
+#
+# BTW historically, when we had a much simpler local database, this used 
+# to be the primary search agent.
+#
+from lookuptool.agent.base import AgentBase
 
-class LookupAgent(AgentBase):
+class PartialAgent(AgentBase):
 
     def get_lookup(self,bbl):
         '''Full lookup summary per BBL.'''
