@@ -1,10 +1,14 @@
+#
+# An extremely simple interface to the NYC Geoclient API, providing just
+# the query functionality we need.
+#
 import requests, time 
 import simplejson as json
 from .logging import log
 
 default_siteurl = 'https://api.cityofnewyork.us'
 
-class Agent(object):
+class SimpleGeoclient(object):
 
     def __init__(self,siteurl=default_siteurl,app_key=None,app_id=None):
         self.siteurl  = siteurl 

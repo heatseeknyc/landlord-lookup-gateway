@@ -1,7 +1,7 @@
 import sys
 import simplejson as json
 from lookuptool.geoutils import split_address
-from nycgeo.agent import Agent
+from nycgeo.agent import SimpleGeoclient 
 
 configpath = "config/nycgeo.json"
 nycgeoconf = json.loads(open(configpath,"r").read())
@@ -14,7 +14,7 @@ else:
 address = split_address(rawaddr)
 print("address = ",address)
 
-agent = Agent(**nycgeoconf)
+agent = SimpleGeoclient(**nycgeoconf)
 r,dt= agent.fetch_address(**address)
 print("dt = %.2f millis" % dt)
 print(json.dumps(r,indent=True))
