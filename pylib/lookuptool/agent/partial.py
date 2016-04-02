@@ -51,7 +51,7 @@ class PartialAgent(AgentBase):
         '''Fetches summary data per BBL.'''
         query = \
             "select taxbill_owner_name, taxbill_owner_address, taxbill_active_date, " + \
-            "building_count, contact_count, boro_id, " + \
+            "building_count, contact_count, boro_id " + \
             "from hard.property_summary where bbl = %d;"
         recs = self.fetch_recs(query,bbl)
         if len(recs):
@@ -59,6 +59,7 @@ class PartialAgent(AgentBase):
             r['present'] = True
             r['toobig']  = is_largeish(r) 
             r['bbl'] = bbl
+            r['taxbill_active_date'] = str(r['taxbill_active_date'])
             return r
         else:
             return { 
