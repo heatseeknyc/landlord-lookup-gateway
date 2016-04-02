@@ -16,6 +16,5 @@ print("bbl = ",bbl)
 agent = PartialAgent(**pgconf)
 r,dt = agent.get_lookup(bbl)
 print("dt = %.2f millis" % dt)
-print("r = ",r)
-print(json.dumps(r,indent=True))
+print(json.dumps(r,indent=True,sort_keys=True))
 
