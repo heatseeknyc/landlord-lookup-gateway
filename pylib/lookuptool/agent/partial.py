@@ -13,7 +13,7 @@ from lookuptool.agent.base import AgentBase
 class PartialAgent(AgentBase):
 
     def get_lookup(self,bbl):
-        '''Full lookup summary per BBL.'''
+        ''' HPD lookup summary per BBL.'''
         t0 = time.time()
         summary = self.get_summary(bbl)
         contacts  = self.get_contacts(bbl) if not summary['toobig'] else None
@@ -24,7 +24,8 @@ class PartialAgent(AgentBase):
           "contacts": contacts,
           "buildings": buildings
         }
-        return r
+        dt = 1000*(t1-t0)
+        return r,dt
         
     def get_contacts(self,bbl):
         '''Fetches contacts per BBL.'''
