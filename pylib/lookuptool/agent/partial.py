@@ -60,6 +60,7 @@ class PartialAgent(AgentBase):
             r['toobig']  = is_largeish(r) 
             r['bbl'] = bbl
             r['taxbill_active_date'] = str(r['taxbill_active_date'])
+            r['taxbill_owner_address']  = expand_address(r['taxbill_owner_address'])
             return r
         else:
             return { 
@@ -76,4 +77,16 @@ class PartialAgent(AgentBase):
 def is_largeish(r):
     return False;
     return r['contact_count'] + r['building_count'] > 40;
+
+#
+# Splits taxbill owner addresss on the embedded '\\n' string (as in, the
+# character '\' + 'n'), and strips whitespace of a resultant terms. 
+#
+#   e.g. "DAKOTA INC. (THE)\\n1 W. 72ND ST.\\nNEW YORK , NY 10023-3486"
+#
+def expand_address(s):
+    if s is None:
+        return None
+    terms = s.split('\\n')
+    return [t.strip() for t in terms]
 
