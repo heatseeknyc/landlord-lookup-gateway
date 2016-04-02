@@ -36,7 +36,7 @@ from lookuptool.geoutils import normalize_street_name, city2boro
 # you'll find in the code below.
 # 
 
-class GeoAgent(AgentBase):
+class MockGeoclient(AgentBase):
 
     def get_bbl(self,args):
         if args is None:
