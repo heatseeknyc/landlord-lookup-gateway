@@ -7,20 +7,24 @@
 # BTW historically, when we had a much simpler local database, this used 
 # to be the primary search agent.
 #
+import time
 from lookuptool.agent.base import AgentBase
 
 class PartialAgent(AgentBase):
 
     def get_lookup(self,bbl):
         '''Full lookup summary per BBL.'''
+        t0 = time.time()
         summary = self.get_summary(bbl)
         contacts  = self.get_contacts(bbl) if not summary['toobig'] else None
         buildings = self.get_buildings(bbl) if not summary['toobig'] else None
-        return {
+        t1 = time.time()
+        r = {
           "summary":summary,
           "contacts": contacts,
           "buildings": buildings
         }
+        return r
         
     def get_contacts(self,bbl):
         '''Fetches contacts per BBL.'''
