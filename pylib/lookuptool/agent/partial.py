@@ -50,7 +50,7 @@ class PartialAgent(AgentBase):
     def get_summary(self,bbl):
         '''Fetches summary data per BBL.'''
         query = \
-            "select building_count, contact_count, boro_id, cb_id, geo_lat, geo_lon " + \
+            "select building_count, contact_count, boro_id, " + \
             "from hard.property_summary where bbl = %d;"
         recs = self.fetch_recs(query,bbl)
         if len(recs):
