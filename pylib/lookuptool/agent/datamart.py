@@ -3,26 +3,22 @@
 # any of the data pulls we're likely to do on our little data warehouse,
 # as such.
 #
-import time
 from lookuptool.agent.base import AgentBase
 
 class DataMartAgent(AgentBase):
 
     def get_everything(self,bbl):
         '''All the data that are fit to emit'''
-        t0 = time.time()
         summary   = self.get_summary(bbl)
-        contacts  = self.get_contacts(bbl) if not summary['toobig'] else None
-        buildings = self.get_buildings(bbl) if not summary['toobig'] else None
-        dt = time.time() - t0
+        contacts  = self.get_contacts(bbl)
+        buildings = self.get_buildings(bbl)
         return {
           "summary": summary,
           "contacts": contacts,
           "buildings": buildings
-        }, 1000*dt
+        }
         
-
-    # Yes, we return the BBL we're selecting on back in the response dict;
+    # We return the BBL we're selecting on back in the response dict;
     # this makes it easier to pass around the UI (otherwise, many of our
     # display functions would require it as a separate parameter).
     def get_summary(self,bbl):
@@ -34,9 +30,9 @@ class DataMartAgent(AgentBase):
         recs = self.fetch_recs(query,bbl)
         if len(recs):
             r = recs[0]
+            r['bbl'] = bbl
             r['present'] = True
             r['toobig']  = is_largeish(r) 
-            r['bbl'] = bbl
             r['taxbill_active_date'] = str(r['taxbill_active_date'])
             r['taxbill_owner_address']  = expand_address(r['taxbill_owner_address'])
             return r
@@ -49,6 +45,13 @@ class DataMartAgent(AgentBase):
               "building_count":0,
             }
 
+    def get_details(self,bbl):
+        contacts  = self.get_contacts(bbl)
+        buildings = self.get_buildings(bbl)
+        return {
+          "contacts": contacts,
+          "buildings": buildings
+        }
 
     def get_contacts(self,bbl):
         '''HPD contacts per BBL'''
@@ -57,7 +60,6 @@ class DataMartAgent(AgentBase):
             "from hard.contact_info where bbl = %d order by registration_id, contact_rank;" 
         recs = self.fetch_recs(query,bbl)
         return recs
-
 
     def get_buildings(self,bbl):
         '''Distinct HPD building registrations per BBL'''
