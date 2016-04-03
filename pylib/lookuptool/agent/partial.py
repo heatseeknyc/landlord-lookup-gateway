@@ -30,7 +30,7 @@ class PartialAgent(AgentBase):
     # this makes it easier to pass around the UI (otherwise, many of our
     # display functions would require it as a separate parameter).
     def get_summary(self,bbl):
-        '''Fetches summary data per BBL.'''
+        '''Joint taxbill+HPD summary data per BBL'''
         query = \
             "select taxbill_owner_name, taxbill_owner_address, taxbill_active_date, " + \
             "building_count, contact_count, boro_id " + \
@@ -55,7 +55,7 @@ class PartialAgent(AgentBase):
 
 
     def get_contacts(self,bbl):
-        '''Fetches contacts per BBL.'''
+        '''HPD contacts per BBL'''
         query = \
             "select id as contact_id, registration_id, contact_type, description, corpname, contact_name, business_address " + \
             "from hard.contact_info where bbl = %d order by registration_id, contact_rank;" 
@@ -64,7 +64,7 @@ class PartialAgent(AgentBase):
 
 
     def get_buildings(self,bbl):
-        '''Fetches distinct building registrations per BBL.'''
+        '''Distinct HPD building registrations per BBL'''
         query = "select * from hard.registrations where bbl = %d order by street_name, house_number;"
         recs = self.fetch_recs(query,bbl)
         for r in recs:
