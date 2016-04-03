@@ -18,31 +18,13 @@ class PartialAgent(AgentBase):
         summary   = self.get_summary(bbl)
         contacts  = self.get_contacts(bbl) if not summary['toobig'] else None
         buildings = self.get_buildings(bbl) if not summary['toobig'] else None
-        t1 = time.time()
-        r = {
+        dt = time.time() - t0
+        return {
           "summary": summary,
           "contacts": contacts,
           "buildings": buildings
-        }
-        dt = 1000*(t1-t0)
-        return r,dt
+        },1000*dt
         
-    def get_contacts(self,bbl):
-        '''Fetches contacts per BBL.'''
-        query = \
-            "select id as contact_id, registration_id, contact_type, description, corpname, contact_name, business_address " + \
-            "from hard.contact_info where bbl = %d order by registration_id, contact_rank;" 
-        recs = self.fetch_recs(query,bbl)
-        return recs
-
-    def get_buildings(self,bbl):
-        '''Fetches distinct building registrations per BBL.'''
-        query = "select * from hard.registrations where bbl = %d order by street_name, house_number;"
-        recs = self.fetch_recs(query,bbl)
-        for r in recs:
-            r['last_date'] = str(r['last_date'])
-            r['end_date']  = str(r['end_date'])
-        return recs
 
     # Yes, we return the BBL we're selecting on back in the response dict;
     # this makes it easier to pass around the UI (otherwise, many of our
@@ -70,6 +52,25 @@ class PartialAgent(AgentBase):
               "contact_count":0,
               "building_count":0,
             }
+
+
+    def get_contacts(self,bbl):
+        '''Fetches contacts per BBL.'''
+        query = \
+            "select id as contact_id, registration_id, contact_type, description, corpname, contact_name, business_address " + \
+            "from hard.contact_info where bbl = %d order by registration_id, contact_rank;" 
+        recs = self.fetch_recs(query,bbl)
+        return recs
+
+
+    def get_buildings(self,bbl):
+        '''Fetches distinct building registrations per BBL.'''
+        query = "select * from hard.registrations where bbl = %d order by street_name, house_number;"
+        recs = self.fetch_recs(query,bbl)
+        for r in recs:
+            r['last_date'] = str(r['last_date'])
+            r['end_date']  = str(r['end_date'])
+        return recs
 
 
 # A rough guess as to whether the entire result set would be too large 
