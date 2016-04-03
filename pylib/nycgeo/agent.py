@@ -53,7 +53,7 @@ class SimpleGeoClient(object):
     def fetch(self,query,fields=None):
         inforec,status = self.fetch_default(**query)
         if fields and inforec :
-            tiny = {k:inforec.get(k) for k in fields)
+            tiny = {k:inforec.get(k) for k in fields}
             return tinyrec,status 
         else:
             return inforec,status
