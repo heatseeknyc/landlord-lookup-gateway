@@ -30,28 +30,25 @@ class DataMartAgent(AgentBase):
             "from hard.property_summary where bbl = %d;"
         recs = self.fetch_recs(query,bbl)
         boro_id = bbl // 1000000000
+        taxbill,nychpd = None,None
         if len(recs):
             r = recs[0]
-            r['bbl'] = bbl
-            r['boro_id'] = boro_id 
-            r['taxbill_present'] = True 
-            r['taxbill_active_date'] = str(r['taxbill_active_date'])
-            r['taxbill_owner_address']  = expand_address(r['taxbill_owner_address'])
-            buildings,contacts = r.pop('building_count'),r.pop('contact_count')
-            if buildings is not None:
-                r['nychpd_present'] = True
-                r['nychpd_building_count'] = buildings 
-                r['nychpd_contact_count']  = contacts 
-            else:
-                r['nychpd_present'] = False 
-            return r
-        else:
-            return { 
-              "bbl":bbl,
-              "boro_id":boro_id,
-              "taxbill_present":False,
-              "nychpd_present":False,
+            taxbill = { 
+                'active_date': str(r['taxbill_active_date']),
+                'owner_address': expand_address(r['taxbill_owner_address']),
+                'owner_name': r['taxbill_owner_name'],
             }
+            if r['building_count'] is not None:
+                nychpd = {
+                    'building_count': r['building_count'], 
+                    'contact_count' : r['contact_count']
+                }
+        return { 
+            "bbl":bbl,
+            "boro_id":boro_id,
+            "taxbill":taxbill,
+            "nychpd":nychpd
+        }
 
     def get_details(self,bbl):
         contacts  = self.get_contacts(bbl)
@@ -96,4 +93,8 @@ def expand_address(s):
         return None
     terms = s.split('\\n')
     return [t.strip() for t in terms]
+
+            # r['taxbill_present'] = True 
+            #  r['taxbill_active_date'] = str(r['taxbill_active_date'])
+            # r['taxbill_owner_address']  = expand_address(r['taxbill_owner_address'])
 

@@ -15,12 +15,12 @@ print("bbl = ",bbl)
 
 agent = DataMartAgent(**dataconf)
 t0 = time.time()
-if args.mode == 'summary':
-    r = agent.get_summary(bbl)
+if args.mode == 'everything':
+    r = agent.get_everything(bbl)
 elif args.mode == 'details':
     r = agent.get_details(bbl)
 else:
-    r = agent.get_everything(bbl)
+    r = agent.get_summary(bbl)
 delta = 1000 * (time.time() - t0)
 
 print("dt = %.2f ms" % delta)
