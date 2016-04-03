@@ -18,31 +18,39 @@ class DataMartAgent(AgentBase):
           "buildings": buildings
         }
         
-    # We return the BBL we're selecting on back in the response dict;
-    # this makes it easier to pass around the UI (otherwise, many of our
-    # display functions would require it as a separate parameter).
+    # We return the BBL we're selecting on, along with the boro_id, 
+    # along with the response dict, for the convenience of frontend 
+    # handlers (which otherwise would have to pass these along as
+    # separate parameters for what they need to do).
     def get_summary(self,bbl):
-        '''Joint taxbill+HPD summary data per BBL'''
+        '''Full ownership summary (taxbill+HPD info) per BBL'''
         query = \
-            "select taxbill_owner_name, taxbill_owner_address, taxbill_active_date, " + \
-            "building_count, contact_count, boro_id " + \
+            "select building_count, contact_count, " + \
+            "taxbill_owner_name, taxbill_owner_address, taxbill_active_date " + \
             "from hard.property_summary where bbl = %d;"
         recs = self.fetch_recs(query,bbl)
+        boro_id = bbl // 1000000000
         if len(recs):
             r = recs[0]
             r['bbl'] = bbl
-            r['present'] = True
-            r['toobig']  = is_largeish(r) 
+            r['boro_id'] = boro_id 
+            r['taxbill_present'] = True 
             r['taxbill_active_date'] = str(r['taxbill_active_date'])
             r['taxbill_owner_address']  = expand_address(r['taxbill_owner_address'])
+            buildings,contacts = r.pop('building_count'),r.pop('contact_count')
+            if buildings is not None:
+                r['nychpd_present'] = True
+                r['nychpd_building_count'] = buildings 
+                r['nychpd_contact_count']  = contacts 
+            else:
+                r['nychpd_present'] = False 
             return r
         else:
             return { 
               "bbl":bbl,
-              "present":False,
-              "toobig":False,
-              "contact_count":0,
-              "building_count":0,
+              "boro_id":boro_id,
+              "taxbill_present":False,
+              "nychpd_present":False,
             }
 
     def get_details(self,bbl):
