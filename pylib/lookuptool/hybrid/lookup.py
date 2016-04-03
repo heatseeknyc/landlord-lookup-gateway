@@ -4,14 +4,14 @@
 # together. 
 #
 import time
-from lookuptool.agent import PartialAgent 
+from lookuptool.agent import DataMartAgent 
 from nycgeo.agent import SimpleGeoclient
 
 class LookupAgent(object):
 
     def __init__(self,pgconf,nycgeoconf):
-        self.partial = PartialAgent(**pgconf) 
-        self.nycgeo  = SimpleGeoclient(**nycgeoconf) 
+        self.datamart = DataMartAgent(**pgconf) 
+        self.nycgeo   = SimpleGeoclient(**nycgeoconf) 
 
     def get_combined_summary(self,address):
         ''' Combined NYC Geoclient + HPD summary for a given address. ''' 
@@ -19,11 +19,11 @@ class LookupAgent(object):
         bignyc,delta = self.nycgeo.fetch_address(**address)
         tiny = truncate(bignyc)
         bbl = tiny.get('bbl')
-        r,delta = self.partial.get_lookup(bbl)
-        overlay(r['summary'],tiny)
+        summary,delta = self.datamart.get_summary(bbl)
+        overlay(summary,tiny)
         t1 = time.time()
         dt = 1000*(t1-t0)
-        return r,dt
+        return summary,dt
         
 
 # Overlay dict values of b onto a. 

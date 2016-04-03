@@ -1,6 +1,6 @@
 import sys
 import simplejson as json
-from lookuptool.agent import PartialAgent
+from lookuptool.agent import DataMartAgent
 
 configpath = "config/postgres.json"
 pgconf = json.loads(open(configpath,"r").read())
@@ -13,8 +13,8 @@ else:
 
 print("bbl = ",bbl)
 
-agent = PartialAgent(**pgconf)
-r,dt = agent.get_lookup(bbl)
+agent = DataMartAgent(**pgconf)
+r,dt = agent.get_everything(bbl)
 print("dt = %.2f millis" % dt)
 print(json.dumps(r,indent=True,sort_keys=True))
 

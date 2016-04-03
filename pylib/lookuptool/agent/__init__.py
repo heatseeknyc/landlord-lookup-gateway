@@ -1,4 +1,2 @@
-from .partial import PartialAgent
-from .mockgeo import MockGeoclient 
-from .hybrid  import HybridAgent 
+from .datamart import DataMartAgent
 from .simple  import SimpleAgent

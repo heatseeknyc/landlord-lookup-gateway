@@ -1,16 +1,12 @@
 #
-# A "partial lookup" agent, the pulls information from local tables only, 
-# given a BBL as the search key.  Useful for testing the local aspects of 
-# the lookup service, before these results get mixed in with what we
-# get from the NYC Geoclient API.
-#
-# BTW historically, when we had a much simpler local database, this used 
-# to be the primary search agent.
+# A generic "data mart" agent that provides simple-to-use accessors for 
+# any of the data pulls we're likely to do on our little data warehouse,
+# as such.
 #
 import time
 from lookuptool.agent.base import AgentBase
 
-class PartialAgent(AgentBase):
+class DataMartAgent(AgentBase):
 
     def get_everything(self,bbl):
         '''All the data that are fit to emit'''
