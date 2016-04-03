@@ -24,24 +24,46 @@ class SimpleGeoclient(object):
         log.info("status = %d in %.2f ms" % (r.status_code,dt))
         return r,dt
 
-    def fetch(self,base,query):
+
+    def authget(self,base,query):
         auth = 'app_id=%s&app_key=%s' % (self.app_id,self.app_key) 
         return self.get(base + '?' + query + '&' + auth)
 
 
-    # 'houseNumber=314&street=west+100+st&borough=manhattan'
-    def fetch_address(self,house_number,street_name,boro_name):
+    def fetch_default(self,house_number,street_name,boro_name):
         base = '/geoclient/v1/address.json'
         query = '&'.join([
             'houseNumber=%s' % house_number,
             'street=%s' % street_name,
             'borough=%s' % boro_name 
         ])
-        r,dt = self.fetch(base,query)
+        r,delta = self.authget(base,query)
+        status = {
+            'code': r.response_code,
+            'time': delta
+        }
         if r.status_code == 200:
-            return json.loads(r.content),dt
+            d = json.loads(r.content)
+            address = d.get('address')
         else:
-            errmsg = "status %s" % r.status_code
-            return {'error':errmsg},dt
+            address = None
+        return address,status
 
+
+    def fetch(self,query,fields=None):
+        address,status = self.fetch_default(**query)
+        if fields and address :
+            tiny = {k:address.get(k) for k in fields)
+            return tinyrec,status 
+        else:
+            return address,status
+
+
+        # r,dt = self.fetch(base,query)
+        # if r.status_code == 200:
+        #    return json.loads(r.content),dt
+        # else:
+        #    return r,dt
+        #    errmsg = "status %s" % r.status_code
+        #    return {'error':errmsg},dt
 
