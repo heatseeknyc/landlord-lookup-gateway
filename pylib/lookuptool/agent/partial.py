@@ -23,7 +23,7 @@ class PartialAgent(AgentBase):
           "summary": summary,
           "contacts": contacts,
           "buildings": buildings
-        },1000*dt
+        }, 1000*dt
         
 
     # Yes, we return the BBL we're selecting on back in the response dict;
