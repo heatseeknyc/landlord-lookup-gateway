@@ -1,11 +1,10 @@
 import sys, time
 import simplejson as json
 from lookuptool.geoutils import split_address
-# from lookuptool.hybrid.lookup import LookupAgent 
-import lookuptool.hybrid.factory
+from lookuptool import get_lookup_agent
 
-pgconf     = json.loads(open("config/postgres.json","r").read())
-nycgeoconf = json.loads(open("config/nycgeo.json","r").read())
+dataconf = json.loads(open("config/postgres.json","r").read())
+geoconf  = json.loads(open("config/nycgeo.json","r").read())
 
 if len(sys.argv) > 1:
     rawaddr = sys.argv[1]
@@ -16,8 +15,7 @@ else:
 address = split_address(rawaddr)
 print("address = ",address)
 
-# agent = LookupAgent(pgconf,nycgeoconf)
-agent = lookuptool.hybrid.factory.instance(pgconf,nycgeoconf,mock=True)
+agent = get_lookup_agent(dataconf=dataconf,geoconf=geoconf,mock=True)
 t0 = time.time()
 r = agent.get_combined_summary(address)
 delta = 1000 * (time.time() - t0)
