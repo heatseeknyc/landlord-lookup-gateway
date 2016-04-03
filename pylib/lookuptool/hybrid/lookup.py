@@ -4,27 +4,31 @@
 # together. 
 #
 import time
-from lookuptool.agent import DataMartAgent 
-from nycgeo.agent import SimpleGeoclient
+
+tinykeys = ('bbl','latitude','longitude')
 
 class LookupAgent(object):
 
-    def __init__(self,pgconf,nycgeoconf):
-        self.datamart = DataMartAgent(**pgconf) 
-        self.nycgeo   = SimpleGeoclient(**nycgeoconf) 
+    def __init__(self,datamart,geoclient)
+        self.datamart  = datamart 
+        self.geoclient = geoclient 
 
-    def get_combined_summary(self,address):
-        ''' Combined NYC Geoclient + HPD summary for a given address. ''' 
+    def get_combined_summary(self,query):
+        ''' Combined geoclient + ownership summary for a given address''' 
         t0 = time.time()
-        bignyc,delta = self.nycgeo.fetch_address(**address)
-        tiny = truncate(bignyc)
-        bbl = tiny.get('bbl')
-        summary,delta = self.datamart.get_summary(bbl)
-        overlay(summary,tiny)
+        inforec,status = self.geoclient.fetch(query,tinykeys)
+        summary,delta = self.datamart.get_summary(r['bbl'])
+        summary['bbl']     = int(r['bbl']) 
+        summary['geo_lat'] = "%.4f" % float(r['latitude'])
+        summary['geo_lon'] = "%.4f" % float(r['longitude'])
         t1 = time.time()
         dt = 1000*(t1-t0)
         return summary,dt
         
+
+#
+# Deprecated stuff
+#
 
 # Overlay dict values of b onto a. 
 def overlay(a,b):
