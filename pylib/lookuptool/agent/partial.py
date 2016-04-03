@@ -12,8 +12,8 @@ from lookuptool.agent.base import AgentBase
 
 class PartialAgent(AgentBase):
 
-    def get_lookup(self,bbl):
-        ''' HPD lookup summary per BBL.'''
+    def get_everything(self,bbl):
+        '''All the data that are fit to emit'''
         t0 = time.time()
         summary   = self.get_summary(bbl)
         contacts  = self.get_contacts(bbl) if not summary['toobig'] else None
