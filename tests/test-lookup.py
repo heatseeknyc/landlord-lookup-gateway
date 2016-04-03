@@ -1,7 +1,7 @@
 import sys
 import simplejson as json
 from lookuptool.geoutils import split_address
-from lookuptool.agent import HybridAgent 
+from lookuptool.hybrid.lookup import LookupAgent 
 
 pgconf     = json.loads(open("config/postgres.json","r").read())
 nycgeoconf = json.loads(open("config/nycgeo.json","r").read())
@@ -14,7 +14,7 @@ else:
 address = split_address(rawaddr)
 print("address = ",address)
 
-agent = HybridAgent(pgconf,nycgeoconf)
+agent = LookupAgent(pgconf,nycgeoconf)
 r,dt = agent.get_combined_summary(address)
 print("dt = %.2f millis" % dt)
 print(json.dumps(r,indent=True))

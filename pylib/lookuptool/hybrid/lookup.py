@@ -7,7 +7,7 @@ import time
 from lookuptool.agent import PartialAgent 
 from nycgeo.agent import SimpleGeoclient
 
-class HybridAgent(object):
+class LookupAgent(object):
 
     def __init__(self,pgconf,nycgeoconf):
         self.partial = PartialAgent(**pgconf) 
