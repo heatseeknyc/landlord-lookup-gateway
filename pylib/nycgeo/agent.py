@@ -8,7 +8,7 @@ from .logging import log
 
 default_siteurl = 'https://api.cityofnewyork.us'
 
-class SimpleGeoclient(object):
+class SimpleGeoClient(object):
 
     def __init__(self,siteurl=default_siteurl,app_key=None,app_id=None):
         self.siteurl  = siteurl 
@@ -44,26 +44,18 @@ class SimpleGeoclient(object):
         }
         if r.status_code == 200:
             d = json.loads(r.content)
-            address = d.get('address')
+            inforec = d.get('inforec')
         else:
-            address = None
-        return address,status
+            inforec = None
+        return inforec,status
 
 
     def fetch(self,query,fields=None):
-        address,status = self.fetch_default(**query)
-        if fields and address :
-            tiny = {k:address.get(k) for k in fields)
+        inforec,status = self.fetch_default(**query)
+        if fields and inforec :
+            tiny = {k:inforec.get(k) for k in fields)
             return tinyrec,status 
         else:
-            return address,status
+            return inforec,status
 
-
-        # r,dt = self.fetch(base,query)
-        # if r.status_code == 200:
-        #    return json.loads(r.content),dt
-        # else:
-        #    return r,dt
-        #    errmsg = "status %s" % r.status_code
-        #    return {'error':errmsg},dt
 
