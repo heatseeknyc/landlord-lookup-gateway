@@ -15,7 +15,7 @@ class PartialAgent(AgentBase):
     def get_lookup(self,bbl):
         ''' HPD lookup summary per BBL.'''
         t0 = time.time()
-        summary = self.get_summary(bbl)
+        summary   = self.get_summary(bbl)
         contacts  = self.get_contacts(bbl) if not summary['toobig'] else None
         buildings = self.get_buildings(bbl) if not summary['toobig'] else None
         t1 = time.time()
