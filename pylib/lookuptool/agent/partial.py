@@ -20,7 +20,7 @@ class PartialAgent(AgentBase):
         buildings = self.get_buildings(bbl) if not summary['toobig'] else None
         t1 = time.time()
         r = {
-          "summary":summary,
+          "summary": summary,
           "contacts": contacts,
           "buildings": buildings
         }
