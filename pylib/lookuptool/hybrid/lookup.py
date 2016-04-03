@@ -9,21 +9,19 @@ tinykeys = ('bbl','latitude','longitude')
 
 class LookupAgent(object):
 
-    def __init__(self,datamart,geoclient)
+    def __init__(self,datamart,geoclient):
         self.datamart  = datamart 
         self.geoclient = geoclient 
 
     def get_combined_summary(self,query):
         ''' Combined geoclient + ownership summary for a given address''' 
-        t0 = time.time()
-        inforec,status = self.geoclient.fetch(query,tinykeys)
-        summary,delta = self.datamart.get_summary(r['bbl'])
+        r,status = self.geoclient.fetch(query,tinykeys)
+        bbl = int(r['bbl']) 
+        summary = self.datamart.get_summary(bbl)
         summary['bbl']     = int(r['bbl']) 
         summary['geo_lat'] = "%.4f" % float(r['latitude'])
         summary['geo_lon'] = "%.4f" % float(r['longitude'])
-        t1 = time.time()
-        dt = 1000*(t1-t0)
-        return summary,dt
+        return summary
         
 
 #

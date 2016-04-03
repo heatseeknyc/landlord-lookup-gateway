@@ -16,7 +16,8 @@ from .logging import log
 #
 mockfields = ('bbl','latitude','longitude')
 mockdata = {
-    ('529','West 29th St','Manhattan'): ("1007017501",40.75233571801,-74.0029435297)
+    ('529','West 29th St','Manhattan') : ("1007017501",40.75233571801,-74.0029435297),
+    ('1','West 72nd St','Manhattan')   : ("1011250025",40.776781559699998,-73.976151931700002)
 }
 
 def mockrec(values):
