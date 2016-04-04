@@ -16,12 +16,16 @@ class LookupAgent(object):
     def get_combined_summary(self,query):
         ''' Combined geoclient + ownership summary for a given address''' 
         r,status = self.geoclient.fetch(query,tinykeys)
+        print(":: status = ",status)
+        print(":: r = ",r)
+        if r is None: 
+            return {"error":"unknown address"}
         bbl = int(r['bbl']) 
         summary = self.datamart.get_summary(bbl)
         summary['bbl']     = int(r['bbl']) 
         summary['geo_lat'] = "%.4f" % float(r['latitude'])
         summary['geo_lon'] = "%.4f" % float(r['longitude'])
-        return summary
+        return {"summary":summary}
         
 
 #
