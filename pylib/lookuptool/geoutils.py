@@ -1,4 +1,5 @@
 import re
+from copy import deepcopy
 
 #
 # Various address-munging functions, mostly-NYC specific, but not otherwise
@@ -74,6 +75,8 @@ def split_csv(s):
 # These were grabbed from some random site somewhere, so many not overlap 
 # exactly with the set of names that Google uses -- but it would seem to 
 # be a reasonable place to start.
+
+# Present names as cased, for readiblity. 
 queens_municipalities = [
   'Arverne', 'Astoria', 'Bay Terrace', 'Bayside', 'Beechhurst', 
   'Bellerose', 'Borough Hall', 'Breezy Point', 'Briarwood', 'Broad Channel', 
@@ -91,21 +94,28 @@ queens_municipalities = [
   'Springfield Gardens', 'Sunnyside', 'Trainsmeadow', 'Utopia', 'Wave Crest', 
   'Whitestone'
 ]
+classic = {'Manhattan':1,'Bronx':2,'Brooklyn':3,'Queens':4,'Staten Island':5}
 
-# Now let's smooch everything together.  
-# Present city names as cased, for readiblity. 
-boro = {'Manhattan':1,'Bronx':2,'Brooklyn':3,'Queens':4,'Staten Island':5}
-boro.update({k:4 for k in queens_municipalities})
-boro.update({k:'any' for k in ['New York','New York City','NYC']})
-# Then convert to upper case in the final dict.
-boro = {k.upper():v for k,v in boro.items()}
+
+# Now let's smooch everything together, upper-casing along the way 
+boro2id = {k.upper():v for k,v in classic.items()}
+boro2id.update({k.upper():4 for k in queens_municipalities})
+boro2id.update({k.upper():'any' for k in ['New York','New York City','NYC']})
 
 # Returns (if given):
 #   1-5   - something that uniquely identifies a borough;
 #   'any' - something like "New York" or "New York City"
 #   None  - something which doesn't look like it indicates NYC. 
-def city2boro(city):
-    return boro.get(city.upper())
+def city2boro_id(city):
+    return boro2id.get(city.upper())
+
+id2name = {classic[k]:k for k in classic.keys()}
+def city2boro_name(city):
+    boro_id = city2boro_id(city)
+    if boro_id is not None:
+        return id2name[boro_id]
+    else:
+        return None
 
 
 
