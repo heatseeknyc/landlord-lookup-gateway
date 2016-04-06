@@ -39,12 +39,12 @@ class SimpleGeoClient(object):
         ])
         r,delta = self.authget(base,query)
         status = {
-            'code': r.response_code,
+            'code': r.status_code,
             'time': delta
         }
         if r.status_code == 200:
             d = json.loads(r.content)
-            inforec = d.get('inforec')
+            inforec = d.get('address')
         else:
             inforec = None
         return inforec,status
@@ -53,7 +53,7 @@ class SimpleGeoClient(object):
     def fetch(self,query,fields=None):
         inforec,status = self.fetch_default(**query)
         if fields and inforec :
-            tiny = {k:inforec.get(k) for k in fields}
+            tinyrec = {k:inforec.get(k) for k in fields}
             return tinyrec,status 
         else:
             return inforec,status

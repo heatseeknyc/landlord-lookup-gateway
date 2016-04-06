@@ -6,6 +6,7 @@ import nycgeo.factory
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--mock", help="use a mock agent", type=int)
+parser.add_argument("--tiny", help="get a 'tiny' rec based on restricted fields", type=int)
 parser.add_argument("--addr", help="address to parse")
 args = parser.parse_args()
 print(args)
@@ -27,7 +28,10 @@ agent = nycgeo.factory.instance(config=nycgeoconf,mock=bool(args.mock))
 print("agent = ",agent)
 
 fields = ('bbl','latitude','longitude')
-inforec,status = agent.fetch(query,fields)
+if args.tiny:
+    inforec,status = agent.fetch(query,fields)
+else:
+    inforec,status = agent.fetch(query)
 print("status = ", status)
 print("inforec = ", json.dumps(inforec,indent=True))
 
