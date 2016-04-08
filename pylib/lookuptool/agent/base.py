@@ -26,21 +26,14 @@ class AgentBase(object):
     # based on a single argument (always presumed to be integer), abstracting
     # the boilerplate of checking the argument type, packing it into the query,
     # and paranoidly logging around these steps.
-    #
-    # Not particularly flexible -- but it makes our code a bit simpler, and 
-    # importantly, projects against SQL injection.
     def fetch_recs(self,query,num):
-        # print("::: arg = %s" % num);
         assert type(num) is int, "placeholder argument must be an integer"
         cur = self.conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
-        # print("::: execute ..");
         cur.execute(query % num)
-        # print("::: return ..");
         return [dict(r) for r in cur.fetchall()]
 
-    # XXX Not safe against injection; needs validation on the arg.
     def count_table(self,path):
         cur = self.conn.cursor()
-        cur.execute("select count(*) from %s" % path) 
+        cur.execute("select count(*) from %s", path) 
         return cur.fetchone()[0]
 
