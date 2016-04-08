@@ -23,8 +23,8 @@ class LookupAgent(object):
         bbl = int(r['bbl']) 
         summary = self.datamart.get_summary(bbl)
         summary['bbl']     = int(r['bbl']) 
-        summary['geo_lat'] = "%.4f" % float(r['latitude'])
-        summary['geo_lon'] = "%.4f" % float(r['longitude'])
+        summary['geo_lat'] = r['latitude']
+        summary['geo_lon'] = r['longitude']
         return {"summary":summary}
         
 
