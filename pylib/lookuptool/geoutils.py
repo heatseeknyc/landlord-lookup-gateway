@@ -18,6 +18,8 @@ from copy import deepcopy
 #
 # or None if not parseable. 
 #
+pat = {}
+pat['street_addr'] = re.compile('^(\S+)\s+(.*)$');
 def split_address(rawaddr):
     terms = split_csv(rawaddr)
     if len(terms) != 2:
@@ -176,9 +178,7 @@ def normalize_street_name(s):
 # Deprecated stuff
 #
 
-pat = {}
 pat['terms'] = re.compile('^\s*(.*?)\s*,\s*(.*?)\s*,\s*(.*?)\s*$') 
-pat['street_addr'] = re.compile('^(\d+)\s+(.*)$');
 pat['state_and_zip'] = re.compile('^(\S+)\s+(\d+)$');
 
 #
