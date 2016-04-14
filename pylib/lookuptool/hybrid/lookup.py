@@ -27,6 +27,9 @@ class LookupAgent(object):
         summary['geo_lon'] = r['longitude']
         return {"summary":summary}
         
+    def get_contacts(self,bbl):
+        contacts = self.datamart.get_contacts(bbl)
+        return {"contacts":contacts}
 
 #
 # Deprecated stuff
