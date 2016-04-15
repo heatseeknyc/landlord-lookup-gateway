@@ -9,8 +9,8 @@ tinykeys = ('bbl','latitude','longitude')
 
 class LookupAgent(object):
 
-    def __init__(self,datamart,geoclient):
-        self.datamart  = datamart 
+    def __init__(self,dataclient,geoclient):
+        self.dataclient  = dataclient 
         self.geoclient = geoclient 
 
     def get_combined_summary(self,query):
@@ -21,14 +21,14 @@ class LookupAgent(object):
         if r is None: 
             return {"error":"unknown address"}
         bbl = int(r['bbl']) 
-        summary = self.datamart.get_summary(bbl)
+        summary = self.dataclient.get_summary(bbl)
         summary['bbl']     = int(r['bbl']) 
         summary['geo_lat'] = r['latitude']
         summary['geo_lon'] = r['longitude']
         return {"summary":summary}
         
     def get_contacts(self,bbl):
-        contacts = self.datamart.get_contacts(bbl)
+        contacts = self.dataclient.get_contacts(bbl)
         return {"contacts":contacts}
 
 #

@@ -1,11 +1,11 @@
 #
-# A generic "data mart" agent that provides simple-to-use accessors for 
-# any of the data pulls we're likely to do on our little data warehouse,
-# as such.
+# An unimaginatively named "data client"  agent that provides simple-to-use 
+# accessors for any of the data pulls we're likely to do on our little data 
+# warehouse, as such.
 #
 from lookuptool.agent.base import AgentBase
 
-class DataMartAgent(AgentBase):
+class DataClient(AgentBase):
 
     def get_everything(self,bbl):
         '''All the data that are fit to emit'''

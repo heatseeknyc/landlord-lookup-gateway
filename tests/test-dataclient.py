@@ -1,6 +1,6 @@
 import sys, time, argparse
 import simplejson as json
-from lookuptool.agent import DataMartAgent
+from lookuptool.agent import DataClient
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--mode", help="what to pull")
@@ -13,7 +13,7 @@ dataconf = json.loads(open(configpath,"r").read())
 bbl = args.bbl if args.bbl else 1011250025 
 print("bbl = ",bbl)
 
-agent = DataMartAgent(**dataconf)
+agent = DataClient(**dataconf)
 t0 = time.time()
 if args.mode == 'everything':
     r = agent.get_everything(bbl)
