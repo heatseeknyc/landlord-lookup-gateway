@@ -1,6 +1,6 @@
 import sys, argparse
 import simplejson as json
-from lookuptool.geoutils import split_address
+# from lookuptool.geoutils import split_address
 import nycgeo.factory
 
 
@@ -19,19 +19,16 @@ if args.addr:
 else:
     rawaddr = "529 West 29th St, Manhattan"
 
-query = split_address(rawaddr)
-print("query = ",query)
-if query is None:
-    raise ValueError("invalid address (cannot parse)")
+print("rawaddr = [%s]" % rawaddr)
 
 agent = nycgeo.factory.instance(config=nycgeoconf,mock=bool(args.mock))
 print("agent = ",agent)
 
-fields = ('bbl','latitude','longitude')
+fields = ('bbl','bin','geo_lat','geo_lon')
 if args.tiny:
-    inforec,status = agent.fetch(query,fields)
+    inforec,status = agent.fetch(rawaddr,fields)
 else:
-    inforec,status = agent.fetch(query)
+    inforec,status = agent.fetch(rawaddr)
 print("status = ", status)
-print("inforec = ", json.dumps(inforec,indent=True))
+print("inforec = ", json.dumps(inforec,indent=True,sort_keys=True))
 

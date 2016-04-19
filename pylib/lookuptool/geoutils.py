@@ -29,11 +29,12 @@ def split_address(rawaddr):
     if t is None:
         return None
     house_number,street_name = t
-    return {
-        "street_name":street_name,
-        "house_number":house_number,
-        "boro_name":boro_name
-    }
+    return house_number,street_name,boro_name
+    # return {
+    #    "street_name":street_name,
+    #    "house_number":house_number,
+    #    "boro_name":boro_name
+    # }
 
 # '43 Mercer Street' -> (43,'Mercer Street')
 def split_street_address(street_addr):
