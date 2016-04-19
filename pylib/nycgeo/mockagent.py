@@ -7,6 +7,7 @@ import time
 import simplejson as json
 from .logging import log
 from lookuptool.geoutils import split_address
+from nycgeo.pivot import pivot_nycgeo 
 
 #
 # A canned list of known lookups by address tuple.
@@ -48,7 +49,17 @@ class MockGeoClient(object):
         status = {'code':200, 'time':delta}
         return inforec,status
 
-    def fetch(self,rawaddr,fields=None):
+    def fetch(self,rawaddr):
+        inforec,status = self.fetch_default(rawaddr)
+        if inforec:
+            normrec = pivot_nycgeo(inforec)
+            return normrec,status 
+        else:
+            return inforec,status
+
+
+
+    def fetch_olde(self,rawaddr,fields=None):
         inforec,status = self.fetch_default(rawaddr)
         if fields and inforec:
             tinyrec = {k:inforec.get(k) for k in fields}
@@ -57,3 +68,4 @@ class MockGeoClient(object):
             return inforec,status
 
 
+    
