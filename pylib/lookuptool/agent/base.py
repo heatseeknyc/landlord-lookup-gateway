@@ -6,7 +6,7 @@ import psycopg2
 import psycopg2.extras
 
 def dbstring(**kwargs):
-    # XXX Should really do some basic arg validation here.
+    # XXX Arg validation needed here. 
     return "dbname=%(dbname)s user=%(user)s password=%(password)s" % kwargs
 
 # An extremely simple wrapper for our Pg connection object, which abstracts
@@ -22,14 +22,9 @@ class AgentBase(object):
     def dict_cursor(self): 
         return self.conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
 
-    # A convenience method which retuns a flat rowset (always of type dict)
-    # based on a single argument (always presumed to be integer), abstracting
-    # the boilerplate of checking the argument type, packing it into the query,
-    # and paranoidly logging around these steps.
-    def fetch_recs(self,query,num):
-        assert type(num) is int, "placeholder argument must be an integer"
+    def fetch_recs(self,query,*args):
         cur = self.conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
-        cur.execute(query % num)
+        cur.execute(query % args)
         return [dict(r) for r in cur.fetchall()]
 
     def count_table(self,path):
