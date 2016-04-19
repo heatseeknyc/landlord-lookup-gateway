@@ -4,9 +4,9 @@ import nycgeo.factory
 
 
 parser = argparse.ArgumentParser()
-parser.add_argument("--mock", help="use a mock agent", type=int)
-parser.add_argument("--tiny", help="get a 'tiny' rec based on restricted fields", type=int)
 parser.add_argument("--addr", help="address to parse")
+parser.add_argument("--mock", help="use a mock agent", type=int)
+parser.add_argument("--direct", help="get direct (non-normalized) response from the Geoclient API") 
 args = parser.parse_args()
 print(args)
 
@@ -23,9 +23,8 @@ print("rawaddr = [%s]" % rawaddr)
 agent = nycgeo.factory.instance(config=nycgeoconf,mock=bool(args.mock))
 print("agent = ",agent)
 
-fields = ('bbl','bin','geo_lat','geo_lon')
-if args.tiny:
-    inforec,status = agent.fetch(rawaddr,fields)
+if args.direct:
+    inforec,status = agent.fetch_default(rawaddr)
 else:
     inforec,status = agent.fetch(rawaddr)
 print("status = ", status)
