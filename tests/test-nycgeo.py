@@ -1,6 +1,5 @@
 import sys, argparse
 import simplejson as json
-# from lookuptool.geoutils import split_address
 import nycgeo.factory
 
 
