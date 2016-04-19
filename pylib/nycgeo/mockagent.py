@@ -41,7 +41,7 @@ class MockGeoClient(object):
     def fetch_default(self,rawaddr):
         delta = 0.01
         query = split_address(rawaddr) 
-        print(":: query = %s" % str(query))
+        # print(":: query = %s" % str(query))
         if query in mockdata:
             inforec = mockrec(mockdata[query])
         else:
@@ -49,7 +49,7 @@ class MockGeoClient(object):
         status = {'code':200, 'time':delta}
         return inforec,status
 
-    def fetch(self,rawaddr):
+    def fetch_norm(self,rawaddr):
         inforec,status = self.fetch_default(rawaddr)
         if inforec:
             normrec = pivot_nycgeo(inforec)
@@ -57,6 +57,13 @@ class MockGeoClient(object):
         else:
             return inforec,status
 
+    def fetch_tiny(self,rawaddr):
+        inforec,status = self.fetch_norm(rawaddr)
+        if inforec:
+            tinyrec = make_tiny(inforec) 
+            return tinyrec,status 
+        else:
+            return inforec,status
 
 
     def fetch_olde(self,rawaddr,fields=None):
@@ -67,5 +74,21 @@ class MockGeoClient(object):
         else:
             return inforec,status
 
+def find_bin(buildings):
+    rawbin = (r['giBuildingIdentificationNumber'] for r in buildings)
+    allbin = set(rawbin)
+    if len(allbin) == 0:
+        raise ValueError("invalid response struct")
+    if len(allbin) == 1:
+        return list(allbin)[0]
+    else:
+        return None
 
-    
+def make_tiny(r):
+    return {
+        "bin" : find_bin(r['buildings']),
+        "bbl" : int(r['taxlot']['bbl']),
+        "geo_lat" : r['taxlot']['latitude'],
+        "geo_lon" : r['taxlot']['longitude'],
+    }
+

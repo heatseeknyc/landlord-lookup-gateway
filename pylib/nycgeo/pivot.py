@@ -67,6 +67,6 @@ def pivot_nycgeo(d):
     imulti = {int(k):multi[k] for k in multi.keys()}
     intkeys = sorted(list(imulti.keys()))
     buildings = [imulti[k] for k in intkeys]
-    return {'taxlot':taxlot,'buldings':buildings}
+    return {'taxlot':taxlot,'buildings':buildings}
 
 
