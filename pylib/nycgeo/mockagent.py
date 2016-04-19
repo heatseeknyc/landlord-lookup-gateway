@@ -10,19 +10,25 @@ from lookuptool.geoutils import split_address
 
 #
 # A canned list of known lookups by address tuple.
+# LHS: address tuple in standard form
+# RHS: bbl,bin,lat,lon 
 #
-# Fields are exactly those in the mockfields tuple below; and the value 
-# tuples are presented with the same types (str,float,float) as thse 
-# fields come down in the JSON responses from the Geoclient API.
-#
-mockfields = ('bbl','bin','geo_lat','geo_lon')
 mockdata = {
     ('529','West 29th St','Manhattan') : ("1007017501","1089360",40.7523357180,-74.0029435297),
     ('1','West 72nd St','Manhattan')   : ("1011250025","1028637",40.7767815597,-73.9761519317)
 }
 
+# Converts tuple of lookup values on the RHS in the above table
+# into a mock record in the same form of a valid Geoclient response, 
+# but restricted to just these fields of interest.
 def mockrec(values):
-    return dict(zip(mockfields,values))
+    _bbl,_bin,lat,lon = values
+    return {
+        "bbl": _bbl,
+        "latitude":lat,
+        "longitude":lat,
+        "giBuildingIdentificationNumber1": _bin 
+    }
 
 class MockGeoClient(object):
 
