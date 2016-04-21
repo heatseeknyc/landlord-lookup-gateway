@@ -5,7 +5,7 @@
 #
 import requests, time 
 import simplejson as json
-from lookuptool.geoutils import split_address
+from nycgeo.utils.address import split_address
 from nycgeo.utils.pivot import pivot_nycgeo
 from nycgeo.logging import log
 

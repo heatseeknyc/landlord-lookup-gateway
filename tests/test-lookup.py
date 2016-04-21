@@ -1,6 +1,6 @@
 import sys, time
 import simplejson as json
-from lookuptool.geoutils import split_address
+from nycgeo.utils.address import split_address
 from lookuptool import get_lookup_agent
 
 dataconf = json.loads(open("config/postgres.json","r").read())

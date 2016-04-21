@@ -3,7 +3,7 @@
 # responses for a small set of test cases, or "not found" messages
 # otherwise.
 #
-from lookuptool.geoutils import split_address
+from nycgeo.utils.address import split_address
 from nycgeo.logging import log
 from .simple import SimpleGeoClient
 
