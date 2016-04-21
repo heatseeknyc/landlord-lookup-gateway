@@ -1,6 +1,6 @@
 import sys, argparse
 import simplejson as json
-import nycgeo.factory
+import nycgeo.client.factory
 
 
 parser = argparse.ArgumentParser()
@@ -14,14 +14,20 @@ print(args)
 configpath = "config/nycgeo.json"
 nycgeoconf = json.loads(open(configpath,"r").read())
 
+
 if args.addr: 
     rawaddr = args.addr 
 else:
     rawaddr = "529 West 29th St, Manhattan"
-
 print("rawaddr = [%s]" % rawaddr)
 
-agent = nycgeo.factory.instance(config=nycgeoconf,mock=bool(args.mock))
+
+if args.mock:
+    mockdata = json.loads(open("tests/data/mock-nycgeo-data.json","r").read())
+    agent = nycgeo.client.factory.instance(config=nycgeoconf,mock=True)
+    agent._mockdata = mockdata
+else:
+    agent = nycgeo.client.factory.instance(config=nycgeoconf)
 print("agent = ",agent)
 
 if args.tiny:
@@ -29,7 +35,7 @@ if args.tiny:
 elif args.norm:
     inforec,status = agent.fetch_norm(rawaddr)
 else:
-    inforec,status = agent.fetch_default(rawaddr)
+    inforec,status = agent.fetch(rawaddr)
 
 print("status = ", status)
 print("inforec = ", json.dumps(inforec,indent=True,sort_keys=True))
