@@ -22,21 +22,13 @@ def errmsg(message):
 def jsonify(r):
     return json.dumps(r,sort_keys=True)
 
-def resolve(callf,rawarg):
+def wrapsafe(callf,rawarg):
     try:
-        bbl = int(rawarg)
-    except ValueError as e:
-        return errmsg('invalid argument')
-    try:
-        print(":: invoke ..")
-        recs = callf(bbl)
-        print(":: got %d recs." % len(recs))
+        return callf(rawarg)
     except Exception as e:
-        print(":: badness = %s" % e)
+        print(e)
+        print_tb(e.__traceback__)
         return errmsg('internal error')
-    print(":: return %d recs." % len(recs))
-    return json.dumps(recs)
-
 
 def extract_search_query(query_string):
     param = split_query(query_string.decode('utf-8'))
@@ -55,6 +47,9 @@ def resolve_query(address):
 @app.route('/lookup/<address>')
 @cross_origin()
 def api_lookup(address):
+    return wrapsafe(resolve_query,address)
+
+def olde_api_lookup(address):
     try:
         print(":: address = '%s'" % address) 
         return resolve_query(address)
