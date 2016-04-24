@@ -2,20 +2,25 @@
 import simplejson as json
 from flask import Flask, url_for, request, jsonify
 from flask.ext.cors import CORS, cross_origin
-from lookuptool import get_lookup_agent
+import lookuptool.hybrid
 from lookuptool.utils.misc import slurp_json
 from lookuptool.utils.address import city2boro_name 
+from nycgeo.utils.url import split_query
 from traceback import print_tb
 
 app = Flask(__name__)
 CORS(app)
 
 dataconf = slurp_json("config/postgres.json")
-geoconf  = slurp_json("config/nycgeo.json")
-agent = get_lookup_agent(dataconf=dataconf,geoconf=geoconf,mock=False) 
+geoconf  = slurp_json("config/mockgeo-client.json")
+# geoconf  = slurp_json("config/nycgeo.json")
+agent = lookuptool.hybrid.instance(dataconf,geoconf) 
 
 def errmsg(message):
     return json.dumps({'error':message})
+
+def jsonify(r):
+    return json.dumps(r,sort_keys=True)
 
 def resolve(callf,rawarg):
     try:
@@ -33,6 +38,32 @@ def resolve(callf,rawarg):
     return json.dumps(recs)
 
 
+def extract_search_query(query_string):
+    param = split_query(query_string.decode('utf-8'))
+    print(":: param = %s" % param) 
+    return param.get('q')
+
+def resolve_query(address):
+    q = address.replace('+',' ').strip()
+    print(":: q = %s" % str(q)) 
+    if q is None: 
+        return errmsg('invalid query string')
+    else:
+        response = agent.get_lookup(q)
+        return jsonify(response)
+
+@app.route('/lookup/<address>')
+@cross_origin()
+def api_lookup(address):
+    try:
+        print(":: address = '%s'" % address) 
+        return resolve_query(address)
+    except Exception as e:
+        print(e)
+        print_tb(e.__traceback__)
+        return errmsg('internal error')
+
+
 
 @app.route('/contacts/<bbl_arg>')
 @cross_origin()
@@ -44,20 +75,6 @@ def api_contacts(bbl_arg):
 def api_buildings(bbl_arg):
     return resolve(lambda bbl:agent.get_buildings(bbl),bbl_arg)
 
-@app.route('/lookup/q')
-@cross_origin()
-def api_lookup():
-    r = dict(request.args)
-    print("r = ",r)
-    try:
-        q = normalize_query(r)
-        print(":: q = %s" % q)
-        resp = agent.get_combined_summary(q)
-    except Exception as e:
-        print(e)
-        print_tb(e.__traceback__)
-        return errmsg('internal error')
-    return json.dumps(resp)
 
 
 def normalize_query(r):

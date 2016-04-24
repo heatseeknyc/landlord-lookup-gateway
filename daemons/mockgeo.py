@@ -19,7 +19,7 @@ agent = GeoServerMockAgent(mockdata)
 def errmsg(message):
     return json.dumps({'error':message})
 
-def jsonmsg(r):
+def jsonify(r):
     return json.dumps(r,sort_keys=True)
 
 def mapcgi(s):
@@ -78,7 +78,7 @@ def resolve(callf,query):
         print(":: badness = %s" % e)
         return errmsg('internal error')
     print(":: return dict with %d keys." % len(r))
-    return json.dumps(r,sort_keys=True)
+    return jsonify(r,sort_keys=True)
 
 
 def normalize_query(r):
