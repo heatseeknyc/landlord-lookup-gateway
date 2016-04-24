@@ -1,9 +1,9 @@
-import nycgeo.factory
+from nycgeo.client import SimpleGeoClient
 from ..agent import DataClient
 from .lookup import LookupAgent
 
-def instance(dataconf,geoconf,mock=False):
-    datamart = DataClientAgent(**dataconf) 
-    geoclient = nycgeo.factory.instance(geoconf,mock)
-    return LookupAgent(datamart,geoclient)
+def instance(dataconf,geoconf):
+    dataclient = DataClient(**dataconf) 
+    geoclient  = SimpleGeoClient(**geoconf)
+    return LookupAgent(dataclient,geoclient)
 
