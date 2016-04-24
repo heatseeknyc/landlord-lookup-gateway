@@ -32,22 +32,20 @@ class SimpleGeoClient(object):
         auth = 'app_id=%s&app_key=%s' % (self.app_id,self.app_key) 
         return self.get(base + '?' + query + '&' + auth)
 
-    def fetch_default(self,rawaddr):
-        house,street,boro = split_address(rawaddr)
+    def fetch_default(self,param):
         base = '/geoclient/v1/address.json'
-        query = '&'.join([
-            'houseNumber=%s' % house,
-            'street=%s' % street,
-            'borough=%s' % boro
-        ])
+        query = namedtuple2query(param)
+        print(":: query = %s" % query)
         return self.authget(base,query)
 
     def fetch(self,rawaddr):
-        r,delta = self.fetch_default(rawaddr)
-        status = {
-            'code': r.status_code,
-            'time': delta
-        }
+        param = split_address(rawaddr)
+        if param is None:
+            response = None
+            status   = {"code":None, "time":0.001, "error":"invalid address"}
+            return response,status
+        r,delta = self.fetch_default(param)
+        status = { 'code': r.status_code, 'time': delta }
         if r.status_code == 200:
             d = json.loads(r.content)
             inforec = d.get('address')
@@ -72,6 +70,12 @@ class SimpleGeoClient(object):
             return inforec,status
 
 
+def _encode(s):
+    return '' if s is None else s.replace(' ','%20')
+
+def namedtuple2query(named):
+    d = named._asdict()
+    return '&'.join(['%s=%s' % (_encode(k),_encode(v)) for k,v in d.items()])
 
 
 
@@ -92,6 +96,5 @@ def make_tiny(r):
         "geo_lat" : r['taxlot']['latitude'],
         "geo_lon" : r['taxlot']['longitude'],
     }
-
 
 

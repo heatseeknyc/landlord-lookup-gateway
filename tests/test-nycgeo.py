@@ -27,12 +27,14 @@ print("rawaddr = [%s]" % rawaddr)
 agent = SimpleGeoClient(**config)
 
 if args.tiny:
-    inforec,status = agent.fetch_tiny(rawaddr)
+    response,status = agent.fetch_tiny(rawaddr)
 elif args.norm:
-    inforec,status = agent.fetch_norm(rawaddr)
+    response,status = agent.fetch_norm(rawaddr)
 else:
-    inforec,status = agent.fetch(rawaddr)
+    response,status = agent.fetch(rawaddr)
 
 print("status = ", status)
-print("inforec = ", json.dumps(inforec,indent=True,sort_keys=True))
+print("response = ",json.dumps(response,indent=True,sort_keys=True))
+# blurb = str(response) if response is None else json.dumps(response,indent=True,sort_keys=True)
+# print("response = ", blurb) 
 
