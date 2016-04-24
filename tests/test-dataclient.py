@@ -29,5 +29,5 @@ else:
 delta = 1000 * (time.time() - t0)
 
 print("dt = %.2f ms" % delta)
-print(json.dumps(r,indent=True,sort_keys=True))
+print(json.dumps(r,indent=4,sort_keys=True))
 
