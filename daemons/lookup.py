@@ -39,6 +39,21 @@ def resolve_lookup(address):
         response = agent.get_lookup(q)
         return jsonify(response)
 
+def resolve_contacts(keytup):
+    t = split_keytup(keytup)
+    if t is None:
+        return errmsg('invalid argument pair')
+    else:
+        contacts = agent.dataclient.get_contacts(*t)
+        return jsonify({"contacts":contacts})
+
+def split_keytup(keytup):
+    terms = keytup.split(',')
+    if len(terms) == 2:
+        return map(int,terms)
+    else:
+        return None
+
 @app.route('/lookup/<address>')
 @cross_origin()
 def api_lookup(address):
