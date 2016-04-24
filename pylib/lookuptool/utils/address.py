@@ -1,5 +1,6 @@
 import re
 from copy import deepcopy
+from nycgeo.utils.address import split_address
 
 #
 # Municipality => Borough mapping.
@@ -41,13 +42,33 @@ queens_municipalities = [
   'Jamaica', 'Jamaica Estates', 'John F Kennedy Airport', 'Kew Garden Hills', 
   'Kew Gardens', 'La Guardia Airport', 'Laurelton', 'Linden Hill', 
   'Little Neck', 'Long Island City', 'Malba', 'Maspeth', 'Middle Village', 
-  'Neponsit', 'Oakland', 'Gardens', 'Ozone Park', 'Parkside', 'Pomonok', 
+  'Neponsit', 'Oakland Gardens', 'Ozone Park', 'Parkside', 'Pomonok', 
   'Queens Village', 'Rego Park', 'Richmond Hill', 'Ridgewood', 'Rochdale', 
   'Rochdale Village', 'Rockaway Beach', 'Rockaway Park', 'Rockaway Point', 
   'Rosedale', 'Saint Albans', 'South Ozone Park', 'South Richmond Hill', 
   'Springfield Gardens', 'Sunnyside', 'Trainsmeadow', 'Utopia', 'Wave Crest', 
   'Whitestone'
 ]
+queens_upper = set(q.upper() for q in queens_municipalities) 
+
+def munge_queens_name(s):
+    return "Queens" if s.upper() in queens_upper else s
+
+def fix_queens_name(rawaddr):
+    param = split_address(rawaddr)
+    if param:
+        canon_borough = munge_queens_name(param.borough)
+        return "%s %s, %s" % (param.houseNumber, param.street, canon_borough) 
+    else:
+        return rawaddres
+
+
+
+#
+# Deprecated STuff
+#
+
+
 classic = {'Manhattan':1,'Bronx':2,'Brooklyn':3,'Queens':4,'Staten Island':5}
 
 
