@@ -1,0 +1,28 @@
+[ 
+  {
+    "address": "structurally_invalid_address",
+    "nycgeo": null 
+  },{
+    "address": "666 Nowhere Lane, Gotham",
+    "nycgeo": { 
+      "message": "not found" 
+    }
+  },{
+    "address": "1 West 72nd St, Manhattan",
+    "nycgeo": {
+      "bbl": "1011250025",
+      "buildingIdentificationNumber": "1028637",
+      "latitude": 40.77640230806594,
+      "longitude": -73.97636507868083
+    }
+  },{
+    "address": "529 West 29th St, Manhattan",
+    "nycgeo": {
+      "bbl": "1007017501",
+      "buildingIdentificationNumber": "1089360",
+      "latitude": 40.75199022037543,
+      "longitude": -74.00269973147523
+    }
+  }
+]
+

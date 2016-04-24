@@ -14,7 +14,7 @@ client = SimpleGeoClient(**clientcfg)
 
 for r in mockdata:
     address  = r['address']
-    expected = r['response']
+    expected = r['nycgeo']
     print("address = %s" % address)
     response,status = client.fetch(address)
     print("status = %s" % status)
