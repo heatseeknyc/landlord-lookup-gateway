@@ -79,6 +79,8 @@ def namedtuple2query(named):
     return '&'.join(['%s=%s' % (_encode(k),_encode(v)) for k,v in d.items()])
 
 def make_tiny(r):
+    if 'message' in r:
+        return {'message':r['message']}
     fields = ('bbl','buildingIdentificationNumber','latitude','longitude')
     return {k:r.get(k) for k in fields}
 
@@ -97,14 +99,5 @@ def find_bin(buildings):
         return list(allbin)[0]
     else:
         return None
-
-
-def __make_tiny(r):
-    return {
-        "bin" : find_bin(r['buildings']),
-        "bbl" : int(r['taxlot']['bbl']),
-        "geo_lat" : r['taxlot']['latitude'],
-        "geo_lon" : r['taxlot']['longitude'],
-    }
 
 
