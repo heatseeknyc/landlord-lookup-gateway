@@ -36,9 +36,10 @@ def extract_param(query_string):
 
 def resolve_query(query_string):
     param = extract_param(query_string)
-    print(":: named = %s" % str(param)) 
+    print(":: resolve_query named = %s" % str(param)) 
     response = agent.lookup(param)
-    return jsonmsg(response)
+    print(":: resolve_query response = %s" % response) 
+    return jsonify(response)
 
 @app.route('/geoclient/v1/<prefix>')
 @cross_origin()
