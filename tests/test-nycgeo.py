@@ -1,20 +1,23 @@
 #!/usr/bin/env python
 import sys, argparse
 import simplejson as json
-import nycgeo.client.factory
+from nycgeo.client.simple import SimpleGeoClient
 
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--addr", help="address to parse")
-parser.add_argument("--mock", help="use a mock agent", type=int)
 parser.add_argument("--norm", help="fetch a normalized (pivoted) rec", type=int)
 parser.add_argument("--tiny", help="fetch a tiny rec", type=int)
+parser.add_argument("--mock", help="use the mock service", type=int)
 args = parser.parse_args()
 print(args)
 
-configpath = "config/nycgeo.json"
-nycgeoconf = json.loads(open(configpath,"r").read())
-
+if args.mock:
+    configpath = "config/mockgeo-client.json"
+else:
+    configpath = "config/nycgeo.json"
+config = json.loads(open(configpath,"r").read())
+print(config)
 
 if args.addr: 
     rawaddr = args.addr 
@@ -22,14 +25,7 @@ else:
     rawaddr = "529 West 29th St, Manhattan"
 print("rawaddr = [%s]" % rawaddr)
 
-
-if args.mock:
-    mockdata = json.loads(open("tests/data/mock-nycgeo-data.json","r").read())
-    agent = nycgeo.client.factory.instance(config=nycgeoconf,mock=True)
-    agent._mockdata = mockdata
-else:
-    agent = nycgeo.client.factory.instance(config=nycgeoconf)
-print("agent = ",agent)
+agent = SimpleGeoClient(**config)
 
 if args.tiny:
     inforec,status = agent.fetch_tiny(rawaddr)
