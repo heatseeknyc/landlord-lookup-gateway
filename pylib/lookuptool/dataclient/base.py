@@ -27,6 +27,13 @@ class AgentBase(object):
         cur.execute(query % args)
         return [dict(r) for r in cur.fetchall()]
 
+    def fetchone(self,query,*args):
+        recs = self.fetch_recs(query,*args)
+        if len(recs) == 0: return None
+        if len(recs) == 1: return recs[0] 
+        raise ValueError("too many matches")
+
+    # A simple accessor that allows us to test the above.
     def count_table(self,path):
         cur = self.conn.cursor()
         cur.execute("select count(*) from %s", path) 

@@ -17,27 +17,10 @@ class DataClient(AgentBase):
         '''Full ownership summary (Taxbill,DHRC,HPD) for a BBL+BIN pair.'''
         query = "select * from hard.property_summary where bbl = %d and bin = %d"; 
         r = self.fetchone(query,_bbl,_bin)
-        if r:
-            taxbill = { 
-                'active_date': str(r['taxbill_active_date']),
-                'owner_address': expand_address(r['taxbill_owner_address']),
-                'owner_name': r['taxbill_owner_name'],
-            }
-            dhcr_active = bool(r.get('dhcr_active'))
-            if r['contact_count'] is not None:
-                nychpd_contacts = r['contact_count']
-            else:
-                nychpd_contacts = 0 
-        else:
-            taxbill = None
-            nychpd_contacts = 0
-            dhcr_active = False
+        return make_summary(r) if r is not None else None
 
-        return  { 
-            "taxbill":taxbill,
-            "nychpd_contacts":nychpd_contacts,
-            "dhcr_active":dhcr_active,
-        }
+
+
 
     def get_contacts(self,_bbl,_bin):
         '''HPD contacts per BBL'''
@@ -81,21 +64,48 @@ class DataClient(AgentBase):
           "buildings": buildings
         }
 
-# A rough guess as to whether the entire result set would be too large 
-# for clients to grab + display in a single shot. 
-def is_largeish(r):
-    return False;
-    return r['contact_count'] + r['building_count'] > 40;
 
 #
-# Splits taxbill owner addresss on the embedded '\\n' string (as in, the
-# character '\' + 'n'), and strips whitespace of a resultant terms. 
+# Pivots raw SQL result record into a somewhat nice struct for 
+# external consumption.
 #
-#   e.g. "DAKOTA INC. (THE)\\n1 W. 72ND ST.\\nNEW YORK , NY 10023-3486"
+def make_summary(r):
+    taxbill = { 
+        'active_date': str(r['taxbill_active_date']),
+        'owner_address': expand_address(r['taxbill_owner_address']),
+        'owner_name': r['taxbill_owner_name'],
+    }
+    return  { 
+        "taxbill":taxbill,
+        "nychpd_contacts": cast_as_int(r['contact_count']) ,
+        "dhcr_active": bool(r.get('dhcr_active'))
+    }
+
+# Splits the taxbill owner addresss on the embedded '\\n' string 
+# (literally '\'+'\'+'n') from an incoming string, which we take to 
+# be an encoding of "\n"; e.g:
 #
+#   e.g. 'DAKOTA INC. (THE)\\n1 W. 72ND ST.\\nNEW YORK , NY 10023-3486'
+#
+# then strips whitespace from the resulting terms, and returns a nice 
+# list struct.
 def expand_address(s):
     if s is None:
         return None
     terms = s.split('\\n')
     return [t.strip() for t in terms]
+
+def cast_as_int(x):
+    return 0 if x is None else int(x)
+
+
+#
+# Deprecated Stuff
+#
+
+# A rough guess as to whether the entire result set would be too large 
+# for clients to grab + display in a single shot. 
+def is_largeish(r):
+    return False;
+    return r['contact_count'] + r['building_count'] > 40;
 
