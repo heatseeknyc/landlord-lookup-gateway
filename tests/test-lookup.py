@@ -2,7 +2,7 @@
 import sys, time, argparse
 import simplejson as json
 from nycgeo.utils.address import split_address
-from lookuptool import get_lookup_agent
+import lookuptool.hybrid
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--mock", help="route geoclient calls to mock service", type=int)
@@ -34,7 +34,7 @@ else:
 address = split_address(rawaddr)
 print("address = ",address)
 
-agent = get_lookup_agent(dataconf=dataconf,geoconf=geoconf)
+agent = lookuptool.hybrid.instance(dataconf,geoconf)
 print("agent = ",agent)
 sys.exit(1)
 t0 = time.time()
