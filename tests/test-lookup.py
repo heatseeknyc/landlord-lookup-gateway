@@ -23,13 +23,7 @@ if args.addr:
     rawaddr = args.addr 
 else:
     rawaddr = "529 West 29th St, Manhattan"
-print("rawaddr = [%s]" % rawaddr)
-
-
-if len(sys.argv) > 1:
-    rawaddr = sys.argv[1]
-else:
-    rawaddr = "1 West 72nd St, Manhattan"
+# print("rawaddr = [%s]" % rawaddr)
 
 address = split_address(rawaddr)
 print("address = ",address)
