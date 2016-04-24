@@ -13,9 +13,9 @@ class LookupAgent(object):
         self.dataclient  = dataclient 
         self.geoclient = geoclient 
 
-    def get_summary(self,param):
+    def get_summary(self,rawaddr):
         ''' Combined geoclient + ownership summary for a given address''' 
-        r,status = self.geoclient.fetch(param)
+        r,status = self.geoclient.fetch(rawaddr)
         print(":: status = ",status)
         print(":: response = ",r)
         if r is None: 
