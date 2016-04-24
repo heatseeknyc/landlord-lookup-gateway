@@ -13,7 +13,7 @@ class LookupAgent(object):
         self.dataclient  = dataclient 
         self.geoclient = geoclient 
 
-    def get_combined_summary(self,query):
+    def get_summary(self,query):
         ''' Combined geoclient + ownership summary for a given address''' 
         r,status = self.geoclient.fetch(query,tinykeys)
         print(":: status = ",status)
