@@ -3,8 +3,8 @@ import simplejson as json
 from flask import Flask, url_for, request, jsonify
 from flask.ext.cors import CORS, cross_origin
 from lookuptool import get_lookup_agent
-from lookuptool.utils import slurp_json
-from lookuptool.geoutils import city2boro_name 
+from lookuptool.utils.misc import slurp_json
+from lookuptool.utils.address import city2boro_name 
 from traceback import print_tb
 
 app = Flask(__name__)
