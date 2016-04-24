@@ -19,8 +19,8 @@ agent = GeoServerMockAgent(mockdata)
 def errmsg(message):
     return json.dumps({'error':message})
 
-def respmsg(response):
-    return json.dumps({'address':response})
+def jsonmsg(r):
+    return json.dumps(r,sort_keys=True)
 
 def mapcgi(s):
     return None if s is None else s.replace('%20',' ')
@@ -38,7 +38,7 @@ def resolve_query(query_string):
     param = extract_param(query_string)
     print(":: named = %s" % str(param)) 
     response = agent.lookup(param)
-    return respmsg(response)
+    return jsonmsg(response)
 
 @app.route('/geoclient/v1/<prefix>')
 @cross_origin()
