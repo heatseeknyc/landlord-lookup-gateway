@@ -36,20 +36,8 @@ def split_address(rawaddr):
     # return house_number,street_name,boro_name
     return NYCGeoAddress(house_number,street_name,boro_name)
 
-def _tuple2param(address_tuple):
-    house_number,street_name,boro_name = address_tuple
-    return {
-        "houseNumber":house_number,
-        "street":street_name,
-        "borough":boro_name
-    }
-
-def address2param(rawaddr):
-    address_tuple = split_address(rawaddr)
-    if address_tuple is None:
-        return None
-    return _tuple2param(address_tuple)
-    
+def split_csv(s):
+    return [t.strip() for t in s.split(',')]
 
 # '43 Mercer Street' -> (43,'Mercer Street')
 def split_street_address(street_addr):
@@ -59,9 +47,5 @@ def split_street_address(street_addr):
         return (house_number,street_name)
     else:
         return None
-
-def split_csv(s):
-    return [t.strip() for t in s.split(',')]
-
 
 
