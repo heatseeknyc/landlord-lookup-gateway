@@ -44,15 +44,6 @@ def resolve_query(address):
 def api_lookup(address):
     return wrapsafe(resolve_query,address)
 
-def olde_api_lookup(address):
-    try:
-        print(":: address = '%s'" % address) 
-        return resolve_query(address)
-    except Exception as e:
-        print(e)
-        print_tb(e.__traceback__)
-        return errmsg('internal error')
-
 
 @app.route('/contacts/<bbl_arg>')
 @cross_origin()
@@ -88,4 +79,20 @@ def normalize_query(r):
 #
 if __name__ == '__main__':
     app.run(port=5002)
+
+
+
+
+#
+# Deprecated stuff
+#
+def olde_api_lookup(address):
+    try:
+        print(":: address = '%s'" % address) 
+        return resolve_query(address)
+    except Exception as e:
+        print(e)
+        print_tb(e.__traceback__)
+        return errmsg('internal error')
+
 
