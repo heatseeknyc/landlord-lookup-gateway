@@ -3,7 +3,6 @@ import sys, re, argparse
 import simplejson as json
 from collections import defaultdict
 from nycgeo.utils.address import split_address
-import nycgeo.factory
 
 
 filename = sys.argv[1]
