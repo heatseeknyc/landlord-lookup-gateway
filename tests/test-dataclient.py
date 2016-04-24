@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 import sys, time, argparse
 import simplejson as json
-from lookuptool.agent import DataClient
+from lookuptool.dataclient import DataClient
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--mode", help="what to pull")

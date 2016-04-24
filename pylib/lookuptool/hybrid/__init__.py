@@ -1,5 +1,5 @@
 from nycgeo.client import SimpleGeoClient
-from ..agent import DataClient
+from ..dataclient import DataClient
 from .agent import LookupAgent
 
 #

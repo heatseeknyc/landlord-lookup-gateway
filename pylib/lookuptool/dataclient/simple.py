@@ -3,7 +3,7 @@
 # for the record pulls we're likely to need in our UI (along with a few other
 # secret ones for diagnosis).
 #
-from lookuptool.agent.base import AgentBase
+from .base import AgentBase
 
 class DataClient(AgentBase):
 
