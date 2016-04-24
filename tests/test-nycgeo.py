@@ -1,8 +1,7 @@
 #!/usr/bin/env python
 import sys, argparse
 import simplejson as json
-from nycgeo.client.simple import SimpleGeoClient
-
+from nycgeo.client import SimpleGeoClient
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--addr", help="address to parse")
