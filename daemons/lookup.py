@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 import simplejson as json
 from flask import Flask, url_for, request, jsonify
 from flask.ext.cors import CORS, cross_origin
@@ -11,7 +12,7 @@ CORS(app)
 
 dataconf = slurp_json("config/postgres.json")
 geoconf  = slurp_json("config/nycgeo.json")
-agent = get_lookup_agent(dataconf=dataconf,geoconf=geoconf,mock=True) 
+agent = get_lookup_agent(dataconf=dataconf,geoconf=geoconf,mock=False) 
 
 def errmsg(message):
     return json.dumps({'error':message})
