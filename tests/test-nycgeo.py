@@ -5,7 +5,6 @@ from nycgeo.client import SimpleGeoClient
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--addr", help="address to parse")
-parser.add_argument("--norm", help="fetch a normalized (pivoted) rec", type=int)
 parser.add_argument("--tiny", help="fetch a tiny rec", type=int)
 parser.add_argument("--mock", help="use the mock service", type=int)
 args = parser.parse_args()
@@ -28,8 +27,6 @@ agent = SimpleGeoClient(**config)
 
 if args.tiny:
     response,status = agent.fetch_tiny(rawaddr)
-elif args.norm:
-    response,status = agent.fetch_norm(rawaddr)
 else:
     response,status = agent.fetch(rawaddr)
 

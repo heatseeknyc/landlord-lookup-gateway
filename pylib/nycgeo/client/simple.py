@@ -53,7 +53,15 @@ class SimpleGeoClient(object):
             inforec = None
         return inforec,status
 
-    def fetch_norm(self,rawaddr):
+    def fetch_tiny(self,rawaddr):
+        response,status = self.fetch(rawaddr)
+        if response:
+            tinyrec = make_tiny(response) 
+            return tinyrec,status 
+        else:
+            return response,status
+
+    def __fetch_norm(self,rawaddr):
         inforec,status = self.fetch(rawaddr)
         if inforec:
             normrec = pivot_nycgeo(inforec)
@@ -61,13 +69,6 @@ class SimpleGeoClient(object):
         else:
             return inforec,status
 
-    def fetch_tiny(self,rawaddr):
-        inforec,status = self.fetch_norm(rawaddr)
-        if inforec:
-            tinyrec = make_tiny(inforec) 
-            return tinyrec,status 
-        else:
-            return inforec,status
 
 
 def _encode(s):
@@ -77,6 +78,14 @@ def namedtuple2query(named):
     d = named._asdict()
     return '&'.join(['%s=%s' % (_encode(k),_encode(v)) for k,v in d.items()])
 
+def make_tiny(r):
+    fields = ('bbl','buildingIdentificationNumber','latitude','longitude')
+    return {k:r.get(k) for k in fields}
+
+
+#
+# Deprecatd Stuff
+#
 
 
 def find_bin(buildings):
@@ -89,7 +98,8 @@ def find_bin(buildings):
     else:
         return None
 
-def make_tiny(r):
+
+def __make_tiny(r):
     return {
         "bin" : find_bin(r['buildings']),
         "bbl" : int(r['taxlot']['bbl']),
