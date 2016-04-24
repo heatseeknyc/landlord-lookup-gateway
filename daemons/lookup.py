@@ -30,7 +30,7 @@ def wrapsafe(callf,rawarg):
         print_tb(e.__traceback__)
         return errmsg('internal error')
 
-def resolve_query(address):
+def resolve_lookup(address):
     q = address.replace('+',' ').strip()
     print(":: q = %s" % str(q)) 
     if q is None: 
@@ -42,19 +42,12 @@ def resolve_query(address):
 @app.route('/lookup/<address>')
 @cross_origin()
 def api_lookup(address):
-    return wrapsafe(resolve_query,address)
+    return wrapsafe(resolve_lookup,address)
 
-
-@app.route('/contacts/<bbl_arg>')
+@app.route('/contacts/<keytup>')
 @cross_origin()
-def api_contacts(bbl_arg):
-    return resolve(lambda bbl:agent.get_contacts(bbl),bbl_arg)
-
-@app.route('/buildings/<bbl_arg>')
-@cross_origin()
-def api_buildings(bbl_arg):
-    return resolve(lambda bbl:agent.get_buildings(bbl),bbl_arg)
-
+def api_contacts(keytup):
+    return wrapsafe(resolve_contacts,keytup)
 
 
 def normalize_query(r):
