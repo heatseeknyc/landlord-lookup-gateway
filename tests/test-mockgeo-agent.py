@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 import simplejson as json
-from nycgeo.endpoint.agent import GeoServerMockAgent
+from nycgeo.server.agent import GeoServerMockAgent
 from nycgeo.utils.address import split_address
 
 datapath = "tests/data/mockdata.json"
