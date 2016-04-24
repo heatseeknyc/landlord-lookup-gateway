@@ -30,11 +30,6 @@ def wrapsafe(callf,rawarg):
         print_tb(e.__traceback__)
         return errmsg('internal error')
 
-def extract_search_query(query_string):
-    param = split_query(query_string.decode('utf-8'))
-    print(":: param = %s" % param) 
-    return param.get('q')
-
 def resolve_query(address):
     q = address.replace('+',' ').strip()
     print(":: q = %s" % str(q)) 
@@ -57,7 +52,6 @@ def olde_api_lookup(address):
         print(e)
         print_tb(e.__traceback__)
         return errmsg('internal error')
-
 
 
 @app.route('/contacts/<bbl_arg>')
