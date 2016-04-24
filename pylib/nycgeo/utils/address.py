@@ -1,4 +1,7 @@
 import re
+from collections import namedtuple
+
+NYCGeoAddress = namedtuple('NYCGeoAddress',['houseNumber','street','borough'])
 
 # Some simple address splitting functions.
 #
@@ -26,7 +29,23 @@ def split_address(rawaddr):
     if t is None:
         return None
     house_number,street_name = t
-    return house_number,street_name,boro_name
+    # return house_number,street_name,boro_name
+    return NYCGeoAddress(house_number,street_name,boro_name)
+
+def _tuple2param(address_tuple):
+    house_number,street_name,boro_name = address_tuple
+    return {
+        "houseNumber":house_number,
+        "street":street_name,
+        "borough":boro_name
+    }
+
+def address2param(rawaddr):
+    address_tuple = split_address(rawaddr)
+    if address_tuple is None:
+        return None
+    return _tuple2param(address_tuple)
+    
 
 # '43 Mercer Street' -> (43,'Mercer Street')
 def split_street_address(street_addr):

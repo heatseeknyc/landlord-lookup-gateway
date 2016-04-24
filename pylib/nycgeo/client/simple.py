@@ -19,6 +19,7 @@ class SimpleGeoClient(object):
         self.app_id   = app_id
 
     def get(self,suburl):
+        log.info("siteurl = %s" % self.siteurl)
         log.info("suburl = %s" % suburl)
         t0 = time.time()
         r = requests.get((self.siteurl+suburl).encode('utf-8'))

@@ -11,6 +11,7 @@ class GeoServerMockAgent(object):
         self.data = OrderedLookup(pairs)
 
     def lookup(self,param):
+        print(":: lookup param = %s" % str(param))
         if param in self.data:
             record = self.data.get(param)
             return {"address":record}
