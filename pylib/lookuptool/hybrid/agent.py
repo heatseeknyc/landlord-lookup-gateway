@@ -13,16 +13,18 @@ class LookupAgent(object):
         self.dataclient  = dataclient 
         self.geoclient = geoclient 
 
-    def get_summary(self,query):
+    def get_summary(self,param):
         ''' Combined geoclient + ownership summary for a given address''' 
-        r,status = self.geoclient.fetch(query,tinykeys)
+        r,status = self.geoclient.fetch(param)
         print(":: status = ",status)
-        print(":: r = ",r)
+        print(":: response = ",r)
         if r is None: 
             return {"error":"unknown address"}
-        bbl = int(r['bbl']) 
-        summary = self.dataclient.get_summary(bbl)
-        summary['bbl']     = int(r['bbl']) 
+        _bbl = int(r['bbl']) 
+        _bin = int(r['bin']) 
+        summary = self.dataclient.get_summary(_bbl,_bin)
+        summary['bbl']     = _bbl 
+        summary['bin']     = _bin 
         summary['geo_lat'] = r['latitude']
         summary['geo_lon'] = r['longitude']
         return {"summary":summary}

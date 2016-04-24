@@ -25,13 +25,11 @@ else:
     rawaddr = "529 West 29th St, Manhattan"
 # print("rawaddr = [%s]" % rawaddr)
 
-address = split_address(rawaddr)
-print("address = ",address)
 
 agent = lookuptool.hybrid.instance(dataconf,geoconf)
 print("agent = ",agent)
 t0 = time.time()
-r = agent.get_summary(address)
+r = agent.get_summary(rawaddr)
 delta = 1000 * (time.time() - t0)
 print("dt = %.2f millis" % delta)
 print(json.dumps(r,indent=4,sort_keys=True))
