@@ -16,7 +16,7 @@ for r in mockdata:
     address  = r['address']
     expected = r['nycgeo']
     print("address = %s" % address)
-    response,status = client.fetch(address)
+    response,status = client.fetch_tiny(address)
     print("status = %s" % status)
     print("response = %s" % response)
     print("expected = %s" % expected)

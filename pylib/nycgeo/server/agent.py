@@ -7,7 +7,7 @@ class GeoServerMockAgent(object):
         self.load_recs(mockdata)
 
     def load_recs(self,mockdata):
-        pairs = ((split_address(r['address']),r['response']) for r in mockdata)
+        pairs = ((split_address(r['address']),r['nycgeo']) for r in mockdata)
         self.data = OrderedLookup(pairs)
 
     def lookup(self,param):

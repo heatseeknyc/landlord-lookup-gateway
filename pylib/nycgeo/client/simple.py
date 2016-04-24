@@ -54,7 +54,10 @@ class SimpleGeoClient(object):
         return inforec,status
 
     def fetch_tiny(self,rawaddr):
+        print(":: fetch_tiny rawaddr = '%s'" % rawaddr)
         response,status = self.fetch(rawaddr)
+        print(":: fetch_tiny status   = %s" % status)
+        print(":: fetch_tiny response = %s" % response)
         if response:
             tinyrec = make_tiny(response) 
             return tinyrec,status 
