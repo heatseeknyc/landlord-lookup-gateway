@@ -1,6 +1,10 @@
 import re
 from collections import namedtuple
 
+#
+# Our preferred container for parsed addresses.  The field names 
+# are exactly those used by the Geoclient API.
+#
 NYCGeoAddress = namedtuple('NYCGeoAddress',['houseNumber','street','borough'])
 
 # Some simple address splitting functions.
