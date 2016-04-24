@@ -13,25 +13,33 @@ class LookupAgent(object):
         self.dataclient  = dataclient 
         self.geoclient = geoclient 
 
-    def get_summary(self,rawaddr):
+    def get_lookup(self,rawaddr):
         ''' Combined geoclient + ownership summary for a given address''' 
         r,status = self.geoclient.fetch(rawaddr)
-        print(":: status = ",status)
-        print(":: response = ",r)
+        print(":: lookup status = ",status)
+        print(":: lookup response = ",r)
         if r is None: 
-            return {"error":"unknown address"}
-        _bbl = int(r['bbl']) 
-        _bin = int(r['bin']) 
-        summary = self.dataclient.get_summary(_bbl,_bin)
-        summary['bbl']     = _bbl 
-        summary['bin']     = _bin 
-        summary['geo_lat'] = r['latitude']
-        summary['geo_lon'] = r['longitude']
-        return {"summary":summary}
-        
+            return {"error":"invalid address"}
+        nycgeo = make_tiny(r)
+        if 'message' in nycgeo:
+            extras = None 
+        else:
+            extras = self.dataclient.get_summary(nycgeo['bbl'],nycgeo['bin'])
+        return {"nycgeo":nycgeo,"extras":extras}
+
     def get_contacts(self,bbl):
         contacts = self.dataclient.get_contacts(bbl)
         return {"contacts":contacts}
+
+def make_tiny(r):
+    if 'message' in r:
+        return {'message':r['message']}
+    return {
+        'bbl': int(r['bbl']),
+        'bin': int(r['buildingIdentificationNumber']),
+        'geo_lat': r['latitude'],
+        'geo_lon': r['longitude']
+    }
 
 #
 # Deprecated stuff

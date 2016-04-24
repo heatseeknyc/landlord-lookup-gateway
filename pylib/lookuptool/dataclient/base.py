@@ -27,6 +27,7 @@ class AgentBase(object):
         cur.execute(query % args)
         return [dict(r) for r in cur.fetchall()]
 
+    # A somewhat smoother 'fetchone' accessor, for our purposes.
     def fetchone(self,query,*args):
         recs = self.fetch_recs(query,*args)
         if len(recs) == 0: return None

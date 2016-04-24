@@ -22,14 +22,14 @@ print(geoconf)
 if args.addr: 
     rawaddr = args.addr 
 else:
-    rawaddr = "529 West 29th St, Manhattan"
-# print("rawaddr = [%s]" % rawaddr)
+    rawaddr = "1 West 72nd St, Manhattan"
+    # rawaddr = "529 West 29th St, Manhattan"
 
 
+print("rawaddr = [%s]" % rawaddr)
 agent = lookuptool.hybrid.instance(dataconf,geoconf)
-print("agent = ",agent)
 t0 = time.time()
-r = agent.get_summary(rawaddr)
+r = agent.get_lookup(rawaddr)
 delta = 1000 * (time.time() - t0)
 print("dt = %.2f millis" % delta)
 print(json.dumps(r,indent=4,sort_keys=True))
