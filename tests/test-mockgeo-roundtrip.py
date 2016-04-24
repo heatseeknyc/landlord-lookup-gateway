@@ -16,9 +16,9 @@ for r in mockdata:
     address  = r['address']
     expected = r['response']
     print("address = %s" % address)
-    print("expected = %s" % expected)
     response,status = client.fetch(address)
     print("status = %s" % status)
     print("response = %s" % response)
+    print("expected = %s" % expected)
     # response = agent.lookup(param)
   
