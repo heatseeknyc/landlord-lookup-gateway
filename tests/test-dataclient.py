@@ -9,10 +9,12 @@ parser.add_argument("--key", help="BBL,BIN pair to use as primary key")
 args = parser.parse_args()
 
 configpath = "config/postgres.json"
-dataconf = json.loads(open(configpath,"r").read())
+dataconf   = json.loads(open(configpath,"r").read())
 
 if args.key:
-    _bbl,_bin = map(int(x) for x in args.key.split(',')) 
+    print(args)
+    print("key = ", args.key)
+    _bbl,_bin = map(int,args.key.split(',')) 
 else:
     _bbl,_bin = 1011250025,1028637 
 

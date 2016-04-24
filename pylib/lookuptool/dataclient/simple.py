@@ -16,12 +16,8 @@ class DataClient(AgentBase):
     def get_summary(self,_bbl,_bin):
         '''Full ownership summary (Taxbill,DHRC,HPD) for a BBL+BIN pair.'''
         query = "select * from hard.property_summary where bbl = %d and bin = %d"; 
-        recs = self.fetch_recs(query,_bbl,_bin)
-        boro_id = _bbl // 1000000000
-        if len(recs):
-            if len(recs) > 1:
-                raise ValueError("too many matches")
-            r = recs[0]
+        r = self.fetchone(query,_bbl,_bin)
+        if r:
             taxbill = { 
                 'active_date': str(r['taxbill_active_date']),
                 'owner_address': expand_address(r['taxbill_owner_address']),
@@ -38,9 +34,6 @@ class DataClient(AgentBase):
             dhcr_active = False
 
         return  { 
-            "bbl":_bbl,
-            "bin":_bin,
-            "boro_id":boro_id,
             "taxbill":taxbill,
             "nychpd_contacts":nychpd_contacts,
             "dhcr_active":dhcr_active,
