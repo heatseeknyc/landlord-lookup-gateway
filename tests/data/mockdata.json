@@ -27,6 +27,15 @@
       "longitude": -74.00269973147523
     },
     "extras": false 
+  },{
+    "address": "10-87 Jackson Avenue, Long Island City",
+    "nycgeo": {
+      "bbl": "4000440023",
+      "buildingIdentificationNumber": "4000263",
+      "latitude": 40.666,
+      "longitude": -74.666
+    },
+    "extras": true 
   }
 ]
 
