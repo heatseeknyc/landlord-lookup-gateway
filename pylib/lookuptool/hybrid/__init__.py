@@ -1,6 +1,6 @@
 from nycgeo.client import SimpleGeoClient
 from ..agent import DataClient
-from .lookup import LookupAgent
+from .agent import LookupAgent
 
 #
 # A simple factory-ish method to generate a LookupAgent instance
