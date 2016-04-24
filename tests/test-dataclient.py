@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 import sys, time, argparse
 import simplejson as json
 from lookuptool.agent import DataClient

@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 import sys
 import simplejson as json
 from nycgeo.pivot import pivot_nycgeo, pivot_nycgeo_partial, profile_nycgeo_keys, is_gi_key

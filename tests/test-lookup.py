@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 import sys, time
 import simplejson as json
 from nycgeo.utils.address import split_address

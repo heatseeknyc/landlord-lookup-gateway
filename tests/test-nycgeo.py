@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 import sys, argparse
 import simplejson as json
 import nycgeo.client.factory
