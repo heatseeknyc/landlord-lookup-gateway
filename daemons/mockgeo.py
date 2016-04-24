@@ -4,6 +4,7 @@ from flask import Flask, url_for, request, jsonify
 from flask.ext.cors import CORS, cross_origin
 from nycgeo.server.agent import GeoServerMockAgent
 from nycgeo.utils.url import split_query, split_baseurl
+from nycgeo.utils.address import NYCGeoAddress 
 from traceback import print_tb
 
 app = Flask(__name__)
@@ -21,9 +22,21 @@ def errmsg(message):
 def respmsg(response):
     return json.dumps({'address':response})
 
-def resolve_query(query_string):
+def mapcgi(s):
+    return None if s is None else s.replace('%20',' ')
+
+def extract_param(query_string):
     param = split_query(query_string.decode('utf-8'))
     print(":: param = %s" % param) 
+    fields = 'houseNumber','street','borough'
+    messy = {k:param.get(k) for k in fields}
+    clean = {k:mapcgi(messy[k]) for k in messy}
+    print(":: clean = %s" % clean) 
+    return NYCGeoAddress(**clean)
+
+def resolve_query(query_string):
+    param = extract_param(query_string)
+    print(":: named = %s" % str(param)) 
     response = agent.lookup(param)
     return respmsg(response)
 
@@ -41,31 +54,14 @@ def api_fetch(prefix):
 @app.route('/echoparam/<prefix>')
 @cross_origin()
 def api_echoparam(prefix):
-    # print(":: prefix = %s" % prefix) 
-    # print(":: query = %s" % request.query_string)
     param = split_query(request.query_string.decode('utf-8'))
     return json.dumps({'param':param,'servicebase':prefix})
 
 
-@app.route('/sekret')
+@app.route('/ping')
 @cross_origin()
 def api_hello():
     return "Woof!"
-        
-@app.route('/ekko/<arg>')
-@cross_origin()
-def api_echo(arg):
-    return "arg = [%s]\n" % arg
-
-def olde_api_contacts(prefix):
-    if prefix != 'address.json':
-        return errmsg('invalid service base')
-    try:
-        param = split_query(request.query_string.decode('utf-8'))
-    except ValueError as e:
-        return errmsg('invalid query string')
-    return "param = %s" % param 
-
         
 
 
