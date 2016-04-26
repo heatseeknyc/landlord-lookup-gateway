@@ -19,7 +19,7 @@ class LookupAgent(object):
         print(":: get_lookup rawaddr  = '%s'" % rawaddr)
         normaddr = fix_queens_name(rawaddr)
         print(":: get_lookup normaddr = '%s'" % normaddr)
-        r,status = self.geoclient.fetch(normaddr)
+        r,status = self.geoclient.fetch_tiny(normaddr)
         print(":: lookup status = ",status)
         print(":: lookup response = ",r)
         if r is None: 
