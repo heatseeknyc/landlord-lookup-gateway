@@ -1,19 +1,32 @@
 #!/usr/bin/env python
+import argparse
 import simplejson as json
+from traceback import print_tb
 from flask import Flask, url_for, request, jsonify
 from flask.ext.cors import CORS, cross_origin
 import lookuptool.hybrid
 from lookuptool.utils.misc import slurp_json
 from lookuptool.utils.address import city2boro_name 
 from nycgeo.utils.url import split_query
-from traceback import print_tb
+
+parser = argparse.ArgumentParser()
+parser.add_argument('--mock', dest='mock', action='store_true')
+parser.add_argument('--no-mock', dest='mock', action='store_false')
+parser.add_argument("--port", help="port to listen at", type=int)
+args = parser.parse_args()
+
+port = args.port if args.port else 5002
+
+
 
 app = Flask(__name__)
 CORS(app)
 
 dataconf = slurp_json("config/postgres.json")
-geoconf  = slurp_json("config/mockgeo-client.json")
-# geoconf  = slurp_json("config/nycgeo.json")
+if args.mock:
+    geoconf  = slurp_json("config/mockgeo-client.json")
+else:
+    geoconf  = slurp_json("config/nycgeo.json")
 agent = lookuptool.hybrid.instance(dataconf,geoconf) 
 
 def errmsg(message):
@@ -85,8 +98,9 @@ def normalize_query(r):
 # port number below has nothing to do with where the service 
 # runs under WSGI).
 #
+print (":: listen to %d .." % port)
 if __name__ == '__main__':
-    app.run(port=5002)
+    app.run(port=port)
 
 
 
