@@ -26,10 +26,10 @@ class LookupAgent(object):
             return {"error":"invalid address"}
         nycgeo = make_tiny(r)
         if 'message' in nycgeo:
-            extras = None 
+            return {"nycgeo":nycgeo,"extras":None,"error":nycgeo.get('message')}
         else:
             extras = self.dataclient.get_summary(nycgeo['bbl'],nycgeo['bin'])
-        return {"nycgeo":nycgeo,"extras":extras}
+            return {"nycgeo":nycgeo,"extras":extras}
 
     def get_contacts(self,bbl):
         contacts = self.dataclient.get_contacts(bbl)
