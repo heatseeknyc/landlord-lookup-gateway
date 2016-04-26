@@ -103,18 +103,3 @@ if __name__ == '__main__':
     app.run(port=port)
 
 
-
-
-#
-# Deprecated stuff
-#
-def olde_api_lookup(address):
-    try:
-        print(":: address = '%s'" % address) 
-        return resolve_query(address)
-    except Exception as e:
-        print(e)
-        print_tb(e.__traceback__)
-        return errmsg('internal error')
-
-
