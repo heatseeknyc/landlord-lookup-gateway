@@ -35,7 +35,7 @@ class SimpleGeoClient(object):
     def fetch_default(self,param):
         base = '/geoclient/v1/address.json'
         query = namedtuple2query(param)
-        print(":: query = %s" % query)
+        log.debug("query = %s" % query)
         return self.authget(base,query)
 
     def fetch(self,rawaddr):
@@ -54,10 +54,10 @@ class SimpleGeoClient(object):
         return inforec,status
 
     def fetch_tiny(self,rawaddr):
-        print(":: fetch_tiny rawaddr = '%s'" % rawaddr)
+        log.debug("rawaddr = '%s'" % rawaddr)
         response,status = self.fetch(rawaddr)
-        print(":: fetch_tiny status   = %s" % status)
-        print(":: fetch_tiny response = %s" % response)
+        log.debug("status   = %s" % status)
+        log.debug("response = %s" % response)
         if response:
             tinyrec = make_tiny(response) 
             return tinyrec,status 
