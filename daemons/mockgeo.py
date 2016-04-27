@@ -51,6 +51,7 @@ def api_fetch(prefix):
         log.debug("query_string = %s" % request.query_string)
         return resolve_query(request.query_string)
     except Exception as e:
+        log.debug("exception = %s" % e) 
         return errmsg('internal error')
 
 @app.route('/echoparam/<prefix>')
@@ -77,7 +78,7 @@ def resolve(callf,query):
         r = callf(param)
         log.debug("got dict with %d keys." % len(r))
     except Exception as e:
-        log.debug(":: exception = %s" % e)
+        log.debug("exception = %s" % e)
         return errmsg('internal error')
     log.debug(":: return dict with %d keys." % len(r))
     return jsonify(r,sort_keys=True)
