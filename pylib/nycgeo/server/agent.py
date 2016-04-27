@@ -16,6 +16,6 @@ class GeoServerMockAgent(object):
             record = self.data.get(param)
             return {"address":record}
         else:
-            return {"address":{"message":"not found"}}
+            return {"address":{"message":"unknown address"}}
 
 
