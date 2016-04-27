@@ -21,8 +21,8 @@ class LookupAgent(object):
         normaddr = fix_queens_name(rawaddr)
         log.debug(":: normaddr = '%s'" % normaddr)
         r,status = self.geoclient.fetch_tiny(normaddr)
-        log.debug(":: status = ",status)
-        log.debug(":: response = ",r)
+        log.debug(":: status = %s " % status)
+        log.debug(":: response = %s" % r)
         if r is None: 
             return {"error":"invalid address"}
         nycgeo = make_tiny(r)
