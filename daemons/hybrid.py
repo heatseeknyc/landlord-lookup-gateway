@@ -8,6 +8,7 @@ import lookuptool.hybrid
 from lookuptool.utils.misc import slurp_json
 from lookuptool.utils.address import city2boro_name 
 from nycgeo.utils.url import split_query
+from common.logging import log
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--mock', dest='mock', action='store_true')
@@ -27,6 +28,9 @@ if args.mock:
     geoconf  = slurp_json("config/mockgeo-client.json")
 else:
     geoconf  = slurp_json("config/nycgeo.json")
+
+log.info("mock = %s, port = %d" % (bool(args.mock),port)) 
+log.info("siteurl = '%s'" % geoconf.get('siteurl'))
 agent = lookuptool.hybrid.instance(dataconf,geoconf) 
 
 def errmsg(message):
@@ -39,13 +43,13 @@ def wrapsafe(callf,rawarg):
     try:
         return callf(rawarg)
     except Exception as e:
-        print(e)
-        print_tb(e.__traceback__)
+        log.debug("exception = %s" % e)
+        # print_tb(e.__traceback__)
         return errmsg('internal error')
 
 def resolve_lookup(address):
     q = address.replace('+',' ').strip()
-    print(":: q = %s" % str(q)) 
+    log.debug("q = %s" % str(q)) 
     if q is None: 
         return errmsg('invalid query string')
     else:
@@ -98,7 +102,6 @@ def normalize_query(r):
 # port number below has nothing to do with where the service 
 # runs under WSGI).
 #
-print (":: listen to %d .." % port)
 if __name__ == '__main__':
     app.run(port=port)
 

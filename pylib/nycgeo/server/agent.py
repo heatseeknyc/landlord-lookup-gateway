@@ -1,5 +1,6 @@
 from nycgeo.collections import OrderedLookup
 from nycgeo.utils.address import split_address 
+from common.logging import log
 
 class GeoServerMockAgent(object):
 

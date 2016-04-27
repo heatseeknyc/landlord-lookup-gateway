@@ -5,6 +5,7 @@
 #
 import time
 from lookuptool.utils.address import fix_queens_name
+from common.logging import log
 
 tinykeys = ('bbl','latitude','longitude')
 
@@ -16,12 +17,12 @@ class LookupAgent(object):
 
     def get_lookup(self,rawaddr):
         ''' Combined geoclient + ownership summary for a given address''' 
-        print(":: get_lookup rawaddr  = '%s'" % rawaddr)
+        log.debug(":: rawaddr  = '%s'" % rawaddr)
         normaddr = fix_queens_name(rawaddr)
-        print(":: get_lookup normaddr = '%s'" % normaddr)
+        log.debug(":: normaddr = '%s'" % normaddr)
         r,status = self.geoclient.fetch_tiny(normaddr)
-        print(":: lookup status = ",status)
-        print(":: lookup response = ",r)
+        log.debug(":: status = ",status)
+        log.debug(":: response = ",r)
         if r is None: 
             return {"error":"invalid address"}
         nycgeo = make_tiny(r)

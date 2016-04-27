@@ -4,6 +4,7 @@
 # secret ones for diagnosis).
 #
 from .base import AgentBase
+from common.logging import log
 
 class DataClient(AgentBase):
 
@@ -15,10 +16,10 @@ class DataClient(AgentBase):
     #
     def get_summary(self,_bbl,_bin):
         '''Full ownership summary (Taxbill,DHRC,HPD) for a BBL+BIN pair.'''
-        print(":: get_summary bbl = %d, bin = %d" % (_bbl,_bin))
+        log.debug("bbl = %d, bin = %d" % (_bbl,_bin))
         query = "select * from hard.property_summary where bbl = %d and bin = %d"; 
         r = self.fetchone(query,_bbl,_bin)
-        print(":: get_summary r = %s" % str(r)) 
+        log.debug("r = %s" % str(r)) 
         return make_summary(r) if r is not None else None
 
     def get_contacts(self,_bbl,_bin):

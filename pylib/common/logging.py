@@ -7,7 +7,7 @@ def app_name():
 logging.basicConfig(
   filename = "log/%s-%d.log" % (app_name(),os.getpid()),
   format   = "%(levelname)s - %(asctime)s :: %(funcName)s :: %(message)s",
-  level    = logging.INFO
+  level    = logging.DEBUG
 )
 log = logging.getLogger()
 
