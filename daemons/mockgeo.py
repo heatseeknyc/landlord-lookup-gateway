@@ -6,6 +6,7 @@ from nycgeo.server.agent import GeoServerMockAgent
 from nycgeo.utils.url import split_query, split_baseurl
 from nycgeo.utils.address import NYCGeoAddress 
 from traceback import print_tb
+from common.logging import log
 
 app = Flask(__name__)
 CORS(app)
@@ -27,18 +28,18 @@ def mapcgi(s):
 
 def extract_param(query_string):
     param = split_query(query_string.decode('utf-8'))
-    print(":: param = %s" % param) 
+    log.debug("param = %s" % param) 
     fields = 'houseNumber','street','borough'
     messy = {k:param.get(k) for k in fields}
     clean = {k:mapcgi(messy[k]) for k in messy}
-    print(":: clean = %s" % clean) 
+    log.debug("clean = %s" % clean) 
     return NYCGeoAddress(**clean)
 
 def resolve_query(query_string):
     param = extract_param(query_string)
-    print(":: resolve_query named = %s" % str(param)) 
+    log.debug("named = %s" % str(param)) 
     response = agent.lookup(param)
-    print(":: resolve_query response = %s" % response) 
+    log.debug("response = %s" % response) 
     return jsonify(response)
 
 @app.route('/geoclient/v1/<prefix>')
@@ -47,7 +48,7 @@ def api_fetch(prefix):
     if prefix != 'address.json':
         return errmsg('invalid service base')
     try:
-        print(":: query_string = %s" % request.query_string)
+        log.debug("query_string = %s" % request.query_string)
         return resolve_query(request.query_string)
     except Exception as e:
         return errmsg('internal error')
@@ -72,13 +73,13 @@ def resolve(callf,query):
     except ValueError as e:
         return errmsg('invalid query string')
     try:
-        print(":: invoke ..")
+        log.debug("invoke ..")
         r = callf(param)
-        print(":: got dict with %d keys." % len(r))
+        log.debug("got dict with %d keys." % len(r))
     except Exception as e:
-        print(":: badness = %s" % e)
+        log.debug(":: exception = %s" % e)
         return errmsg('internal error')
-    print(":: return dict with %d keys." % len(r))
+    log.debug(":: return dict with %d keys." % len(r))
     return jsonify(r,sort_keys=True)
 
 

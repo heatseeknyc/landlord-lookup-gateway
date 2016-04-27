@@ -8,8 +8,6 @@ mockdata = json.loads(open(datapath,"r").read())
 mockaddr = [r['address'] for r in mockdata]
 
 agent = GeoServerMockAgent(mockdata)
-# for k in agent.data:
-#    print("k = %s, v = %s" % (k,agent.data.get(k)))
 
 for rawaddr in mockaddr:
     param = split_address(rawaddr)
