@@ -7,7 +7,7 @@ import requests, time
 import simplejson as json
 from nycgeo.utils.address import split_address
 from nycgeo.utils.pivot import pivot_nycgeo
-from nycgeo.logging import log
+from common.logging import log
 
 default_siteurl = 'https://api.cityofnewyork.us'
 

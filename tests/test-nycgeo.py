@@ -2,6 +2,7 @@
 import sys, argparse
 import simplejson as json
 from nycgeo.client import SimpleGeoClient
+from common.logging import log
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--addr", help="address to parse")
@@ -10,12 +11,15 @@ parser.add_argument("--mock", help="use the mock service", type=int)
 args = parser.parse_args()
 print(args)
 
+
+log.info("info!")
+log.debug("debug!")
+
 if args.mock:
     configpath = "config/mockgeo-client.json"
 else:
     configpath = "config/nycgeo.json"
 config = json.loads(open(configpath,"r").read())
-print(config)
 
 if args.addr: 
     rawaddr = args.addr 
@@ -32,6 +36,4 @@ else:
 
 print("status = ", status)
 print("response = ",json.dumps(response,indent=True,sort_keys=True))
-# blurb = str(response) if response is None else json.dumps(response,indent=True,sort_keys=True)
-# print("response = ", blurb) 
 
