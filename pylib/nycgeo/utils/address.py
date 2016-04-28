@@ -21,7 +21,8 @@ NYCGeoAddress = namedtuple('NYCGeoAddress',['houseNumber','street','borough'])
 #
 #   "43 Mercer Street, Manhattan" 
 #
-# And if parseable, returns a named tuple of the form: 
+# (including possibly additional comma-separated terms).  If parseable, 
+# returns a named tuple of the form: 
 #
 #   NYCGeoAddress(houseNumber='43',street='Mercer Street',borough='Manhattan')
 #
@@ -45,7 +46,6 @@ def split_address(rawaddr):
     if t is None:
         return None
     house_number,street_name = t
-    # return house_number,street_name,boro_name
     return NYCGeoAddress(house_number,street_name,boro_name)
 
 def split_csv(s):
