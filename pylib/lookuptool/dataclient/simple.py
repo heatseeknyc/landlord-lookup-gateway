@@ -14,11 +14,22 @@ class DataClient(AgentBase):
     # handlers (which otherwise would have to pass these along as
     # separate parameters for what they need to do).
     #
+    # Special note about the WHERE clause below:  Basically it's saying 
+    # "first try to match on BBL and BIN if both present; otherwise just 
+    # match on BBL."  Which is of course precisely our intent:  the BIN key 
+    # disambiguates building-specific (HPD+DHCR), so if the BIN is present,
+    # we want to disambiguate those rows.  If it isn't, then we just need
+    # the taxbill columns (and the DHCR+HPD columns will be NULL).
+    #
+    # In any case, due how the join that populates hard.property_summary 
+    # is # structured, we're guaranteed to have at most 1 row match on 
+    # this query.
+    #
     def get_summary(self,_bbl,_bin):
         '''Full ownership summary (Taxbill,DHRC,HPD) for a BBL+BIN pair.'''
         log.debug("bbl = %d, bin = %d" % (_bbl,_bin))
-        query = "select * from hard.property_summary where bbl = %d and bin = %d"; 
-        r = self.fetchone(query,_bbl,_bin)
+        query = "select * from hard.property_summary where bbl = %d and bin = %d or bbl = %d"; 
+        r = self.fetchone(query,_bbl,_bin,_bbl)
         log.debug("r = %s" % str(r)) 
         return make_summary(r) if r is not None else None
 

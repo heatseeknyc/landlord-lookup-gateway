@@ -28,6 +28,15 @@
     },
     "extras": false 
   },{
+    "address": "540 State St, Brooklyn",
+    "nycgeo": {
+      "bbl": "3001800017",
+      "buildingIdentificationNumber": "3000785",
+      "latitude": 40.666,
+      "longitude": -74.666
+    },
+    "extras": true 
+  },{
     "address": "10-87 Jackson Ave, Queens",
     "nycgeo": {
       "bbl": "4000440023",
