@@ -4,7 +4,7 @@
 # together. 
 #
 import time
-from lookuptool.utils.address import fix_queens_name
+from lookuptool.utils.address import fix_borough_name
 from common.logging import log
 
 tinykeys = ('bbl','latitude','longitude')
@@ -18,7 +18,7 @@ class LookupAgent(object):
     def get_lookup(self,rawaddr):
         ''' Combined geoclient + ownership summary for a given address''' 
         log.debug(":: rawaddr  = '%s'" % rawaddr)
-        normaddr = fix_queens_name(rawaddr)
+        normaddr = fix_borough_name(rawaddr)
         log.debug(":: normaddr = '%s'" % normaddr)
         r,status = self.geoclient.fetch_tiny(normaddr)
         log.debug(":: status = %s " % status)

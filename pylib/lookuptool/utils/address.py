@@ -54,6 +54,31 @@ queens_upper = set(q.upper() for q in queens_municipalities)
 def munge_queens_name(s):
     return "Queens" if s.upper() in queens_upper else s
 
+def munge_manhattan_name(s):
+    return "Manhattan" if s.upper() == "NEW YORK" else s 
+
+# Now let's combine the above two into one handy borough name munger. 
+def munge_borough_name(s):
+    if s.upper() == "NEW YORK":
+        return "Manhattan" 
+    else:
+        return munge_queens_name(s)
+    
+
+# Takes a raw address, and fixes the borough name for both Queens and
+# Manhattan weirdness exhibited by Google Autocomplete.  As a side effect,
+# also normalizes the spacing of CSV terms (and strips extraneous terms),
+# but we can live with that.
+
+def fix_borough_name(rawaddr):
+    param = split_address(rawaddr)
+    if param:
+        canon_borough = munge_borough_name(param.borough)
+        return "%s %s, %s" % (param.houseNumber, param.street, canon_borough) 
+    else:
+        return rawaddr
+
+# An older version, which fixed the Queens borough name only.
 def fix_queens_name(rawaddr):
     param = split_address(rawaddr)
     if param:
@@ -63,9 +88,8 @@ def fix_queens_name(rawaddr):
         return rawaddr
 
 
-
 #
-# Deprecated STuff
+# Deprecated Stuff
 #
 
 
