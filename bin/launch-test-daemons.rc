@@ -1,0 +1,3 @@
+python daemons/mockgeo.py &
+python daemons/hybrid.py --no-mock --port=5002 &
+python daemons/hybrid.py --mock --port=5003 &
