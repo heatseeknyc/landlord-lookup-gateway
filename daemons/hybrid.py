@@ -82,17 +82,6 @@ def api_contacts(keytup):
     return wrapsafe(resolve_contacts,keytup)
 
 
-def normalize_query(r):
-    city   = r.pop('city')[-1]
-    street = r.pop('street')[-1]
-    number = r.pop('number')[-1]
-    return {
-        'street_name': street, 
-        'house_number': number, 
-        'boro_name': city2boro_name(city)
-    };
-
-
 #
 # This switch is for testing purposes only, so you can run the 
 # service under the default Flask environment (that is, if you 
