@@ -10,9 +10,9 @@ parser.add_argument("--addr", help="addres to search")
 args = parser.parse_args()
 
 if args.mock:
-    nycgeopath = "config/mockgeo-client.json"
+    nycgeopath = "config/nycgeo-mock.json"
 else:
-    nycgeopath = "config/nycgeo.json"
+    nycgeopath = "config/nycgeo-live.json"
 
 dataconf = json.loads(open("config/postgres.json","r").read())
 geoconf  = json.loads(open(nycgeopath,"r").read())

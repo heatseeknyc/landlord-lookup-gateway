@@ -16,9 +16,9 @@ log.info("info!")
 log.debug("debug!")
 
 if args.mock:
-    configpath = "config/mockgeo-client.json"
+    configpath = "config/nycgeo-mock.json"
 else:
-    configpath = "config/nycgeo.json"
+    configpath = "config/nycgeo-live.json"
 config = json.loads(open(configpath,"r").read())
 
 if args.addr: 

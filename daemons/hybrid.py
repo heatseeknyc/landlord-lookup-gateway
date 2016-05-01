@@ -25,9 +25,9 @@ CORS(app)
 
 dataconf = slurp_json("config/postgres.json")
 if args.mock:
-    geoconf  = slurp_json("config/mockgeo-client.json")
+    geoconf  = slurp_json("config/nycgeo-mock.json")
 else:
-    geoconf  = slurp_json("config/nycgeo.json")
+    geoconf  = slurp_json("config/nycgeo-live.json")
 
 log.info("mock = %s, port = %d" % (bool(args.mock),port)) 
 log.info("siteurl = '%s'" % geoconf.get('siteurl'))
