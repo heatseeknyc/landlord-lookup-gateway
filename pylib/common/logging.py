@@ -5,7 +5,7 @@ def app_name():
     return script.split('.')[0]
 
 logging.basicConfig(
-  filename = "log/%s-%d.log" % (app_name(),os.getpid()),
+  filename = "logs/%s-%d.log" % (app_name(),os.getpid()),
   format   = "%(levelname)s - %(asctime)s :: %(funcName)s :: %(message)s",
   level    = logging.DEBUG
 )
