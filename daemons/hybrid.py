@@ -33,19 +33,17 @@ log.info("mock = %s, port = %d" % (bool(args.mock),port))
 log.info("siteurl = '%s'" % geoconf.get('siteurl'))
 agent = lookuptool.hybrid.instance(dataconf,geoconf) 
 
-def errmsg(message):
-    return json.dumps({'error':message})
 
-def jsonify(r):
-    return json.dumps(r,sort_keys=True)
+@app.route('/lookup/<address>')
+@cross_origin()
+def api_lookup(address):
+    return wrapsafe(resolve_lookup,address)
 
-def wrapsafe(callf,rawarg):
-    try:
-        return callf(rawarg)
-    except Exception as e:
-        log.debug("exception = %s" % e)
-        # print_tb(e.__traceback__)
-        return errmsg('internal error')
+@app.route('/contacts/<keytup>')
+@cross_origin()
+def api_contacts(keytup):
+    return wrapsafe(resolve_contacts,keytup)
+
 
 def resolve_lookup(address):
     q = address.replace('+',' ').strip()
@@ -64,6 +62,19 @@ def resolve_contacts(keytup):
         contacts = agent.dataclient.get_contacts(*t)
         return jsonify({"contacts":contacts})
 
+def wrapsafe(callf,rawarg):
+    try:
+        return callf(rawarg)
+    except Exception as e:
+        log.debug("exception = %s" % e)
+        return errmsg('internal error')
+
+def errmsg(message):
+    return json.dumps({'error':message})
+
+def jsonify(r):
+    return json.dumps(r,sort_keys=True)
+
 def split_keytup(keytup):
     terms = keytup.split(',')
     if len(terms) == 2:
@@ -71,15 +82,6 @@ def split_keytup(keytup):
     else:
         return None
 
-@app.route('/lookup/<address>')
-@cross_origin()
-def api_lookup(address):
-    return wrapsafe(resolve_lookup,address)
-
-@app.route('/contacts/<keytup>')
-@cross_origin()
-def api_contacts(keytup):
-    return wrapsafe(resolve_contacts,keytup)
 
 
 #
