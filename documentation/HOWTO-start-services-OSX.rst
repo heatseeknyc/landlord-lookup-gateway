@@ -23,22 +23,28 @@ The last step is crucial because it makes sure uWSGI is set up to find Python 3,
 
 That means your environment is only partially configurated to find Python 3 (it can find the executable, but not the libraries).  Again, look at the 'bin/init-env-osx.rc', which has a setting specifically to address this issue.
 
+(3) Run the flask daemons + smoketest scripts:
 
+  % source bin/launch-test-daemons.rc
+  % python3 tests/test-nycgeo.py --mock
+  % python3 tests/test-hybrid.py --mock
 
-(3) Edit config/trivial.ini to override Ubuntu-specific uid/gid settings.
+And make sure the respond reasonably [more detail needed about what this means].
+
+(4) Edit config/trivial.ini to override Ubuntu-specific uid/gid settings.
 
   uid = nobody 
   gid = staff 
 
 As a glitch in our understanding of this process, for some reasons these settings don't seem to have the desired effect of setting the socket permissions to nobody.staff (as they do in the Ubuntu environment).  But that's OK, we can manually fix that after launching.  The main thing is to not leave the Ubuntu settings in there).
 
-(4) Launch the trivial service (which will be slightly easier to ping and troubleshoot through the gateway than the actual REST services).
+(5) Launch the trivial service (which will be slightly easier to ping and troubleshoot through the gateway than the actual REST services).
 
   uwsgi config/trivial.ini &
 
 Check the output carefully for any warnings about permissions or stuff not found. 
 
-(5) Check the perms on the socket we just deployed to.  If necessary, chmod them to the desierd uid/gid settings above. 
+(6) Check the perms on the socket we just deployed to.  If necessary, chmod them to the desierd uid/gid settings above. 
 
 Now let's start nginx, and see if we can at least reach the HTML pages and the trivial service.
 
