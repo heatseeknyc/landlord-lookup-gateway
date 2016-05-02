@@ -9,16 +9,16 @@ import simplejson as json
 # callable for details.
 #
 
-rawaddr  = '10-87 Jackson Avenue, Long Island City'
+rawaddr  = '10-87 Jackson Ave, Long Island City'
 normaddr = fix_queens_name(rawaddr)
-expected = '10-87 Jackson Avenue, Queens'
+expected = '10-87 Jackson Ave, Queens'
 
 print("raw: %s" % rawaddr)
 print("got: %s" % normaddr)
 print("exp: %s" % expected)
 
 dataconf = json.loads(open("config/postgres.json","r").read())
-geoconf  = json.loads(open("config/mockgeo-client.json","r").read())
+geoconf  = json.loads(open("config/nycgeo-mock.json","r").read())
 agent = lookuptool.hybrid.instance(dataconf,geoconf)
 r = agent.get_lookup(rawaddr)
 print(json.dumps(r,indent=4,sort_keys=True))

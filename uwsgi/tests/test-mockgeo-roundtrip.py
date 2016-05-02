@@ -4,7 +4,7 @@ import requests
 from nycgeo.client import SimpleGeoClient
 from nycgeo.utils.address import split_address
 
-clientcfg = json.loads(open("config/mockgeo-client.json","r").read())
+clientcfg = json.loads(open("config/nycgeo-mock.json","r").read())
 mockdata  = json.loads(open("tests/data/mockdata.json","r").read())
 mockaddr  = [r['address'] for r in mockdata]
 
