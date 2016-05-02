@@ -119,7 +119,7 @@ Hopefully this won't yield a "502 gateway error".  If it says:
 
   {"error": "internal error"}
 
-That's actually a good sign, because it means the endpoint is at least reachable.
+That's actually a good sign, because it means the endpoint is at least reachable.  Most likely it's a configuration or permissions issue (with one of the config files); but at least the uWSGI gateway is working.
 
 But if successful, it should yield a response like this:
 
@@ -127,5 +127,12 @@ But if successful, it should yield a response like this:
 
 
 
+
+TODO: add note about starting nginx with older versions: 
+
+  nginx -v
+  nginx version: nginx/1.4.6 (Ubuntu)
+  root@landlord-lookup-tool:/opt/nginx# man nginx
+  root@landlord-lookup-tool:/opt/nginx# nginx -p /opt/nginx -c conf/nginx.conf 
 
 
