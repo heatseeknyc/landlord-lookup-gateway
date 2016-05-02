@@ -1,12 +1,24 @@
 #!/usr/bin/env python
 import simplejson as json
-import time, requests
+import time, requests, argparse
 from nycgeo.utils.address import split_address
+
+parser = argparse.ArgumentParser()
+parser.add_argument("--port", help="port for hybrid service", type=int)
+args = parser.parse_args()
+
+# Target port corresponds to the flavor of the hybrid service we're
+# trying to query from; in default configurations:
+#
+#  5002 = live nycgeoclient service 
+#  5003 = mock service
+#
+port = args.port if args.port else 5003
 
 mockdata  = json.loads(open("tests/data/mockdata.json","r").read())
 mockaddr  = [r['address'] for r in mockdata]
 
-siteurl = 'http://localhost:5002'
+siteurl = 'http://localhost:%d' % port
 
 def makebase(address):
     encoded = address.replace(' ','+')
