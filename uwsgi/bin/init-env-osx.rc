@@ -2,6 +2,6 @@ export PGROOT=/opt/pg9
 export PATH=$PGROOT/bin:$PATH
 export OPTLIB=/opt/ana3/lib
 export DYLD_FALLBACK_LIBRARY_PATH=$OPTLIB:$PGROOT/lib
-export PYTHONPATH=$PYTHONPATH:pylib
+export PYTHONPATH=pylib
 
 
