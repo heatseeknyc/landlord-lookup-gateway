@@ -5,9 +5,9 @@ from nycgeo.client import SimpleGeoClient
 from common.logging import log
 
 parser = argparse.ArgumentParser()
-parser.add_argument("--addr", help="address to parse")
-parser.add_argument("--tiny", help="fetch a tiny rec", type=int)
-parser.add_argument("--mock", help="use the mock service", type=int)
+parser.add_argument('--addr', help="address to parse")
+parser.add_argument('--mock', dest='mock', action='store_true', help="use the mock service")
+parser.add_argument('--tiny', dest='tiny', action='store_true', help="fetch a tiny rec")
 args = parser.parse_args()
 print(args)
 

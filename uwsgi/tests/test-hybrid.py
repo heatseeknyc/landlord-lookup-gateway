@@ -5,8 +5,8 @@ from nycgeo.utils.address import split_address
 import lookuptool.hybrid
 
 parser = argparse.ArgumentParser()
-parser.add_argument("--mock", help="route geoclient calls to mock service", type=int)
-parser.add_argument("--addr", help="addres to search")
+parser.add_argument('--mock', dest='mock', action='store_true', help="use the mock service")
+parser.add_argument('--addr', help="addres to search")
 args = parser.parse_args()
 
 if args.mock:
