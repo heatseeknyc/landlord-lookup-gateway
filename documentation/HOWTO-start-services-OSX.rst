@@ -61,6 +61,8 @@ nginx
 
 As with uWSGI, our nginx service runs out of a specially created configuration dir (/opt/nginx), completely independent of the installed configuration root.    
 
+(0) Make sure no other nginx services are running (due to an earlier installation or default system configuration).
+
 (1) Set your PATH so that you can find nginx: 
   
   % cd /opt/nginx
