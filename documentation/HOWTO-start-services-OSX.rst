@@ -128,11 +128,15 @@ But if successful, it should yield a response like this:
 
 
 
-TODO: add note about starting nginx with older versions: 
+TODO: 
+
+(1) add note about starting nginx with older versions: 
 
   nginx -v
   nginx version: nginx/1.4.6 (Ubuntu)
   root@landlord-lookup-tool:/opt/nginx# man nginx
   root@landlord-lookup-tool:/opt/nginx# nginx -p /opt/nginx -c conf/nginx.conf 
+
+(2) /opt/uwsgi needs to be +rx, and /opt/uwsgi/logs +rwx by www-data
 
 
