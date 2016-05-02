@@ -11,8 +11,8 @@ from nycgeo.utils.url import split_query
 from common.logging import log
 
 parser = argparse.ArgumentParser()
-parser.add_argument('--mock', dest='mock', action='store_true')
-parser.add_argument('--no-mock', dest='mock', action='store_false')
+parser.add_argument('--mock',    dest='mock',   action='store_true')
+parser.add_argument('--no-mock', dest='nomock', action='store_true')
 parser.add_argument("--port", help="port to listen at", type=int)
 args = parser.parse_args()
 
@@ -23,13 +23,32 @@ port = args.port if args.port else 5002
 app = Flask(__name__)
 CORS(app)
 
+metaconf = slurp_json("config/hybrid-settings.json")
 dataconf = slurp_json("config/postgres.json")
+
+#
+# Resolution order for the 'mock' flag:
+#
+#  - if either of the arg flags '--mock' or '--no-mock' are invoked, 
+#    go with that.
+#
+#  - otherwise rely on what the hybrid settings config says.
+#
+
 if args.mock:
+    usemock = True
+elif args.nomock:
+    usemock = False 
+else:
+    usemock = metaconf['mock']
+
+
+if usemock:
     geoconf  = slurp_json("config/nycgeo-mock.json")
 else:
     geoconf  = slurp_json("config/nycgeo-live.json")
 
-log.info("mock = %s, port = %d" % (bool(args.mock),port)) 
+log.info("mock = %s, port = %d" % (usemock,port)) 
 log.info("siteurl = '%s'" % geoconf.get('siteurl'))
 agent = lookuptool.hybrid.instance(dataconf,geoconf) 
 
