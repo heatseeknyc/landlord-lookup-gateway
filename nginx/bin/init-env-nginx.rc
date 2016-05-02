@@ -1,0 +1,2 @@
+export NGXROOT=/usr/local/nginx
+export PATH=$NGXROOT/sbin:$PATH
