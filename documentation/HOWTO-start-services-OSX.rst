@@ -34,17 +34,23 @@ And make sure the respond reasonably [more detail needed about what this means].
 (4) Edit config/trivial.ini to override Ubuntu-specific uid/gid settings.
 
   uid = nobody 
-  gid = staff 
+  gid = wheel 
 
 As a glitch in our understanding of this process, for some reasons these settings don't seem to have the desired effect of setting the socket permissions to nobody.staff (as they do in the Ubuntu environment).  But that's OK, we can manually fix that after launching.  The main thing is to not leave the Ubuntu settings in there).
 
-(5) Launch the trivial service (which will be slightly easier to ping and troubleshoot through the gateway than the actual REST services).
+(5) Make sure there are no pre-existing domain sockets from previous installation attemps: 
+
+  ls -lctd /tmp/uwsgi_*
+
+If there are, its best to delete them.
+
+(6) Launch the trivial service (which will be slightly easier to ping and troubleshoot through the gateway than the actual REST services).
 
   uwsgi config/trivial.ini &
 
 Check the output carefully for any warnings about permissions or stuff not found. 
 
-(6) Check the perms on the socket we just deployed to.  If necessary, chmod them to the desierd uid/gid settings above. 
+(7) Check the perms on the socket we just deployed to.  If necessary, chmod them to the desierd uid/gid settings above. 
 
 Now let's start nginx, and see if we can at least reach the HTML pages and the trivial service.
 
