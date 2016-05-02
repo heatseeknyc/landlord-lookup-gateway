@@ -23,11 +23,18 @@ The last step is crucial because it makes sure uWSGI is set up to find Python 3,
 
 That means your environment is only partially configurated to find Python 3 (it can find the executable, but not the libraries).  Again, look at the 'bin/init-env-osx.rc', which has a setting specifically to address this issue.
 
-(3) Run the flask daemons + smoketest scripts:
+(3) Edit configuration files to point to correct Pg databse + NYCGeoClient credentials: 
+
+  (TODO: edit postgres config!)
+  (TODO: edit nycgeo-live config!)
+
+Run the flask daemons + smoketest scripts, both with and without the --mock flag:
 
   % source bin/launch-test-daemons.rc
   % python3 tests/test-nycgeo.py --mock
   % python3 tests/test-hybrid.py --mock
+  % python3 tests/test-nycgeo.py 
+  % python3 tests/test-hybrid.py
 
 And make sure the respond reasonably [more detail needed about what this means].
 
