@@ -149,4 +149,5 @@ But if successful, it should yield a response like this::
 
   {"extras": {"dhcr_active": false, "nychpd_contacts": 5, "taxbill": {"active_date": "2015-06-05", "owner_address": ["DAKOTA INC. (THE)", "1 W. 72ND ST.", "NEW YORK , NY 10023-3486"], "owner_name": "DAKOTA INC. (THE)"}}, "nycgeo": {"bbl": 1011250025, "bin": 1028637, "geo_lat": 40.77640230806594, "geo_lon": -73.97636507868083}}
 
+By this point you should have a pretty good indication that both gateways are working and reachable (at least from where you are).  Now you can push the actual frontend client to the HTML root, per the instructions in the ``landlord-lookup-client`` repo.
 
