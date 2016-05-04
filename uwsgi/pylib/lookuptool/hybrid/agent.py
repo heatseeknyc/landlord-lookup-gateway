@@ -3,7 +3,6 @@
 # NYC Geoclient API, and our local database, and smooshes everything 
 # together. 
 #
-import time
 from lookuptool.utils.address import fix_borough_name
 from common.logging import log
 

@@ -1,5 +1,4 @@
 import re
-from copy import deepcopy
 from nycgeo.utils.address import split_address
 
 #

@@ -1,4 +1,6 @@
 #
+# DEPRECATED
+#
 # Utility functions for pivoting (or less elegantly, "scraping") multi-building 
 # record results out of the raw dicts structs returned by the NYC Geoclient API.
 #
@@ -11,7 +13,6 @@
 # "pivot" these into a proper nested struct we can actually deal with. 
 #
 import re
-import simplejson as json
 from collections import defaultdict
 
 
