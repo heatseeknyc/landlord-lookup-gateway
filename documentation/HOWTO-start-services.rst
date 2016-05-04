@@ -43,8 +43,8 @@ That means your environment is only partially configurated to find Python 3 (it 
 
 (3) Edit configuration the following configuraiton files to reflect proper credentials and defaults::
 
-   config/postgres.json
-   config/nycgeo-live.json
+  config/postgres.json
+  config/nycgeo-live.json
 
 For the ``postgres`` config, make sure the ``readuser`` password is set, and that the ``database`` points to the database instance we just installed to.  For the ``nycgeo-live`` config, you'll need to supply your NYGGeoclient API key + id. 
 
@@ -92,14 +92,14 @@ As with uWSGI, our nginx service runs out of a specially created configuration d
 
 (1) Set your PATH so that you can find nginx::
   
-  > cd /opt/nginx
+  % cd /opt/nginx
   source bin/init-env-nginx.rc 
-  > which nginx
+  % which nginx
   /path/to/nginx
 
 (2) Edit the server conf, and make sure we aren't running as the Ubuntu web user::
 
-  vi conf/nginx.conf
+  % vi conf/nginx.conf
   
 Change the line "user www-data" to "user nobody" or whatever your local default is.
 
@@ -137,7 +137,7 @@ As with the trivial service, we'll need to chmod the socket::
 
 Should now be reachable via nginx; let's try pinging the /lookup URL::
 
-  bin/grab-endpoint-hybrid.sh 
+  % bin/grab-endpoint-hybrid.sh 
 
 Hopefully this won't yield a "502 gateway error".  If it says::
 
