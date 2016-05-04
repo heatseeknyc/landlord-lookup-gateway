@@ -1,5 +1,18 @@
 Startup instructions for uWSGI + nginx, out of the box.  To some extent, these are Ubuntu-centric, but basically work on OS X also with some caveats + tweaking (which we've attempted to make special note of). 
 
+Deployment
+----------
+
+"Deployment", as such, means simply pushing the 2 source trees into their local deployment locations.  These are configurable, but the suggested locations (and the ones enabled by default) are::
+
+  /opt/uwsgi
+  /opt/nginx
+
+The directories will need to be created if they weren't present already (and ideally, they should be empty at the time the pushing scripts are invoked).  These in turn live in the ``bin`` dir up and over from here::
+
+  ../bin/push-uwsgi.sh
+  ../bin/push-ngins.sh
+
 
 uWSGI
 -----
