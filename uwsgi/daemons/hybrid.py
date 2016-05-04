@@ -1,4 +1,12 @@
 #!/usr/bin/env python
+#
+# Our actual public-facing REST gateway.  For details as to the 
+# endpoints and protocol, please see:
+#
+#   documentation/ABOUT-rest-protocol.rst
+#
+# in this repo.
+#
 import argparse
 import simplejson as json
 from traceback import print_tb
