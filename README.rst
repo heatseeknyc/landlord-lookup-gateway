@@ -7,3 +7,7 @@ The code is organized into two major branches, ``nginx`` and ``uwsgi``, each of 
 
 Corresponding to the local configurations for those two services, respectively.  The REST API itself (and supporting Python modules) are found under the ``uwsgi`` tree.  The key component is the flask service ``lookup.py``; which, along with a few mock services, are located under the ``daemons`` subdir; these in turn make reference to supporting code under the ``pylib`` dir.
 
+Testing
+-------
+
+Some lightweight ("smoke-") tests are available under the ``uwsgi/tests`` dir.  See the README there for details.
