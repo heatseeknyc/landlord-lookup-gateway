@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 import simplejson as json
 import time, requests, argparse
-from nycgeo.utils.address import split_address
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--port", help="port for hybrid service", type=int)

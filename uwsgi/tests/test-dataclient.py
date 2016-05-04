@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-import sys, time, argparse
+import time, argparse
 import simplejson as json
 from lookuptool.dataclient import DataClient
 
