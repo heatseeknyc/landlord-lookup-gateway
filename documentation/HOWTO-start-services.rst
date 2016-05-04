@@ -58,12 +58,12 @@ For the ``postgres`` config, make sure the ``readuser`` password is set, and tha
 
 And make sure the respond reasonably [more detail needed about what this means].
 
-(4) Edit config/trivial.ini to override Ubuntu-specific uid/gid settings::
+(4) (OS X) Edit config/trivial.ini to override Ubuntu-specific uid/gid settings::
 
   uid = nobody 
   gid = wheel 
 
-As a glitch in our understanding of this process, for some reasons these settings don't seem to have the desired effect of setting the socket permissions to nobody.staff (as they do in the Ubuntu environment).  But that's OK, we can manually fix that after launching.  The main thing is to not leave the Ubuntu settings in there).
+For some reasons these settings don't seem to have the desired effect of setting the socket permissions to nobody.staff (as they do in the Ubuntu environment).  But that's OK, we can manually fix that after launching.  The main thing is to not leave the Ubuntu settings in there).
 
 (5) Make sure there are no pre-existing domain sockets from previous installation attempts::
 
@@ -97,7 +97,7 @@ As with uWSGI, our nginx service runs out of a specially created configuration d
   % which nginx
   /path/to/nginx
 
-(2) Edit the server conf, and make sure we aren't running as the Ubuntu web user::
+(2) (OS X) Edit the server conf, and make sure we aren't running as the Ubuntu web user::
 
   % vi conf/nginx.conf
   
