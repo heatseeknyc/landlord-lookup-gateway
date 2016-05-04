@@ -14,7 +14,6 @@ from flask import Flask, url_for, request, jsonify
 from flask.ext.cors import CORS, cross_origin
 import lookuptool.hybrid
 from lookuptool.utils.misc import slurp_json
-from lookuptool.utils.address import city2boro_name 
 from nycgeo.utils.url import split_query
 from common.logging import log
 
