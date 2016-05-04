@@ -1,4 +1,9 @@
 #!/usr/bin/env python
+#
+# DEPRECATED - this test isn't needed for normal smoketesting.
+#
+# Tests against a few record pivoting functions, not currently used.
+#
 import sys
 import simplejson as json
 from nycgeo.pivot import pivot_nycgeo, pivot_nycgeo_partial, profile_nycgeo_keys, is_gi_key
