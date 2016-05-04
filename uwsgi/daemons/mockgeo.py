@@ -51,7 +51,7 @@ def api_fetch(prefix):
         log.debug("query_string = %s" % request.query_string)
         return resolve_query(request.query_string)
     except Exception as e:
-        log.debug("exception = %s" % e) 
+        log.info("exception = %s" % e) 
         return errmsg('internal error')
 
 @app.route('/echoparam/<prefix>')
@@ -68,31 +68,19 @@ def api_hello():
         
 
 
+# Deprecated
 def resolve(callf,query):
     try:
         param = split_query(query)
     except ValueError as e:
         return errmsg('invalid query string')
     try:
-        log.debug("invoke ..")
         r = callf(param)
-        log.debug("got dict with %d keys." % len(r))
     except Exception as e:
-        log.debug("exception = %s" % e)
+        log.info("exception = %s" % e)
         return errmsg('internal error')
-    log.debug(":: return dict with %d keys." % len(r))
     return jsonify(r,sort_keys=True)
 
-
-def normalize_query(r):
-    city   = r.pop('city')[-1]
-    street = r.pop('street')[-1]
-    number = r.pop('number')[-1]
-    return {
-        'street_name': street, 
-        'house_number': number, 
-        'boro_name': city2boro_name(city)
-    };
 
 
 #
