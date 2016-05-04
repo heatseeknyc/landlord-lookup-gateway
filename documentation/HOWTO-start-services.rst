@@ -17,9 +17,11 @@ The directories will need to be created if they weren't present already (and ide
 uWSGI
 -----
 
-(1) Have a look at the init script 'bin/init-env-osx.rc' and make sure the settings make sense.  As deployed the file has settings specific to one particular laptop this was tested on, so in your environment things will be guaranteed to be at least slightly different; as you can see we have custom paths for Postgres and libssl includes, for example.  Either way the DYLD_FALLBACK_LIBRARY_PATH may need to be set so that these libraries can be found.  Also, ideally it shouldn't be setting any variables that aren't needed.  Again, just make sure it's tailored to your environment. 
+A few environment variables are needed to run the test scripts.  If you're in an Ubuntu environment, you'll just need to run the script ``bin/init-env-python.rc``. 
 
-(2) Once the files have been pushed, setup is analogous to the Ubuntu case:
+If you're building on OS X (where various dependencies tend to have different locations) have a look at the init script 'bin/init-env-osx.rc' and make sure the settings make sense.  As deployed the file has settings specific to one particular laptop this was tested on, so in your environment things will be guaranteed to be at least slightly different; as you can see we have custom paths for Postgres and libssl includes, for example.  Either way the DYLD_FALLBACK_LIBRARY_PATH may need to be set so that these libraries can be found.  Also, ideally it shouldn't be setting any variables that aren't needed.  Again, just make sure it's tailored to your environment. 
+
+(2) Once the files have been pushed, do some basic sanity checks on your setup: 
 
   % cd /opt/uwsgi
   % source bin/init-env-osx.rc
