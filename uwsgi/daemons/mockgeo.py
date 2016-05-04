@@ -42,6 +42,12 @@ def resolve_query(query_string):
     log.debug("response = %s" % response) 
     return jsonify(response)
 
+#
+# Our main endpoint, designed to be drop-in compatible with the endpoing 
+# we used in the NYCGeoclient API (except that credentials are ignored; and
+# that only a handful of addresses are responded to, which also need to be
+# precisely formatted so as to match the data in tests/data/mockdata.json). 
+#
 @app.route('/geoclient/v1/<prefix>')
 @cross_origin()
 def api_fetch(prefix):
@@ -54,12 +60,14 @@ def api_fetch(prefix):
         log.info("exception = %s" % e) 
         return errmsg('internal error')
 
+#
+# A couple of troubleshooting endpoints.
+#
 @app.route('/echoparam/<prefix>')
 @cross_origin()
 def api_echoparam(prefix):
     param = split_query(request.query_string.decode('utf-8'))
     return json.dumps({'param':param,'servicebase':prefix})
-
 
 @app.route('/ping')
 @cross_origin()
