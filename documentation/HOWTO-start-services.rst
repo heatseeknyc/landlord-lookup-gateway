@@ -92,9 +92,9 @@ As with uWSGI, our nginx service runs out of a specially created configuration d
 
 (1) Set your PATH so that you can find nginx::
   
-  \% cd /opt/nginx
+  > cd /opt/nginx
   source bin/init-env-nginx.rc 
-  \% which nginx
+  > which nginx
   /path/to/nginx
 
 (2) Edit the server conf, and make sure we aren't running as the Ubuntu web user::
