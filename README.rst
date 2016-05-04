@@ -20,8 +20,8 @@ Deployment
 
 See the notes::
 
-  documentation\HOWTO-import-database.rst
-  documentation\HOWTO-start-services.rst
+  documentation/HOWTO-import-database.rst
+  documentation/HOWTO-start-services.rst
 
 Testing
 -------
