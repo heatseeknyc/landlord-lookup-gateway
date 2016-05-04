@@ -1,6 +1,6 @@
 A simple PostgreSQL backend + REST gateway for the Landlord Lookup portal. 
 
-The code is organized into two major branches, ``nginx`` and ``uwsgi``, each of which gets copied pushed more or less entirity into the locations::
+The code is organized into two major branches, ``nginx`` and ``uwsgi``, each of which gets pushed more or less as-is into the default locations::
 
   /opt/nginx
   /opt/uwsgi
