@@ -17,20 +17,22 @@ The directories will need to be created if they weren't present already (and ide
 uWSGI
 -----
 
-A few environment variables are needed to run the test scripts.  If you're in an Ubuntu environment, you'll just need to run the script ``bin/init-env-python.rc``. 
+Once things have been pushed, go to the deployment location::
+
+  % cd /opt/uwsgi
+
+And notice that the file tree looks a lot like the ``uwsgi`` dir out of the repo.  At this point few environment variables are needed to run the test scripts.  If you're in an Ubuntu environment, you'll just need to run the script ``bin/init-env-python.rc``. 
 
 If you're building on OS X (where various dependencies tend to have different locations) have a look at the init script 'bin/init-env-osx.rc' and make sure the settings make sense.  As deployed the file has settings specific to one particular laptop this was tested on, so in your environment things will be guaranteed to be at least slightly different; as you can see we have custom paths for Postgres and libssl includes, for example.  Either way the DYLD_FALLBACK_LIBRARY_PATH may need to be set so that these libraries can be found.  Also, ideally it shouldn't be setting any variables that aren't needed.  Again, just make sure it's tailored to your environment. 
 
-(2) Once the files have been pushed, do some basic sanity checks on your setup: 
+(2) Once the files have been pushed, do some basic sanity checks on your setup::
 
-  % cd /opt/uwsgi
-  % source bin/init-env-osx.rc
   % which uwsgi
   /path/to/uwsgi
   % uwsgi --python-version
   3.4.3
 
-The last step is crucial because it makes sure uWSGI is set up to find Python 3, not Python 2.  If you get an error message like:
+The last step is crucial because it makes sure uWSGI is set up to find Python 3, not Python 2.  If you get an error message like::
 
   dyld: Library not loaded: libpython3.4m.dylib
   Referenced from: /path/to/bin/uwsgi
@@ -39,12 +41,14 @@ The last step is crucial because it makes sure uWSGI is set up to find Python 3,
 
 That means your environment is only partially configurated to find Python 3 (it can find the executable, but not the libraries).  Again, look at the 'bin/init-env-osx.rc', which has a setting specifically to address this issue.
 
-(3) Edit configuration files to point to correct Pg databse + NYCGeoClient credentials: 
+(3) Edit configuration the following configuraiton files to reflect proper credentials and defaults: 
 
-  (TODO: edit postgres config!)
-  (TODO: edit nycgeo-live config!)
+   config/postgres.json
+   config/nycgeo-live.json
 
-Run the flask daemons + smoketest scripts, both with and without the --mock flag:
+For the ``postgres`` config, make sure the ``readuser`` password is set, and that the ``database`` points to the database instance we just installed to.  For the ``nycgeo-live`` config, you'll need to supply your NYGGeoclient API key + id. 
+
+(4) Run the (pure-flask) test daemons + smoketest scripts, both with and without the --mock flag::
 
   % source bin/launch-test-daemons.rc
   % python3 tests/test-nycgeo.py --mock
@@ -54,7 +58,7 @@ Run the flask daemons + smoketest scripts, both with and without the --mock flag
 
 And make sure the respond reasonably [more detail needed about what this means].
 
-(4) Edit config/trivial.ini to override Ubuntu-specific uid/gid settings.
+(4) Edit config/trivial.ini to override Ubuntu-specific uid/gid settings::
 
   uid = nobody 
   gid = wheel 
