@@ -1,3 +1,6 @@
+#
+# A trivial service used to test the uwsg+nginx configuration. 
+#
 from flask import Flask  
 app = Flask(__name__) 
 
