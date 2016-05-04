@@ -36,7 +36,35 @@ class DataClient(AgentBase):
         query = \
             "select contact_id, registration_id, contact_type, description, corpname, contact_name, business_address " + \
             "from hard.contact_info where bbl = %d and bin = %d order by registration_id, contact_rank;" 
-        recs = self.fetch_recs(query,_bbl,_bin)
-        return recs
+        return self.fetch_recs(query,_bbl,_bin)
 
+
+def make_summary(r):
+    taxbill = {
+        'active_date': str(r['taxbill_active_date']),
+        'owner_address': expand_address(r['taxbill_owner_address']),
+        'owner_name': r['taxbill_owner_name'],
+    }
+    return  {
+        "taxbill":taxbill,
+        "nychpd_contacts": cast_as_int(r['contact_count']) ,
+        "dhcr_active": bool(r.get('dhcr_active'))
+    }
+
+# Splits the taxbill owner addresss on the embedded '\\n' string 
+# (literally '\'+'\'+'n') from an incoming string, which we take to 
+# be an encoding of "\n"; e.g:
+#
+#   e.g. 'DAKOTA INC. (THE)\\n1 W. 72ND ST.\\nNEW YORK , NY 10023-3486'
+#
+# then strips whitespace from the resulting terms, and returns a nice 
+# list struct.
+def expand_address(s):
+    if s is None:
+        return None
+    terms = s.split('\\n')
+    return [t.strip() for t in terms]
+
+def cast_as_int(x):
+    return 0 if x is None else int(x)
 
