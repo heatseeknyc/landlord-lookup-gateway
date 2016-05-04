@@ -1,4 +1,5 @@
-The setup is slightly different for OS X; we don't maintain separate configuration files, but rather rely on some manual tweaking
+Startup instructions for uWSGI + nginx, out of the box.  To some extent, these are Ubuntu-centric, but basically work on OS X also with some caveats + tweaking (which we've attempted to make special note of). 
+
 
 uWSGI
 -----
