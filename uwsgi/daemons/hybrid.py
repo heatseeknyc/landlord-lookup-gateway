@@ -10,11 +10,10 @@
 import argparse
 import simplejson as json
 from traceback import print_tb
-from flask import Flask, url_for, request, jsonify
+from flask import Flask
 from flask.ext.cors import CORS, cross_origin
 import lookuptool.hybrid
 from lookuptool.utils.misc import slurp_json
-from nycgeo.utils.url import split_query
 from common.logging import log
 
 parser = argparse.ArgumentParser()
