@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-import sys, argparse
+import argparse
 import simplejson as json
 from nycgeo.client import SimpleGeoClient
 from common.logging import log

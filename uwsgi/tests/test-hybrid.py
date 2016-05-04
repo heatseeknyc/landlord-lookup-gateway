@@ -1,7 +1,6 @@
 #!/usr/bin/env python
-import sys, time, argparse
+import time, argparse
 import simplejson as json
-from nycgeo.utils.address import split_address
 import lookuptool.hybrid
 
 parser = argparse.ArgumentParser()
