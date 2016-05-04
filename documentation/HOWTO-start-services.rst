@@ -19,7 +19,7 @@ uWSGI
 
 Once things have been pushed, go to the deployment location::
 
-  % cd /opt/uwsgi
+  cd /opt/uwsgi
 
 And notice that the file tree looks a lot like the ``uwsgi`` dir out of the repo.  At this point few environment variables are needed to run the test scripts.  If you're in an Ubuntu environment, you'll just need to run the script ``bin/init-env-python.rc``. 
 
@@ -27,9 +27,9 @@ If you're building on OS X (where various dependencies tend to have different lo
 
 (2) Once the files have been pushed, do some basic sanity checks on your setup::
 
-  % which uwsgi
+  which uwsgi
   /path/to/uwsgi
-  % uwsgi --python-version
+  uwsgi --python-version
   3.4.3
 
 The last step is crucial because it makes sure uWSGI is set up to find Python 3, not Python 2.  If you get an error message like::
@@ -50,11 +50,11 @@ For the ``postgres`` config, make sure the ``readuser`` password is set, and tha
 
 (4) Run the (pure-flask) test daemons + smoketest scripts, both with and without the --mock flag::
 
-  % source bin/launch-test-daemons.rc
-  % python3 tests/test-nycgeo.py --mock
-  % python3 tests/test-hybrid.py --mock
-  % python3 tests/test-nycgeo.py 
-  % python3 tests/test-hybrid.py
+  source bin/launch-test-daemons.rc
+  python3 tests/test-nycgeo.py --mock
+  python3 tests/test-hybrid.py --mock
+  python3 tests/test-nycgeo.py 
+  python3 tests/test-hybrid.py
 
 And make sure the respond reasonably [more detail needed about what this means].
 
@@ -92,9 +92,9 @@ As with uWSGI, our nginx service runs out of a specially created configuration d
 
 (1) Set your PATH so that you can find nginx::
   
-  % cd /opt/nginx
-  % source bin/init-env-nginx.rc 
-  % which nginx
+  %% cd /opt/nginx
+  source bin/init-env-nginx.rc 
+  %% which nginx
   /path/to/nginx
 
 (2) Edit the server conf, and make sure we aren't running as the Ubuntu web user::
