@@ -1,4 +1,6 @@
-A simple PostgreSQL backend + REST gateway for the Landlord Lookup portal. 
+A simple PostgreSQL backend + REST gateway for the Landlord Lookup portal (currently in alpha)::
+
+  https://lookup.heatseeknyc.com/
 
 The code is organized into two major branches, ``nginx`` and ``uwsgi``, each of which gets pushed more or less as-is into the default locations::
 
