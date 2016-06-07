@@ -47,7 +47,7 @@ The ``/contacts/`` provides HPD contacts (for those properties that have them). 
 
   /contacts/1011250025,1028637
 
-And a respond will look like this::
+And a response will look like this::
  
   [
     {
