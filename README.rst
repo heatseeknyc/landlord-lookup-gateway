@@ -13,9 +13,9 @@ Corresponding to the local configurations for those two services, respectively. 
 REST protocol
 -------------
 
-Is described here::
+Is described here
  
-  _documentation/ABOUT-rest-protocol.rst: documentation/ABOUT-rest-protocol.rst
+_documentation/ABOUT-rest-protocol.rst: documentation/ABOUT-rest-protocol.rst
 
 Deployment
 ----------
