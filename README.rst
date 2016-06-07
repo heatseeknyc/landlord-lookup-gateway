@@ -15,7 +15,7 @@ REST protocol
 
 Is described here::
  
-  documentation/ABOUT-rest-protocol.rst
+  :documentation/ABOUT-rest-protocol.rst:`documentation/ABOUT-rest-protocol.rst`
 
 Deployment
 ----------
