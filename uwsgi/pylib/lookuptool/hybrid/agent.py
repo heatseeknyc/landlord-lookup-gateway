@@ -11,8 +11,8 @@ tinykeys = ('bbl','latitude','longitude')
 class LookupAgent(object):
 
     def __init__(self,dataclient,geoclient):
-        self.dataclient  = dataclient 
-        self.geoclient = geoclient 
+        self.dataclient = dataclient 
+        self.geoclient  = geoclient 
 
     def get_lookup(self,rawaddr):
         ''' Combined geoclient + ownership summary for a given address''' 
