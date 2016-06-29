@@ -15,8 +15,8 @@ else:
 
 dataconf = json.loads(open("config/postgres.json","r").read())
 geoconf  = json.loads(open(nycgeopath,"r").read())
-print(dataconf)
-print(geoconf)
+# print(dataconf)
+# print(geoconf)
 
 if args.addr: 
     rawaddr = args.addr 
