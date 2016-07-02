@@ -26,6 +26,8 @@ class SimpleGeoClient(object):
         t1 = time.time()
         dt = 1000*(t1-t0)
         log.info("status = %d in %.2f ms" % (r.status_code,dt))
+        for k,v in r.headers.items():
+            log.info("header - '%s': '%s'" % (k,v))
         return r,dt
 
     def authget(self,base,query):
