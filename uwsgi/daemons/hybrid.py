@@ -11,7 +11,7 @@ import argparse
 import simplejson as json
 from traceback import print_tb
 from flask import Flask
-from flask.ext.cors import CORS, cross_origin
+from flask_cors import CORS, cross_origin
 import lookuptool.hybrid
 from lookuptool.utils.misc import slurp_json
 from common.logging import log

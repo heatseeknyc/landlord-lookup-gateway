@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 import simplejson as json
 from flask import Flask, request
-from flask.ext.cors import CORS, cross_origin
+from flask_cors import CORS, cross_origin
 from nycgeo.server.agent import GeoServerMockAgent
 from nycgeo.utils.url import split_query
 from nycgeo.utils.address import NYCGeoAddress 
