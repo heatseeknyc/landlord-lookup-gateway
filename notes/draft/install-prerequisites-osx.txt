@@ -1,0 +1,33 @@
+
+
+uWSGI
+=====
+
+    sudo pip install uwsgi
+
+If you're in an Anaconda environment, the uwsgi executable will be installed in the same location as your Python interpreter.
+
+ngnix + pcre
+============
+
+Apparently one needs to build these in tandem (as the make process for nginx apparently does a "hard" make on the pcre dist):
+
+    mkdir /build/nginx
+    mkdir /build/pcre
+
+    cd /build/pcre
+    curl --remote-name ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/pcre-8.39.tar.gz
+    tar -xvof pcre-8.39.tar.gz 
+
+Get the tarball for nginx somehow, and:
+
+    cd /build/nginx
+    tar -xvof nginx-1.10.3.tar.gz 
+    ./configure --with-pcre=/build/pcre/pcre-8.39
+    make
+    sudo make install
+
+Which by default will install to /usr/local/nginx.  Note however we won't be using the global configuration files to run the gateway ...
+
+See the note 'deploy-and-start-services.rst'.
+
