@@ -78,7 +78,7 @@ And make sure the respond reasonably -- basically the output for each of these s
 
   ls -lctd /tmp/uwsgi_*
 
-If there are, its best to delete them.
+If any do exist, it's best to delete them.
 
 (6) Launch the trivial service (which will be slightly easier to ping and troubleshoot through the gateway than the actual REST services)::
 
