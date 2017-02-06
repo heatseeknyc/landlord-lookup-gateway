@@ -84,9 +84,16 @@ If any do exist, it's best to delete them.
 
   uwsgi config/trivial.ini &
 
-Check the output carefully for any warnings about permissions or stuff not found. 
+Check the output carefully for any warnings about permissions or stuff not found.  When things are going smoothly, it should look something like this (though the numbers on the top line may differ)::
 
-(7) Check the perms on the socket we just deployed to.  If necessary, chmod them to the desierd uid/gid settings above.
+   [4] 82564
+   [uWSGI] getting INI configuration from config/trivial.ini
+
+(7) Check the perms on the socket we just deployed to (which will now show up as the sole file available under the glob used up above)::
+
+   ls -lctd /tmp/uwsgi_*
+
+If necessary, chmod them to the desierd uid/gid settings above.
 
 Now let's start nginx, and see if we can at least reach the HTML pages and the trivial service.
 
