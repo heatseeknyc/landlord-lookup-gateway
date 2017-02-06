@@ -49,7 +49,7 @@ That means your environment is only partially configurated to find Python 3 (it 
 
 For the ``postgres`` config, make sure the ``readuser`` password is set, and that the ``database`` points to the database instance we just installed to.  For the ``nycgeo-live`` config, you'll need to supply your NYGGeoclient API key + id. 
 
-(4) (OS X) Edit config/trivial.ini to override Ubuntu-specific uid/gid settings::
+(3b) (OS X) Edit config/trivial.ini to override Ubuntu-specific uid/gid settings::
 
   uid = nobody 
   gid = wheel 
@@ -59,12 +59,20 @@ For some reasons these settings don't seem to have the desired effect of setting
 (4) Run the (pure-flask) test daemons + smoketest scripts, both with and without the --mock flag::
 
   source bin/launch-test-daemons.rc
+
+These should launch quietly.  At this point it'd be highly desirable to make sure you can ping the services at the "pure flask" level.  First we can try pinging them with the --mock directive::
+
   python3 tests/test-nycgeo.py --mock
   python3 tests/test-hybrid.py --mock
+
+And if you're able to run "live" services, you can try these tests, which will ping the Geoclient API::
+
   python3 tests/test-nycgeo.py 
   python3 tests/test-hybrid.py
 
-And make sure the respond reasonably [more detail needed about what this means].
+And make sure the respond reasonably -- basically the output for each of these scripts should be pure JSON structs (with no warnings exception traces), to STDOUT only; and the JSON structs themselves should contain no nested fields which look like error messages.
+
+[TODO: provide separate writeup about verifying output].
 
 (5) Make sure there are no pre-existing domain sockets from previous installation attempts::
 
