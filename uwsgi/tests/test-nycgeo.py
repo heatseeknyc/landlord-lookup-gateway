@@ -9,8 +9,6 @@ parser.add_argument('--addr', help="address to parse")
 parser.add_argument('--mock', dest='mock', action='store_true', help="use the mock service")
 parser.add_argument('--tiny', dest='tiny', action='store_true', help="fetch a tiny rec")
 args = parser.parse_args()
-print(args)
-
 
 log.info("info!")
 log.debug("debug!")
