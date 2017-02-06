@@ -49,6 +49,13 @@ That means your environment is only partially configurated to find Python 3 (it 
 
 For the ``postgres`` config, make sure the ``readuser`` password is set, and that the ``database`` points to the database instance we just installed to.  For the ``nycgeo-live`` config, you'll need to supply your NYGGeoclient API key + id. 
 
+(4) (OS X) Edit config/trivial.ini to override Ubuntu-specific uid/gid settings::
+
+  uid = nobody 
+  gid = wheel 
+
+For some reasons these settings don't seem to have the desired effect of setting the socket permissions to nobody.staff (as they do in the Ubuntu environment).  But that's OK, we can manually fix that after launching.  The main thing is to not leave the Ubuntu settings in there).
+
 (4) Run the (pure-flask) test daemons + smoketest scripts, both with and without the --mock flag::
 
   source bin/launch-test-daemons.rc
@@ -58,13 +65,6 @@ For the ``postgres`` config, make sure the ``readuser`` password is set, and tha
   python3 tests/test-hybrid.py
 
 And make sure the respond reasonably [more detail needed about what this means].
-
-(4) (OS X) Edit config/trivial.ini to override Ubuntu-specific uid/gid settings::
-
-  uid = nobody 
-  gid = wheel 
-
-For some reasons these settings don't seem to have the desired effect of setting the socket permissions to nobody.staff (as they do in the Ubuntu environment).  But that's OK, we can manually fix that after launching.  The main thing is to not leave the Ubuntu settings in there).
 
 (5) Make sure there are no pre-existing domain sockets from previous installation attempts::
 
