@@ -49,7 +49,13 @@ That means your environment is only partially configurated to find Python 3 (it 
 
 For the ``postgres`` config, make sure the ``readuser`` password is set, and that the ``database`` points to the database instance we just installed to.  For the ``nycgeo-live`` config, you'll need to supply your NYGGeoclient API key + id. 
 
-(3b) (OS X) Edit config/trivial.ini to override Ubuntu-specific uid/gid settings::
+(3b) (OS X) Edit both gateway config files::
+
+  cd /opt/uwsgi
+  % vi config/trivial.ini 
+  % vi config/hybrid.ini 
+
+to override Ubuntu-specific uid/gid settings::
 
   uid = nobody 
   gid = wheel 
