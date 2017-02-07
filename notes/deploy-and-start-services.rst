@@ -1,5 +1,6 @@
 Startup instructions for uWSGI + nginx, out of the box.  To some extent, these are Ubuntu-centric, but basically work on OS X also with some caveats + tweaking (which we've attempted to make special note of). 
 
+
 Deployment
 ----------
 
@@ -62,6 +63,7 @@ to override Ubuntu-specific uid/gid settings::
 
 For some reasons these settings don't seem to have the desired effect of setting the socket permissions to nobody.staff (as they do in the Ubuntu environment).  But that's OK, we can manually fix that after launching.  The main thing is to not leave the Ubuntu settings in there).
 
+
 Flask services
 --------------
 
@@ -82,6 +84,7 @@ And if you're able to run "live" Flask services, you can try these tests, which 
 And make sure the respond reasonably -- basically the output for each of these scripts should be pure JSON structs (with no warnings exception traces), to STDOUT only; and the JSON structs themselves should contain no nested fields which look like error messages.
 
 [TODO: provide separate writeup about verifying output].
+
 
 uWSGI wrappers
 --------------
@@ -108,7 +111,6 @@ Check the output carefully for any warnings about permissions or stuff not found
 If necessary, chmod them to the desierd uid/gid settings above.
 
 Now let's start nginx, and see if we can at least reach the HTML pages and the trivial service.
-
 
 
 nginx
