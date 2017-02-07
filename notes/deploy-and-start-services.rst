@@ -71,7 +71,7 @@ These should launch quietly.  At this point it'd be highly desirable to make sur
   python3 tests/test-nycgeo.py --mock
   python3 tests/test-hybrid.py --mock
 
-And if you're able to run "live" services, you can try these tests, which will ping the Geoclient API::
+And if you're able to run "live" Flask services, you can try these tests, which will ping the Geoclient API::
 
   python3 tests/test-nycgeo.py 
   python3 tests/test-hybrid.py
