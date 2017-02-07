@@ -62,6 +62,9 @@ to override Ubuntu-specific uid/gid settings::
 
 For some reasons these settings don't seem to have the desired effect of setting the socket permissions to nobody.staff (as they do in the Ubuntu environment).  But that's OK, we can manually fix that after launching.  The main thing is to not leave the Ubuntu settings in there).
 
+Flask services
+--------------
+
 (4) Run the (pure-flask) test daemons + smoketest scripts, both with and without the --mock flag::
 
   source bin/launch-test-daemons.rc
@@ -79,6 +82,9 @@ And if you're able to run "live" Flask services, you can try these tests, which 
 And make sure the respond reasonably -- basically the output for each of these scripts should be pure JSON structs (with no warnings exception traces), to STDOUT only; and the JSON structs themselves should contain no nested fields which look like error messages.
 
 [TODO: provide separate writeup about verifying output].
+
+uWSGI wrappers
+--------------
 
 (5) Make sure there are no pre-existing domain sockets from previous installation attempts::
 
