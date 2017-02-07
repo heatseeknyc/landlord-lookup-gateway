@@ -129,8 +129,9 @@ NOTE: That's for a more modern nginx (1.9+).  For older versions (1.4-ish), you'
 
 (4) Try a few test URLs::
 
-  % bin/test-page-simple.sh
-  % bin/test-endpoint-trivial.sh
+  % cd monitor
+  % bin/grab-page-simple.sh
+  % bin/grab-endpoint-trivial.sh
 
 The first should return a simple HTML page (that doesn't look like an error page).  The second should simply return the string "Woof!".  If it returns an error page (most like a "502 gateway error" string wrapped in an HTML page), you'll need to stop and troubleshoot.  Most likely it will turn out to be a permissions issue somewhere -- but whatever went wrong, most likely the REST services will suffer the same fate.
 
