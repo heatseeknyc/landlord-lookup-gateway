@@ -158,14 +158,15 @@ The first should return a simple HTML page (that doesn't look like an error page
 (5) Stop the service (just so we know how to)::
 
 
-
 Start the 'hybrid' service
 --------------------------
 
-Exactly analogous as to the trivial service::
+Exactly analogous as to the trivial service, which should go about like this (up to the process numbers)::
 
   % cd /opt/uwsgi
-  % uwsgi config/hybrid.ini
+  % uwsgi config/hybrid.ini &
+  [5] 82994
+  [uWSGI] getting INI configuration from config/hybrid.ini
 
 As with the trivial service, we'll need to chown the socket to match the user setting in the nginx.conf (per step 2)::
 
