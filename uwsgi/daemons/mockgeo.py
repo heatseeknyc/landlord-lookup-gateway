@@ -4,7 +4,7 @@ from flask import Flask, request
 from flask_cors import CORS, cross_origin
 from nycgeo.server.agent import GeoServerMockAgent
 from nycgeo.utils.url import split_query
-from nycgeo.utils.address import NYCGeoAddress 
+from nycgeo.utils.address import NYCGeoAddress
 from traceback import print_tb
 from common.logging import log
 
@@ -28,18 +28,18 @@ def mapcgi(s):
 
 def extract_param(query_string):
     param = split_query(query_string.decode('utf-8'))
-    log.debug("param = %s" % param) 
+    log.debug("param = %s" % param)
     fields = 'houseNumber','street','borough'
     messy = {k:param.get(k) for k in fields}
     clean = {k:mapcgi(messy[k]) for k in messy}
-    log.debug("clean = %s" % clean) 
+    log.debug("clean = %s" % clean)
     return NYCGeoAddress(**clean)
 
 def resolve_query(query_string):
     param = extract_param(query_string)
-    log.debug("named = %s" % str(param)) 
+    log.debug("named = %s" % str(param))
     response = agent.lookup(param)
-    log.debug("response = %s" % response) 
+    log.debug("response = %s" % response)
     return jsonify(response)
 
 #
@@ -57,7 +57,7 @@ def api_fetch(prefix):
         log.debug("query_string = %s" % request.query_string)
         return resolve_query(request.query_string)
     except Exception as e:
-        log.info("exception = %s" % e) 
+        log.info("exception = %s" % e)
         return errmsg('internal error')
 
 #
@@ -73,7 +73,7 @@ def api_echoparam(prefix):
 @cross_origin()
 def api_hello():
     return "Woof!"
-        
+ 
 
 
 # Deprecated

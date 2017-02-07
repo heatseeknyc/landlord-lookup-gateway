@@ -44,7 +44,7 @@ dataconf = slurp_json("config/postgres.json")
 if args.mock:
     usemock = True
 elif args.nomock:
-    usemock = False 
+    usemock = False
 else:
     usemock = metaconf['mock']
 
@@ -54,9 +54,9 @@ if usemock:
 else:
     geoconf  = slurp_json("config/nycgeo-live.json")
 
-log.info("mock = %s, port = %d" % (usemock,port)) 
+log.info("mock = %s, port = %d" % (usemock,port))
 log.info("siteurl = '%s'" % geoconf.get('siteurl'))
-agent = lookuptool.hybrid.instance(dataconf,geoconf) 
+agent = lookuptool.hybrid.instance(dataconf,geoconf)
 
 
 @app.route('/lookup/<address>')
@@ -72,8 +72,8 @@ def api_contacts(keytup):
 
 def resolve_lookup(address):
     q = address.replace('+',' ').strip()
-    log.debug("q = %s" % str(q)) 
-    if q is None: 
+    log.debug("q = %s" % str(q))
+    if q is None:
         return errmsg('invalid query string')
     else:
         response = agent.get_lookup(q)
