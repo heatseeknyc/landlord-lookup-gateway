@@ -127,6 +127,12 @@ NOTE: That's for a more modern nginx (1.9+).  For older versions (1.4-ish), you'
 
   % sudo nginx -p /opt/nginx -c conf/nginx.conf
 
+BTW, if you want you can try stopping the service at this point, just so you know how::
+
+  % sudo nginx -p /opt/nginx -s stop
+
+And then restarting per the cues above. 
+
 (4) Try a few test URLs::
 
   % cd monitor
@@ -137,7 +143,6 @@ The first should return a simple HTML page (that doesn't look like an error page
 
 (5) Stop the service (just so we know how to)::
 
-  % sudo nginx -p /opt/nginx -s stop
 
 
 Start the 'hybrid' service
