@@ -147,7 +147,7 @@ Exactly analogous as to the trivial service::
   % cd /opt/uwsgi
   % uwsgi config/hybrid.ini
 
-As with the trivial service, we'll need to chmod the socket::
+As with the trivial service, we'll need to chown the socket to match the user setting in the nginx.conf (per step 2)::
 
   % sudo chown nobody /tmp/uwsgi_hybrid.sock
 
@@ -155,11 +155,15 @@ Should now be reachable via nginx; let's try pinging the /lookup URL::
 
   % bin/grab-endpoint-hybrid.sh 
 
-Hopefully this won't yield a "502 gateway error".  If it says::
+Hopefully this won't yield a "502 gateway error".  If things are going well, it should simply say::
+
+  Woof!
+
+If it says::
 
   {"error": "internal error"}
 
-That's actually a good sign, because it means the endpoint is at least reachable.  Most likely it's a configuration or permissions issue (with one of the config files); but at least the uWSGI gateway is working.
+That's actually a good sign, because it means the endpoint is at least reachable.  Most likely it's a configuration or permissions issue at the database level (with one of the config files); but at least the uWSGI gateway is working.
 
 But if successful, it should yield a response like this::
 
