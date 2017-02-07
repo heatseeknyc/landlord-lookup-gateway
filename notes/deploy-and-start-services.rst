@@ -14,8 +14,8 @@ The directories will need to be created if they weren't present already (and ide
   ../bin/push-ngins.sh
 
 
-uWSGI
------
+uWSGI config
+------------
 
 Once things have been pushed, go to the deployment location::
 
