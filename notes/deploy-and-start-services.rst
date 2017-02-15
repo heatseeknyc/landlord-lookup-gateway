@@ -95,14 +95,17 @@ uWSGI wrappers
 
 If any do exist, it's best to delete them.
 
-(6) Launch the trivial service (which will be slightly easier to ping and troubleshoot through the gateway than the actual REST services)::
+(6) Launch the both the 'hybrid' and 'trivial' services.  The 'hybrid' service is what runs the actual gateway, but the trivial service will be slightly easier to troubleshoot.::
 
   uwsgi config/trivial.ini &
+  uwsgi config/hybrid.ini &
 
 Check the output carefully for any warnings about permissions or stuff not found.  When things are going smoothly, it should look something like this (though the numbers on the top line may differ)::
 
   [4] 82564
   [uWSGI] getting INI configuration from config/trivial.ini
+
+And similarly for the ybrid service.
 
 (7) Check the perms on the socket we just deployed to (which will now show up as the sole file available under the glob used up above)::
 
@@ -158,7 +161,7 @@ The first should return a simple HTML page (that doesn't look like an error page
 (5) Stop the service (just so we know how to)::
 
 
-Start the 'hybrid' service
+Start the 'hybrid' gateway 
 --------------------------
 
 Exactly analogous as to the trivial service, which should go about like this (up to the process numbers)::
@@ -174,21 +177,18 @@ As with the trivial service, we'll need to chown the socket to match the user se
 
 Should now be reachable via nginx; let's try pinging the /lookup URL::
 
-  % bin/grab-endpoint-hybrid.sh 
+  % cd monitor
+  % bin/grab-endpoint-lookup.sh 
 
-Hopefully this won't yield a "502 gateway error".  If things are going well, it should simply say::
+Hopefully this won't yield a "502 gateway error".  If things are going well, it should yield a nice little JSOB blob:: 
 
-  Woof!
+  {"extras": {"dhcr_active": false, "nychpd_contacts": 5, "taxbill": {"active_date": "2015-06-05", "owner_address": ["DAKOTA INC. (THE)", "1 W. 72ND ST.", "NEW YORK , NY 10023-3486"], "owner_name": "DAKOTA INC. (THE)"}}, "nycgeo": {"bbl": 1011250025, "bin": 1028637, "geo_lat": 40.77640230806594, "geo_lon": -73.97636507868083}}
 
 If it says::
 
   {"error": "internal error"}
 
 That's actually a good sign, because it means the endpoint is at least reachable.  Most likely it's a configuration or permissions issue at the database level (with one of the config files); but at least the uWSGI gateway is working.
-
-But if successful, it should yield a response like this::
-
-  {"extras": {"dhcr_active": false, "nychpd_contacts": 5, "taxbill": {"active_date": "2015-06-05", "owner_address": ["DAKOTA INC. (THE)", "1 W. 72ND ST.", "NEW YORK , NY 10023-3486"], "owner_name": "DAKOTA INC. (THE)"}}, "nycgeo": {"bbl": 1011250025, "bin": 1028637, "geo_lat": 40.77640230806594, "geo_lon": -73.97636507868083}}
 
 By this point you should have a pretty good indication that both gateways are working and reachable (at least from where you are).  Now you can push the actual frontend client to the HTML root, per the instructions in the ``landlord-lookup-client`` repo.
 

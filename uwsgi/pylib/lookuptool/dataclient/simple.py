@@ -5,10 +5,10 @@
 #
 from .base import AgentBase
 from common.logging import log
+import simplejson as json
 
 class DataClient(AgentBase):
 
-        
     # We return the BBL we're selecting on, along with the boro_id, 
     # along with the response dict, for the convenience of frontend 
     # handlers (which otherwise would have to pass these along as
@@ -22,7 +22,6 @@ class DataClient(AgentBase):
     # just need the taxbill columns (and the DHCR+HPD columns will be NULL).
     #
     # In either case, we're guaranteed to have at most 1 row match in response.
-    #
     def get_summary(self,_bbl,_bin):
         '''Full ownership summary (Taxbill,DHRC,HPD) for a BBL+BIN pair.'''
         log.debug("bbl = %d, bin = %d" % (_bbl,_bin))
@@ -45,8 +44,16 @@ def make_summary(r):
         'owner_address': expand_address(r['taxbill_owner_address']),
         'owner_name': r['taxbill_owner_name'],
     }
+    building = {
+        'lon_ctr': r['building_lon_ctr'],
+        'lat_ctr': r['building_lat_ctr'],
+        'radius': r['building_radius'],
+        'points': json.loads(r['building_points']),
+        'parts': json.loads(r['building_parts']),
+    }
     return  {
-        "taxbill":taxbill,
+        "taxbill": taxbill,
+        "building": building,
         "nychpd_contacts": cast_as_int(r['contact_count']) ,
         "dhcr_active": bool(r.get('dhcr_active'))
     }
