@@ -22,7 +22,9 @@ Once things have been pushed, go to the deployment location::
 
   cd /opt/uwsgi
 
-And notice that the file tree looks a lot like the ``uwsgi`` dir out of the repo.  At this point few environment variables are needed to run the test scripts.  If you're in an Ubuntu environment, you'll just need to run the script ``bin/init-env-python.rc``. 
+And notice that the file tree looks a lot like the ``uwsgi`` dir out of the repo.  At this point few environment variables are needed to run the test scripts.  If you're in an Ubuntu environment, you'll just need to run the script::
+
+  bin/init-env-python.rc
 
 If you're building on OS X (where various dependencies tend to have different locations) have a look at the init script 'bin/init-env-osx.rc' and make sure the settings make sense.  As deployed the file has settings specific to one particular laptop this was tested on, so in your environment things will be guaranteed to be at least slightly different; as you can see we have custom paths for Postgres and libssl includes, for example.  Either way the DYLD_FALLBACK_LIBRARY_PATH may need to be set so that these libraries can be found.  Also, ideally it shouldn't be setting any variables that aren't needed.  Again, just make sure it's tailored to your environment. 
 
