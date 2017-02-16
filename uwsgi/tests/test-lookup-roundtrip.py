@@ -6,12 +6,13 @@ parser = argparse.ArgumentParser()
 parser.add_argument("--port", help="port for hybrid service", type=int)
 args = parser.parse_args()
 
-# Target port corresponds to the flavor of the hybrid service we're
-# trying to query from; in default configurations:
-#
-#  5002 = live nycgeoclient service 
-#  5003 = mock service
-#
+"""
+Target port corresponds to the flavor of the hybrid service we're
+trying to query from; in default configurations:
+
+  5002 = live nycgeoclient service 
+  5003 = mock service
+ """
 port = args.port if args.port else 5003
 
 mockdata  = json.loads(open("tests/data/mockdata.json","r").read())
@@ -34,13 +35,12 @@ def perform_request(address):
 
 for x in mockdata:
     print("expected.address = %s" % x['address'])
-    print("expected.nygeo = %s" % x['nycgeo']) 
-    print("expected.extras = %s" % x['extras']) 
+    print("expected.nygeo = %s" % x['nycgeo'])
+    print("expected.extras = %s" % x['extras'])
     response,status = perform_request(x['address'])
-    print("status = %s" % status) 
+    print("status = %s" % status)
     if status['code'] == 200:
         print("response.nycgeo = %s" % response.get('nycgeo'))
         print("response.extras = %s" % response.get('extras'))
 
 
-  

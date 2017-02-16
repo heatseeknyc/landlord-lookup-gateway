@@ -7,7 +7,7 @@ mockdata  = json.loads(open("tests/data/mockdata.json","r").read())
 mockaddr  = [r['address'] for r in mockdata]
 
 print(clientcfg)
-client = SimpleGeoClient(**clientcfg) 
+client = SimpleGeoClient(**clientcfg)
 
 
 for r in mockdata:
@@ -18,4 +18,4 @@ for r in mockdata:
     print("status = %s" % status)
     print("response = %s" % response)
     print("expected = %s" % expected)
-  
+

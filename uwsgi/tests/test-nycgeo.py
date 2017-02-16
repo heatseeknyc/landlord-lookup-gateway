@@ -19,8 +19,8 @@ else:
     configpath = "config/nycgeo-live.json"
 config = json.loads(open(configpath,"r").read())
 
-if args.addr: 
-    rawaddr = args.addr 
+if args.addr:
+    rawaddr = args.addr
 else:
     rawaddr = "529 West 29th St, Manhattan"
 print("rawaddr = [%s]" % rawaddr)

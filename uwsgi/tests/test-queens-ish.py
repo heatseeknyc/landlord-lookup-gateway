@@ -3,11 +3,11 @@ from lookuptool.utils.address import fix_queens_name
 import lookuptool.hybrid
 import simplejson as json
 
-#
-# A simple unit test (and our only unit test) for "Queensish"
-# borough name munging.  See the comments to the 'fix_queens_name'
-# callable for details.
-#
+"""
+A simple unit test (and our only unit test) for "Queensish"
+borough name munging.  See the comments to the 'fix_queens_name'
+callable for details.
+"""
 
 rawaddr  = '10-87 Jackson Ave, Long Island City'
 normaddr = fix_queens_name(rawaddr)
