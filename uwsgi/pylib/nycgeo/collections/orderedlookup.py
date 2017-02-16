@@ -1,23 +1,23 @@
 from copy import deepcopy
 
-#
-# A simple hybrid list/dict lookup structure which, unlike an OrderedDict,
-# also provides positional key access, albeit at the cost of a somewhat impure
-# interface.  But that's OK because we just need it for the simple purpose
-# of storing records that can be accessed both sequentially and via key lookup.
-#
-# There are some addition tweeks to make record access somewhat safer in
-# testing environments (like the fact that we deepcopy our lookup values on 
-# the way out, to keep our mock data immutable-ish).
-#
 class OrderedLookup(object):
+    """
+    A simple hybrid list/dict lookup structure which, unlike an OrderedDict,
+    also provides positional key access, albeit at the cost of a somewhat impure
+    interface.  But that's OK because we just need it for the simple purpose
+    of storing records that can be accessed both sequentially and via key lookup.
+
+    There are some addition tweeks to make record access somewhat safer in
+    testing environments (like the fact that we deepcopy our lookup values on 
+    the way out, to keep our mock data immutable-ish).
+    """
 
     def __init__(self,pairs):
         self.consume(pairs)
 
     def consume(self,pairs):
         self._keys = []
-        self._look = {} 
+        self._look = {}
         for k,v in pairs:
             self._keys.append(k)
             self._look[k] = deepcopy(v)

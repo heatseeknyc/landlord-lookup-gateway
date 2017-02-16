@@ -1,14 +1,14 @@
 import re
 from collections import defaultdict
 
-#
-# A simple query string splitter, for use in testing environments.
-# Takes a query string of the form:
-#
-#   'borough=3&street=Bushwick+Ave&houseNumber=590' 
-#
-# and returns the appropriate dict.
-#
+"""
+A simple query string splitter, for use in testing environments.
+Takes a query string of the form:
+
+   'borough=3&street=Bushwick+Ave&houseNumber=590'
+
+and returns the appropriate dict.
+"""
 
 def split_kv(term):
     kv = term.split('=')
@@ -39,10 +39,7 @@ def split_query(s):
 
 
 
-#
-# Deprecated Stuff
-#
-
+# deprecated
 pat = re.compile('^(.*?)?(.*)$')
 def split_baseurl(baseurl):
     m = pat.match(baseurl)
@@ -51,6 +48,6 @@ def split_baseurl(baseurl):
         params = split_query(m.group(2))
         return base,params
     else:
-        return baseurl,None 
+        return baseurl,None
 
 

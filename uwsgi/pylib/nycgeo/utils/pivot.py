@@ -1,17 +1,18 @@
-#
-# DEPRECATED
-#
-# Utility functions for pivoting (or less elegantly, "scraping") multi-building 
-# record results out of the raw dicts structs returned by the NYC Geoclient API.
-#
-# Basically what happens is that the Geoclient API "vectorizes" its building
-# results not by returning a nested dict struct like one would expect, but by 
-# returning a giant flat dict per-building fields "indexed" by appending raw 
-# integer offsets after the field names (which also happen to start with the
-# prefix 'gi').  So have to do some careful parsing for field names of just this 
-# type (and not other integer-trailing fields, like "censusTrack2000") and then 
-# "pivot" these into a proper nested struct we can actually deal with. 
-#
+"""
+DEPRECATED
+
+Utility functions for pivoting (or less elegantly, "scraping") multi-building 
+record results out of the raw dicts structs returned by the NYC Geoclient API.
+
+Basically what happens is that the Geoclient API "vectorizes" its building
+results not by returning a nested dict struct like one would expect, but by 
+returning a giant flat dict per-building fields "indexed" by appending raw 
+integer offsets after the field names (which also happen to start with the
+prefix 'gi').  So have to do some careful parsing for field names of just this 
+type (and not other integer-trailing fields, like "censusTrack2000") and then 
+"pivot" these into a proper nested struct we can actually deal with. 
+"""
+
 import re
 from collections import defaultdict
 
@@ -55,7 +56,7 @@ def pivot_nycgeo_partial(d):
         if is_gi_key(k):
             base,index = splitkey(k)
             if index is not None:
-                multi[index][base] = d[k] 
+                multi[index][base] = d[k]
             else:
                 raise RuntimeError("invalid state")
         else:
