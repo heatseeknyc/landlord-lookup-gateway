@@ -1,9 +1,15 @@
 #!/usr/bin/env python
 """
-Our actual public-facing REST gateway.  For details as to the
-endpoints and protocol, please see following note in this repo:
+Our actual public-facing REST gateway, which furnishes the two main
+endpoints (/lookup/, /contacts/) that the web client uses.  For details
+as to the endpoints and protocol, please see following note in this repo:
 
    notes/ABOUT-rest-protocol.rst
+
+The daemon can be launched in two modes: a '--mock' mode for offline
+testing purposes (which routes GeoClient API requests to an internal
+mock service), adn the default, live mode (which routes these to the
+the real GeoClient service).
 
 """
 import argparse

@@ -42,12 +42,12 @@ def resolve_query(query_string):
     log.debug("response = %s" % response)
     return jsonify(response)
 
-#
-# Our main endpoint, designed to be drop-in compatible with the endpoing 
-# we used in the NYCGeoclient API (except that credentials are ignored; and
-# that only a handful of addresses are responded to, which also need to be
-# precisely formatted so as to match the data in tests/data/mockdata.json). 
-#
+"""
+Our main endpoint, designed to be drop-in compatible with the endpoing 
+we used in the NYCGeoclient API (except that credentials are ignored; and
+that only a handful of addresses are responded to, which also need to be
+precisely formatted so as to match the data in tests/data/mockdata.json). 
+"""
 @app.route('/geoclient/v1/<prefix>')
 @cross_origin()
 def api_fetch(prefix):
@@ -63,6 +63,7 @@ def api_fetch(prefix):
 #
 # A couple of troubleshooting endpoints.
 #
+
 @app.route('/echoparam/<prefix>')
 @cross_origin()
 def api_echoparam(prefix):
@@ -91,15 +92,15 @@ def resolve(callf,query):
 
 
 
-#
-# This switch is for testing purposes only, so you can run the 
-# service under the default Flask environment (that is, if you 
-# invoke this module as a script from the shell enviroment).
-#
-# Hence, the branch doesn't get entered under WSGI (and the 
-# port number below has nothing to do with where the service 
-# runs under WSGI).
-#
+"""
+This switch is for testing purposes only, so you can run the 
+service under the default Flask environment (that is, if you 
+invoke this module as a script from the shell enviroment).
+
+Hence, the branch doesn't get entered under WSGI (and the 
+port number below has nothing to do with where the service 
+runs under WSGI).
+"""
 if __name__ == '__main__':
     app.run(port=servercfg['port'])
 
