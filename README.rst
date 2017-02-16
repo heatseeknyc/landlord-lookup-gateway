@@ -18,15 +18,15 @@ REST protocol
 
 Is described here::
  
-  documentation/ABOUT-rest-protocol.rst
+  notes/ABOUT-rest-protocol.rst
 
 Deployment
 ----------
 
-See the notes::
+These need some love, but aren't too far off from reality::
 
-  documentation/HOWTO-import-database.rst
-  documentation/HOWTO-start-services.rst
+  notes/deploy-and-start-services.rst
+  notes/HOWTO-import-database.rst
 
 Testing
 -------
