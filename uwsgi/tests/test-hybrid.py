@@ -4,8 +4,9 @@ import simplejson as json
 import lookuptool.hybrid
 
 parser = argparse.ArgumentParser()
-parser.add_argument('--mock', dest='mock', action='store_true', help="use the mock service")
 parser.add_argument('--addr', help="addres to search")
+parser.add_argument('--mock', dest='mock', action='store_true', help="use the mock service")
+parser.add_argument('--barf', dest='barf', action='store_true', help="barf up config files after reading")
 args = parser.parse_args()
 
 if args.mock:
@@ -15,11 +16,12 @@ else:
 
 dataconf = json.loads(open("config/postgres.json","r").read())
 geoconf  = json.loads(open(nycgeopath,"r").read())
-# print(dataconf)
-# print(geoconf)
+if args.barf:
+    print("dataconf =",dataconf)
+    print("geoconf = ",geoconf)
 
-if args.addr: 
-    rawaddr = args.addr 
+if args.addr:
+    rawaddr = args.addr
 else:
     rawaddr = "1 West 72nd St, Manhattan"
     # rawaddr = "529 West 29th St, Manhattan"
