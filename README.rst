@@ -2,6 +2,9 @@ A simple PostgreSQL backend + REST gateway for the Landlord Lookup portal (curre
 
   https://lookup.heatseeknyc.com/
 
+Structure
+---------
+
 The code is organized into two major branches, ``nginx`` and ``uwsgi``, each of which gets pushed more or less as-is into the default locations::
 
   /opt/nginx
