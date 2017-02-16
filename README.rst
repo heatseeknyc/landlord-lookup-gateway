@@ -1,6 +1,15 @@
-A simple PostgreSQL backend + REST gateway for the Landlord Lookup portal (currently in alpha)::
 
-  https://lookup.heatseeknyc.com/
+This is one of 3 project repos for the HeatSeek Landlord Lookup portal, currently up and running under:
+
+    https://lookup.heatseek.org/
+
+This repo provides the REST gateway -- basically a pair of lightweight Flask services which listen to requests from the client, and access records (read-only) from a PostgreSQL database.   The assumption is that one way or another, you have the database already build -- most likely by importing an image (a SQL dump) created as the end product of the associated data pipeline.  The pipeline itself can be reproduced from the repo:
+
+- https://github.com/heatseeknyc/landlord-lookup-pipeline
+
+And the web client is provide by this repo:
+
+- https://github.com/heatseeknyc/landlord-lookup-pipeline
 
 Structure
 ---------
@@ -23,7 +32,7 @@ Is described here::
 Deployment
 ----------
 
-These need some love, but aren't too far off from reality::
+These writeups need some love, but aren't too far off from reality::
 
   notes/deploy-and-start-services.rst
   notes/HOWTO-import-database.rst
