@@ -1,5 +1,5 @@
-from nycgeo.client.simple import SimpleGeoClient 
-from nycgeo.client.mock import MockGeoClient 
+from nycgeo.client.simple import SimpleGeoClient
+from nycgeo.client.mock import MockGeoClient
 
 def instance(config,mock=False):
     if mock:

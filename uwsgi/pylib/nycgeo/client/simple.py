@@ -1,9 +1,9 @@
-#
-# A simple interface to the NYC Geoclient API, providing just the query 
-# functionality we need, along with some necessary pivoting of response 
-# structs to make the data easier to work with internally. 
-#
-import requests, time 
+"""
+A simple interface to the NYC Geoclient API, providing just the query
+functionality we need, along with some necessary pivoting of response
+structs to make the data easier to work with internally.
+"""
+import requests, time
 import simplejson as json
 from nycgeo.utils.address import split_address
 from nycgeo.utils.pivot import pivot_nycgeo
@@ -14,7 +14,7 @@ default_siteurl = 'https://api.cityofnewyork.us'
 class SimpleGeoClient(object):
 
     def __init__(self,siteurl=default_siteurl,app_key=None,app_id=None):
-        self.siteurl  = siteurl 
+        self.siteurl  = siteurl
         self.app_key  = app_key
         self.app_id   = app_id
 
@@ -31,7 +31,7 @@ class SimpleGeoClient(object):
         return r,dt
 
     def authget(self,base,query):
-        auth = 'app_id=%s&app_key=%s' % (self.app_id,self.app_key) 
+        auth = 'app_id=%s&app_key=%s' % (self.app_id,self.app_key)
         return self.get(base + '?' + query + '&' + auth)
 
     def fetch_default(self,param):
@@ -61,8 +61,8 @@ class SimpleGeoClient(object):
         log.debug("status   = %s" % status)
         log.debug("response = %s" % response)
         if response:
-            tinyrec = make_tiny(response) 
-            return tinyrec,status 
+            tinyrec = make_tiny(response)
+            return tinyrec,status
         else:
             return response,status
 
@@ -70,7 +70,7 @@ class SimpleGeoClient(object):
         inforec,status = self.fetch(rawaddr)
         if inforec:
             normrec = pivot_nycgeo(inforec)
-            return normrec,status 
+            return normrec,status
         else:
             return inforec,status
 
@@ -90,11 +90,8 @@ def make_tiny(r):
     return {k:r.get(k) for k in fields}
 
 
-#
-# Deprecatd Stuff
-#
 
-
+# deprecated 
 def find_bin(buildings):
     rawbin = (r['giBuildingIdentificationNumber'] for r in buildings)
     allbin = set(rawbin)
