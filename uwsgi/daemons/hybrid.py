@@ -1,12 +1,11 @@
 #!/usr/bin/env python
-#
-# Our actual public-facing REST gateway.  For details as to the 
-# endpoints and protocol, please see:
-#
-#   documentation/ABOUT-rest-protocol.rst
-#
-# in this repo.
-#
+"""
+Our actual public-facing REST gateway.  For details as to the
+endpoints and protocol, please see following note in this repo:
+
+   notes/ABOUT-rest-protocol.rst
+
+"""
 import argparse
 import simplejson as json
 from traceback import print_tb
@@ -32,14 +31,14 @@ CORS(app)
 metaconf = slurp_json("config/hybrid-settings.json")
 dataconf = slurp_json("config/postgres.json")
 
-#
-# Resolution order for the 'mock' flag:
-#
-#  - if either of the arg flags '--mock' or '--no-mock' are invoked, 
-#    go with that.
-#
-#  - otherwise rely on what the hybrid settings config says.
-#
+"""
+ Resolution order for the 'mock' flag:
+
+  - if either of the arg flags '--mock' or '--no-mock' are invoked, 
+    go with that.
+
+  - otherwise rely on what the hybrid settings config says.
+"""
 
 if args.mock:
     usemock = True
@@ -109,15 +108,15 @@ def split_keytup(keytup):
 
 
 
-#
-# This switch is for testing purposes only, so you can run the 
-# service under the default Flask environment (that is, if you 
-# invoke this module as a script from the shell enviroment).
-#
-# Hence, the branch doesn't get entered under WSGI (and the 
-# port number below has nothing to do with where the service 
-# runs under WSGI).
-#
+"""
+This switch is for testing purposes only, so you can run the
+service under the default Flask environment (that is, if you
+invoke this module as a script from the shell enviroment).
+
+Hence, the branch doesn't get entered under WSGI (and the
+port number below has nothing to do with where the service
+runs under WSGI).
+"""
 if __name__ == '__main__':
     app.run(port=port)
 
