@@ -7,7 +7,7 @@ This repo provides the REST gateway -- basically a pair of lightweight Flask ser
 
 - https://github.com/heatseeknyc/landlord-lookup-pipeline
 
-And the web client is provide by this repo:
+And the web client is provided by this repo:
 
 - https://github.com/heatseeknyc/landlord-lookup-client
 
