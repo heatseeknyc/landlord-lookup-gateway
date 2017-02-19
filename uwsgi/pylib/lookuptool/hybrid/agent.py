@@ -1,8 +1,8 @@
-#
-# An ugly, but effective "hybrid agent" that pulls from both the 
-# NYC Geoclient API, and our local database, and smooshes everything 
-# together. 
-#
+"""
+An ugly, but effective "hybrid agent" that pulls from both the
+NYC Geoclient API, and our local database, and smooshes everything
+together.
+"""
 from lookuptool.utils.address import fix_borough_name
 from common.logging import log
 
@@ -11,18 +11,18 @@ tinykeys = ('bbl','latitude','longitude')
 class LookupAgent(object):
 
     def __init__(self,dataclient,geoclient):
-        self.dataclient = dataclient 
-        self.geoclient  = geoclient 
+        self.dataclient = dataclient
+        self.geoclient  = geoclient
 
     def get_lookup(self,rawaddr):
-        ''' Combined geoclient + ownership summary for a given address''' 
+        ''' Combined geoclient + ownership summary for a given address'''
         log.debug(":: rawaddr  = '%s'" % rawaddr)
         normaddr = fix_borough_name(rawaddr)
         log.debug(":: normaddr = '%s'" % normaddr)
         r,status = self.geoclient.fetch_tiny(normaddr)
         log.debug(":: status = %s " % status)
         log.debug(":: response = %s" % r)
-        if r is None: 
+        if r is None:
             return {"error":"invalid address"}
         nycgeo = make_tiny(r)
         if 'message' in nycgeo:
@@ -56,7 +56,7 @@ def overlay(a,b):
 
 # The NYG Geoclient returns some 140 fields; we only need a small
 # handful of them.
-def truncate(bignyc): 
+def truncate(bignyc):
     address = bignyc['address']
     bbl = int(address['bbl'])
     geo_lat = "%.4f" % float(address['latitude'])
