@@ -35,7 +35,9 @@ class LookupAgent(object):
         contacts = self.dataclient.get_contacts(bbl)
         return {"contacts":contacts}
 
+# XXX need a better name for this function + better description.
 def make_tiny(r):
+    """Renames things slightly for the final outgoing message blurb."""
     if 'message' in r:
         return {'message':r['message']}
     return {
