@@ -41,9 +41,11 @@ class DataClient(AgentBase):
 
 
 def make_summary(r):
+    active_date = r['taxbill_active_date']
+    owner_address = r['taxbill_owner_address']
     taxbill = {
-        'active_date': str(r['taxbill_active_date']),
-        'owner_address': expand_address(r['taxbill_owner_address']),
+        'active_date': str(active_date) if active_date else None,
+        'owner_address': expand_address(owner_address) if owner_address else [],
         'owner_name': r['taxbill_owner_name'],
     }
     building = {
