@@ -107,13 +107,13 @@ Check the output carefully for any warnings about permissions or stuff not found
   [4] 82564
   [uWSGI] getting INI configuration from config/trivial.ini
 
-And similarly for the ybrid service.
+And similarly for the hybrid service.
 
 (7) Check the perms on the socket we just deployed to (which will now show up as the sole file available under the glob used up above)::
 
   ls -lctd /tmp/uwsgi_*
 
-If necessary, chmod them to the desierd uid/gid settings above.
+If necessary, chmod them to the desired uid/gid settings above.
 
 Now let's start nginx, and see if we can at least reach the HTML pages and the trivial service.
 
