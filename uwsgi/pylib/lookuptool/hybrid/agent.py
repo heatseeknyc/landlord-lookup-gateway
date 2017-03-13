@@ -41,8 +41,8 @@ def make_tiny(r):
     if 'message' in r:
         return {'message':r['message']}
     return {
-        'bbl': int(r['bbl']),
-        'bin': int(r['buildingIdentificationNumber']),
+        'bbl': softint(r['bbl']),
+        'bin': softint(r['buildingIdentificationNumber']),
         'geo_lat': r['latitude'],
         'geo_lon': r['longitude']
     }
@@ -68,3 +68,7 @@ def truncate(bignyc):
         "geo_lat":geo_lat,
         "geo_lon":geo_lon
     }
+
+def softint(s):
+    return int(s) if is not None else None
+
