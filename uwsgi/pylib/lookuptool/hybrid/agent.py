@@ -70,5 +70,5 @@ def truncate(bignyc):
     }
 
 def softint(s):
-    return int(s) if is not None else None
+    return int(s) if s is not None else None
 
