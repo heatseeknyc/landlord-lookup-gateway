@@ -27,7 +27,7 @@ class AgentBase(object):
 
     def fetch_recs(self,query,*args):
         cur = self.conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
-        cur.execute(query % args)
+        cur.execute(query, args)
         return [dict(r) for r in cur.fetchall()]
 
     # A somewhat smoother 'fetchone' accessor, for our purposes.

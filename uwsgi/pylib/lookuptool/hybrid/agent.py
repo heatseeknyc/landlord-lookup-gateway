@@ -16,6 +16,7 @@ class LookupAgent(object):
 
     def get_lookup(self,rawaddr):
         ''' Combined geoclient + ownership summary for a given address'''
+        log.info(":: HEY rawaddr  = '%s'" % rawaddr)
         log.debug(":: rawaddr  = '%s'" % rawaddr)
         normaddr = fix_borough_name(rawaddr)
         log.debug(":: normaddr = '%s'" % normaddr)
@@ -23,13 +24,22 @@ class LookupAgent(object):
         log.debug(":: status = %s " % status)
         log.debug(":: response = %s" % r)
         if r is None:
-            return {"error":"invalid address"}
+            return {"error":"invalid address (no response)"}
         nycgeo = make_tiny(r)
-        if 'message' in nycgeo:
-            return {"nycgeo":nycgeo,"extras":None,"error":nycgeo.get('message')}
-        else:
-            extras = self.dataclient.get_summary(nycgeo['bbl'],nycgeo['bin'])
+        log.debug(":: nycgeo = %s" % nycgeo)
+        _bbl = nycgeo.get('bbl')
+        _bin = nycgeo.get('bin')
+        log.debug(":: HEY bbl = %s, bin = %s" % (_bbl,_bin))
+        if _bbl is not None:
+            extras = self.dataclient.get_summary(_bbl,_bin)
+            if 'message' in nycgeo:
+                log.info(":: WARNING bbl=%s, message=[%s]" % (_bbl,r['message']))
             return {"nycgeo":nycgeo,"extras":extras}
+        else:
+            if 'message' in nycgeo:
+                return {"nycgeo":nycgeo,"extras":None,"error":nycgeo['message']}
+            else:
+                return {"nycgeo":nycgeo,"extras":extras}
 
     def get_contacts(self,bbl):
         contacts = self.dataclient.get_contacts(bbl)
@@ -37,15 +47,21 @@ class LookupAgent(object):
 
 # XXX need a better name for this function + better description.
 def make_tiny(r):
-    """Renames things slightly for the final outgoing message blurb."""
-    if 'message' in r:
-        return {'message':r['message']}
-    return {
-        'bbl': softint(r['bbl']),
-        'bin': softint(r['buildingIdentificationNumber']),
-        'geo_lat': r['latitude'],
-        'geo_lon': r['longitude']
+    """Extracts just the fields we need from a Geoclient response, and renames
+    some of them for the final outgoing message blurb."""
+    tiny = {
+        'bbl': softint(r.get('bbl')),
+        'bin': softint(r.get('buildingIdentificationNumber')),
+        'geo_lat': r.get('latitude'),
+        'geo_lon': r.get('longitude'),
     }
+    if 'message' in r:
+        tiny['message'] = r['message']
+    return tiny
+
+def softint(s):
+    return int(s) if s is not None else None
+
 
 #
 # Deprecated stuff
@@ -68,7 +84,4 @@ def truncate(bignyc):
         "geo_lat":geo_lat,
         "geo_lon":geo_lon
     }
-
-def softint(s):
-    return int(s) if s is not None else None
 
