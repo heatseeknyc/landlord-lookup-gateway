@@ -52,8 +52,8 @@ def make_summary(r):
         'lon_ctr': r['building_lon_ctr'],
         'lat_ctr': r['building_lat_ctr'],
         'radius': r['building_radius'],
-        'points': json.loads(r['building_points']),
-        'parts': json.loads(r['building_parts']),
+        'points': jsonify(r['building_points']),
+        'parts': jsonify(r['building_parts']),
     }
     return  {
         "taxbill": taxbill,
@@ -61,6 +61,9 @@ def make_summary(r):
         "nychpd_contacts": cast_as_int(r['contact_count']) ,
         "dhcr_active": bool(r.get('dhcr_active'))
     }
+
+def jsonify(x):
+    return None if x is None else json.loads(x)
 
 """
 Splits the taxbill owner addresss on the embedded '\\n' string
