@@ -39,22 +39,31 @@ class DataClient(AgentBase):
             "from hard.contact_info where bbl = %s and bin = %s order by registration_id, contact_rank;"
         return self.fetch_recs(query,_bbl,_bin)
 
-
-def make_summary(r):
+def extract_taxbill(r):
+    if r['taxbill_owner_name'] is None:
+        return None
     active_date = r['taxbill_active_date']
     owner_address = r['taxbill_owner_address']
-    taxbill = {
+    return {
         'active_date': str(active_date) if active_date else None,
         'owner_address': expand_address(owner_address) if owner_address else [],
         'owner_name': r['taxbill_owner_name'],
     }
-    building = {
+
+def extract_building(r):
+    if r['building_radius'] is None:
+        return None
+    return {
         'lon_ctr': r['building_lon_ctr'],
         'lat_ctr': r['building_lat_ctr'],
         'radius': r['building_radius'],
         'points': json.loads(r['building_points']),
         'parts': json.loads(r['building_parts']),
     }
+
+def make_summary(r):
+    taxbill = extract_taxbill(r)
+    building = extract_building(r)
     return  {
         "taxbill": taxbill,
         "building": building,
