@@ -1,5 +1,6 @@
 {
   "siteurl" : "https://api.cityofnewyork.us",
   "app_key" : "API_KEY_NOT_SET",
-  "app_id"  : "API_ID_NOT_SET"
+  "app_id"  : "API_ID_NOT_SET",
+  "verify"  : false
 }

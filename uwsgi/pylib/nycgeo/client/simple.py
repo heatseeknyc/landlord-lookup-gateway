@@ -13,16 +13,17 @@ default_siteurl = 'https://api.cityofnewyork.us'
 
 class SimpleGeoClient(object):
 
-    def __init__(self,siteurl=default_siteurl,app_key=None,app_id=None):
+    def __init__(self,siteurl=default_siteurl,app_key=None,app_id=None,verify=True):
         self.siteurl  = siteurl
         self.app_key  = app_key
         self.app_id   = app_id
+        self.verify   = verify 
 
     def get(self,suburl):
         log.info("siteurl = %s" % self.siteurl)
         log.info("suburl = %s" % suburl)
         t0 = time.time()
-        r = requests.get((self.siteurl+suburl).encode('utf-8'))
+        r = requests.get((self.siteurl+suburl).encode('utf-8'),verify=self.verify)
         t1 = time.time()
         dt = 1000*(t1-t0)
         log.info("status = %d in %.2f ms" % (r.status_code,dt))
