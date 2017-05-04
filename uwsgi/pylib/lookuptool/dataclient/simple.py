@@ -40,7 +40,7 @@ class DataClient(AgentBase):
         return self.fetch_recs(query,_bbl,_bin)
 
 def extract_taxbill(r):
-    if r['taxbill_owner_name'] is None:
+    if r.get('taxbill_owner_name') is None:
         return None
     active_date = r['taxbill_active_date']
     owner_address = r['taxbill_owner_address']
@@ -51,7 +51,7 @@ def extract_taxbill(r):
     }
 
 def extract_building(r):
-    if r['building_radius'] is None:
+    if r.get('building_radius') is None:
         return None
     return {
         'lon_ctr': r['building_lon_ctr'],
@@ -62,13 +62,12 @@ def extract_building(r):
     }
 
 def make_summary(r):
-    taxbill = extract_taxbill(r)
+    # taxbill = extract_taxbill(r)
     building = extract_building(r)
     return  {
-        "taxbill": taxbill,
+        "taxbill": None,
         "building": building,
-        "nychpd_contacts": cast_as_int(r['contact_count']) ,
-        "dhcr_active": bool(r.get('dhcr_active'))
+        "nychpd_count": r.get('nychpd_count'),
     }
 
 def jsonify(x):
