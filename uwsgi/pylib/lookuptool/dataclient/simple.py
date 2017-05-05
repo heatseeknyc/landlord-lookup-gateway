@@ -5,6 +5,7 @@ secret ones for diagnosis).
 """
 from .base import AgentBase
 from common.logging import log
+from copy import deepcopy
 import simplejson as json
 
 class DataClient(AgentBase):
@@ -50,6 +51,30 @@ def extract_taxbill(r):
         'owner_name': r['taxbill_owner_name'],
     }
 
+def _trunc(k,n):
+    """Simply truncates first :n characters fron the (presumably) well-formed dict :key
+    if possible to do so; otherwise, throws an exception relevant to the particular
+    function we're calling it from."""
+    if len(k) > n:
+        return k[n:]
+    else:
+        raise ValueError("invalid key '%s' relative to prefix '%s'" (tag,prefix))
+
+def extract_prefixed(r,prefix,tojson=None,collapse=True):
+    prefix_ = prefix+'_'
+    tojson = set(tojson) if tojson is not None else set()
+    tags = sorted(k for k in r.keys() if k.startswith(prefix_))
+    n = len(prefix_)
+    x = {_trunc(k,n):deepcopy(r[k]) for k in tags}
+    if collapse and all(v is None for v in x.values()):
+        return None
+    for t in tojson:
+        if t in x:
+            x[t] = jsonify(x[t])
+    return x
+
+
+# deprecated
 def extract_building(r):
     if r.get('building_radius') is None:
         return None
@@ -63,8 +88,13 @@ def extract_building(r):
 
 def make_summary(r):
     # taxbill = extract_taxbill(r)
-    building = extract_building(r)
+    # building = extract_building(r)
+    building = extract_prefixed(r,'building',tojson=['parts','points'])
+    pluto = extract_prefixed(r,'pluto',tojson=['parts','points'])
+    stable = extract_prefixed(r,'stable')
     return  {
+        'pluto': pluto,
+        'stable': stable,
         'taxbill': None,
         'building': building,
         'nychpd_count': r.get('nychpd_count'),
