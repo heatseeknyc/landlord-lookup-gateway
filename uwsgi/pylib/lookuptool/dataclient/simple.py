@@ -65,9 +65,9 @@ def make_summary(r):
     # taxbill = extract_taxbill(r)
     building = extract_building(r)
     return  {
-        "taxbill": None,
-        "building": building,
-        "nychpd_count": r.get('nychpd_count'),
+        'taxbill': None,
+        'building': building,
+        'nychpd_count': r.get('nychpd_count'),
     }
 
 def jsonify(x):
