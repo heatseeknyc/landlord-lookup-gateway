@@ -70,6 +70,17 @@ def extract_prefixed(r,prefix,tojson=None,collapse=True):
         return None
     return x
 
+def augment_pluto(p):
+    """Augment pluto struct with nice descriptive fields (in-place)."""
+    if not p:
+        return
+    n = p['bldg_count']
+    if n == 0:
+        p['describe_count'] = "A vacant lot."
+    else:
+        s = 's' if n > 1 else ''
+        p['describe_count'] = "A lot with %d building%s." % (n,s)
+
 def make_summary(r):
     stable = extract_prefixed(r,'stable')
     building = extract_prefixed(r,'building')
@@ -78,6 +89,7 @@ def make_summary(r):
         applymems(building,jsonify,['parts','points'])
     if pluto:
         applymems(pluto,jsonify,['parts','points'])
+        augment_pluto(pluto)
     return  {
         'pluto': pluto,
         'stable': stable,
