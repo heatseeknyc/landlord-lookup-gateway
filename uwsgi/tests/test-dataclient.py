@@ -14,9 +14,9 @@ dataconf   = json.loads(open(configpath,"r").read())
 if args.key:
     print(args)
     print("key = ", args.key)
-    _bbl,_bin = map(int,args.key.split(',')) 
+    _bbl,_bin = map(int,args.key.split(','))
 else:
-    _bbl,_bin = 1011250025,1028637 
+    _bbl,_bin = 1011250025,1028637
 
 print("bbl,bin = ",_bbl,_bin)
 
