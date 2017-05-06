@@ -70,11 +70,6 @@ def extract_prefixed(r,prefix,tojson=None,collapse=True):
         return None
     return x
 
-def applymems(r,callf,keys):
-    for k in keys:
-        if k in r:
-            r[k] = callf(r[k])
-
 def make_summary(r):
     stable = extract_prefixed(r,'stable')
     building = extract_prefixed(r,'building')
@@ -89,6 +84,12 @@ def make_summary(r):
         'building': building,
         'nychpd_count': r.get('nychpd_count'),
     }
+
+
+def applymems(r,callf,keys):
+    for k in keys:
+        if k in r:
+            r[k] = callf(r[k])
 
 def jsonify(x):
     return None if x is None else json.loads(x)
