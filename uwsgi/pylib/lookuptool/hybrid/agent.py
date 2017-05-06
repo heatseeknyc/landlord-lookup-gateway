@@ -75,25 +75,3 @@ def softint(s):
     return int(s) if s is not None else None
 
 
-#
-# Deprecated stuff
-#
-
-# Overlay dict values of b onto a. 
-def overlay(a,b):
-    for k in b:
-        a[k] = b[k]
-
-# The NYG Geoclient returns some 140 fields; we only need a small
-# handful of them.
-def truncate(bignyc):
-    address = bignyc['address']
-    bbl = int(address['bbl'])
-    geo_lat = "%.4f" % float(address['latitude'])
-    geo_lon = "%.4f" % float(address['longitude'])
-    return {
-        "bbl":bbl,
-        "geo_lat":geo_lat,
-        "geo_lon":geo_lon
-    }
-
