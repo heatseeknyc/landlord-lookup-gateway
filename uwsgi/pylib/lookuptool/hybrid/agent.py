@@ -64,8 +64,6 @@ def make_tiny(r):
     tiny = {
         'bbl': softint(r.get('bbl')),
         'bin': softint(r.get('buildingIdentificationNumber')),
-        'geo_lat': r.get('latitude'),
-        'geo_lon': r.get('longitude'),
     }
     if 'message' in r:
         tiny['message'] = r['message']

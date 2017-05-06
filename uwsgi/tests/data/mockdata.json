@@ -13,36 +13,28 @@
     "address": "1 West 72nd St, Manhattan",
     "nycgeo": {
       "bbl": "1011250025",
-      "buildingIdentificationNumber": "1028637",
-      "latitude": 40.77640230806594,
-      "longitude": -73.97636507868083
+      "buildingIdentificationNumber": "1028637"
     },
     "extras": true
   },{
     "address": "529 West 29th St, Manhattan",
     "nycgeo": {
       "bbl": "1007017501",
-      "buildingIdentificationNumber": "1089360",
-      "latitude": 40.75199022037543,
-      "longitude": -74.00269973147523
+      "buildingIdentificationNumber": "1089360"
     },
     "extras": false 
   },{
     "address": "540 State St, Brooklyn",
     "nycgeo": {
       "bbl": "3001800017",
-      "buildingIdentificationNumber": "3000785",
-      "latitude": 40.666,
-      "longitude": -74.666
+      "buildingIdentificationNumber": "3000785"
     },
     "extras": true 
   },{
     "address": "10-87 Jackson Ave, Queens",
     "nycgeo": {
       "bbl": "4000440023",
-      "buildingIdentificationNumber": "4000263",
-      "latitude": 40.666,
-      "longitude": -74.666
+      "buildingIdentificationNumber": "4000263"
     },
     "extras": true 
   }
