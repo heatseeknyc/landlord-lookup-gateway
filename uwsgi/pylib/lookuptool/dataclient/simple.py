@@ -88,18 +88,6 @@ def applymems(r,callf,keys):
         if k in r:
             r[k] = callf(r[k])
 
-# deprecated
-def extract_building(r):
-    if r.get('building_radius') is None:
-        return None
-    return {
-        'lon_ctr': r['building_lon_ctr'],
-        'lat_ctr': r['building_lat_ctr'],
-        'radius': r['building_radius'],
-        'points': jsonify(r['building_points']),
-        'parts': jsonify(r['building_parts']),
-    }
-
 def make_summary(r):
     stable = extract_prefixed(r,'stable')
     building = extract_prefixed(r,'building')
