@@ -60,19 +60,6 @@ def _trunc(k,n):
     else:
         raise ValueError("invalid key '%s' relative to prefix '%s'" (tag,prefix))
 
-def _extract_prefixed(r,prefix,tojson=None,collapse=True):
-    prefix_ = prefix+'_'
-    tojson = set(tojson) if tojson is not None else set()
-    tags = sorted(k for k in r.keys() if k.startswith(prefix_))
-    n = len(prefix_)
-    x = {_trunc(k,n):deepcopy(r[k]) for k in tags}
-    if collapse and all(v is None for v in x.values()):
-        return None
-    for t in tojson:
-        if t in x:
-            x[t] = jsonify(x[t])
-    return x
-
 def extract_prefixed(r,prefix,tojson=None,collapse=True):
     prefix_ = prefix+'_'
     tojson = set(tojson) if tojson is not None else set()
