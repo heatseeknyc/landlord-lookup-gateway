@@ -95,7 +95,6 @@ def make_summary(r):
     return  {
         'pluto': pluto,
         'stable': stable,
-        'taxbill': None,
         'building': building,
         'nychpd_count': r.get('nychpd_count'),
     }
