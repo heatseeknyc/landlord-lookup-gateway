@@ -1,7 +1,7 @@
 """
 An egregiously simple interface to our Pg database, until we think
 of something better.  Basically help reduce boilerplate while postponing
-the neeed to introduce a full-fledged ORM. 
+the neeed to introduce a full-fledged ORM.
 """
 import psycopg2
 import psycopg2.extras
