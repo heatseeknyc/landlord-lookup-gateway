@@ -60,7 +60,7 @@ def _trunc(k,n):
     else:
         raise ValueError("invalid key '%s' relative to prefix '%s'" (tag,prefix))
 
-def extract_prefixed(r,prefix,tojson=None,collapse=True):
+def _extract_prefixed(r,prefix,tojson=None,collapse=True):
     prefix_ = prefix+'_'
     tojson = set(tojson) if tojson is not None else set()
     tags = sorted(k for k in r.keys() if k.startswith(prefix_))
@@ -73,6 +73,20 @@ def extract_prefixed(r,prefix,tojson=None,collapse=True):
             x[t] = jsonify(x[t])
     return x
 
+def extract_prefixed(r,prefix,tojson=None,collapse=True):
+    prefix_ = prefix+'_'
+    tojson = set(tojson) if tojson is not None else set()
+    tags = sorted(k for k in r.keys() if k.startswith(prefix_))
+    n = len(prefix_)
+    x = {_trunc(k,n):deepcopy(r[k]) for k in tags}
+    if collapse and all(v is None for v in x.values()):
+        return None
+    return x
+
+def applymems(r,callf,keys):
+    for k in keys:
+        if k in r:
+            r[k] = callf(r[k])
 
 # deprecated
 def extract_building(r):
@@ -87,11 +101,13 @@ def extract_building(r):
     }
 
 def make_summary(r):
-    # taxbill = extract_taxbill(r)
-    # building = extract_building(r)
-    building = extract_prefixed(r,'building',tojson=['parts','points'])
-    pluto = extract_prefixed(r,'pluto',tojson=['parts','points'])
     stable = extract_prefixed(r,'stable')
+    building = extract_prefixed(r,'building')
+    pluto = extract_prefixed(r,'pluto')
+    if building:
+        applymems(building,jsonify,['parts','points'])
+    if pluto:
+        applymems(pluto,jsonify,['parts','points'])
     return  {
         'pluto': pluto,
         'stable': stable,
