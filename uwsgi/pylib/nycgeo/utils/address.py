@@ -8,11 +8,8 @@ are exactly those used by the Geoclient API.
 NYCGeoAddress = namedtuple('NYCGeoAddress',['houseNumber','street','borough'])
 
 
-
-
-
 """
-Since at present we rely on Google Autocomplete to pre-normalize 
+Since at present we rely on Google Autocomplete to pre-normalize
 addreses for us in the search form, we don't need to make thse
 functions too flexible for the time being.
 """
