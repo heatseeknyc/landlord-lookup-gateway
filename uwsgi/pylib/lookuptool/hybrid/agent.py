@@ -6,7 +6,6 @@ together.
 from lookuptool.utils.address import fix_borough_name
 from common.logging import log
 
-tinykeys = ('bbl','latitude','longitude')
 nullish = set([1000000,2000000,3000000,4000000,5000000])
 
 class LookupAgent(object):
