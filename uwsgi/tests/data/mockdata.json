@@ -37,6 +37,20 @@
       "buildingIdentificationNumber": "4000263"
     },
     "extras": true 
+  },{
+    "address": "115 Scholes St, Brooklyn",
+    "nycgeo": { 
+      "bbl": "3030240001", 
+      "buildingIdentificationNumber": "3344259"
+    },
+    "extras": false 
+  },{
+    "address": "2 Minetta St, Manhattan",
+    "nycgeo": { 
+      "bbl": "1005420026",
+      "buildingIdentificationNumber": "1000000"
+    },
+    "extras": false 
   }
 ]
 
