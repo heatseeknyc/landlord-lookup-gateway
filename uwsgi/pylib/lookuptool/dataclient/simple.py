@@ -76,10 +76,10 @@ def augment_pluto(p):
         return
     n = p['bldg_count']
     if n == 0:
-        p['describe_count'] = "A vacant lot"
+        p['bldg_count_label'] = "A vacant lot"
     else:
         s = 's' if n > 1 else ''
-        p['describe_count'] = "A lot with %d building%s" % (n,s)
+        p['bldg_count_label'] = "A lot with %d building%s" % (n,s)
 
 def make_summary(r):
     stable = extract_prefixed(r,'stable')
