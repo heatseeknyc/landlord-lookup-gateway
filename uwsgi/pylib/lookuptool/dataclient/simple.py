@@ -28,7 +28,7 @@ class DataClient(AgentBase):
     def get_summary(self,_bbl,_bin):
         '''Full ownership summary (Taxbill,DHRC,HPD) for a BBL+BIN pair.'''
         log.debug("bbl = %s, bin = %s" % (_bbl,_bin))
-        query = "select * from hard.property_summary where bbl = %s and (bin = %s or bin is null)";
+        query = "select * from deco.property_summary where bbl = %s and (bin = %s or bin is null)";
         r = self.fetchone(query,_bbl,_bin)
         log.debug("r = %s" % str(r))
         return make_summary(r) if r is not None else None
