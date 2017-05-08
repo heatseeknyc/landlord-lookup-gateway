@@ -70,16 +70,18 @@ def extract_prefixed(r,prefix,tojson=None,collapse=True):
         return None
     return x
 
+def _pluto_bldg_count_label(n):
+    if n == 0:
+        return "A vacant lot"
+    else:
+        s = 's' if n > 1 else ''
+        return "A lot with %d building%s" % (n,s)
+
 def augment_pluto(p):
     """Augment pluto struct with nice descriptive fields (in-place)."""
     if not p:
         return
-    n = p['bldg_count']
-    if n == 0:
-        p['bldg_count_label'] = "A vacant lot"
-    else:
-        s = 's' if n > 1 else ''
-        p['bldg_count_label'] = "A lot with %d building%s" % (n,s)
+    p['bldg_count_label'] = _pluto_bldg_count_label(p['bldg_count'])
 
 def make_summary(r):
     stable = extract_prefixed(r,'stable')
