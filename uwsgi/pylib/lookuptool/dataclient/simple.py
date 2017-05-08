@@ -73,7 +73,7 @@ def extract_fields(d,keys):
     """Invasively extracts a sequence of key-val from a given dict :d,
     returning these as a new dict."""
     x = {}
-    for k in fields:
+    for k in keys:
         if k in d:
             x[k] = d[k]
             del d[k]
@@ -102,6 +102,7 @@ def make_summary(r):
     stable = extract_prefixed(r,'stable')
     building = extract_prefixed(r,'building')
     pluto = extract_prefixed(r,'pluto')
+    taxlot = extract_shape(pluto)
     if building:
         applymems(building,jsonify,['parts','points'])
     if pluto:
@@ -109,6 +110,7 @@ def make_summary(r):
         augment_pluto(pluto)
     return  {
         'pluto': pluto,
+        'taxlot': taxlot,
         'stable': stable,
         'building': building,
         'nychpd_count': r.get('nychpd_count'),
