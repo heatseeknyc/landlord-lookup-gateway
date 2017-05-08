@@ -105,8 +105,9 @@ def make_summary(r):
     taxlot = extract_shape(pluto)
     if building:
         applymems(building,jsonify,['parts','points'])
+    if taxlot:
+        applymems(taxlot,jsonify,['parts','points'])
     if pluto:
-        applymems(pluto,jsonify,['parts','points'])
         augment_pluto(pluto)
     return  {
         'pluto': pluto,
