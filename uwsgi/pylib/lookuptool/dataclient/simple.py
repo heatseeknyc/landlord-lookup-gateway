@@ -70,6 +70,22 @@ def extract_prefixed(r,prefix,tojson=None,collapse=True):
         return None
     return x
 
+def extract_fields(d,keys):
+    """Invasively extracts a sequence of key-val from a given dict :d,
+    returning these as a new dict."""
+    x = {}
+    for k in fields:
+        if k in d:
+            x[k] = d[k]
+            del d[k]
+        else:
+            x[k] = None
+    return x
+
+_shape_fields = ('lat_ctr','lon_ctr','radius','points','parts')
+def extract_shape(r):
+    return extract_fields(r,_shape_fields)
+
 def _pluto_bldg_count_label(n):
     if n == 0:
         return "A vacant lot"
