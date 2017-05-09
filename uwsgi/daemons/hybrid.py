@@ -7,6 +7,7 @@
 #
 # in this repo.
 #
+import re
 import argparse
 import simplejson as json
 from traceback import print_tb
@@ -69,11 +70,17 @@ def api_lookup(address):
 def api_contacts(keytup):
     return wrapsafe(resolve_contacts,keytup)
 
+@app.route('/building/<bbl>')
+@cross_origin()
+def api_building(bbl):
+    return wrapsafe(resolve_buildings,bbl)
+
+
 
 def resolve_lookup(address):
     q = address.replace('+',' ').strip()
     log.debug("q = %s" % str(q))
-    if q is None: 
+    if q is None:
         return errmsg('invalid query string')
     else:
         response = agent.get_lookup(q)
@@ -86,6 +93,15 @@ def resolve_contacts(keytup):
     else:
         contacts = agent.dataclient.get_contacts(*t)
         return jsonify({"contacts":contacts})
+
+def resolve_buildings(bbl):
+    # log.info("bbl = [%s]" % bbl)
+    n = parsebbl(bbl)
+    if n is None:
+        return errmsg('invalid BBL string')
+    else:
+        buildings = agent.dataclient.get_buildings(n)
+        return jsonify({"buildings":buildings})
 
 def wrapsafe(callf,rawarg):
     try:
@@ -108,7 +124,9 @@ def split_keytup(keytup):
     else:
         return None
 
-
+_bblpat = re.compile('^\d{10}$')
+def parsebbl(s):
+    return int(s) if re.match(_bblpat,s) else None
 
 #
 # This switch is for testing purposes only, so you can run the 

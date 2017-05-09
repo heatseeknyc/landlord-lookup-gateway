@@ -40,6 +40,13 @@ class DataClient(AgentBase):
             "from hard.contact_info where bbl = %s and bin = %s order by registration_id, contact_rank;"
         return self.fetch_recs(query,_bbl,_bin)
 
+    def get_buildings(self,_bbl):
+        '''Building IDs + shapes per BBL'''
+        query = \
+            "select bin,doitt_id,lat_ctr,lon_ctr,radius,parts,points " + \
+            "from hard.pluto_building where bbl = %s order by doitt_id";
+        return self.fetch_recs(query,_bbl)
+
 
 def extract_taxbill(r):
     if r.get('taxbill_owner_name') is None:
