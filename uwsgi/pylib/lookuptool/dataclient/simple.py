@@ -40,6 +40,7 @@ class DataClient(AgentBase):
             "from hard.contact_info where bbl = %s and bin = %s order by registration_id, contact_rank;"
         return self.fetch_recs(query,_bbl,_bin)
 
+
 def extract_taxbill(r):
     if r.get('taxbill_owner_name') is None:
         return None
