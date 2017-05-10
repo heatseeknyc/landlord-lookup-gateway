@@ -45,7 +45,11 @@ class DataClient(AgentBase):
         query = \
             "select bin,doitt_id,lat_ctr,lon_ctr,radius,parts,points " + \
             "from hard.pluto_building where bbl = %s order by doitt_id";
-        return self.fetch_recs(query,_bbl)
+        r = self.fetch_recs(query,_bbl)
+        log.debug("r = %s" % str(r))
+        if r:
+            [inflate_shape(_) for _ in r]
+        return r
 
 
 def extract_taxbill(r):
@@ -93,6 +97,11 @@ _shape_fields = ('lat_ctr','lon_ctr','radius','points','parts')
 def extract_shape(r):
     return extract_fields(r,_shape_fields)
 
+
+def inflate_shape(r):
+    if r:
+        applymems(r,jsonify,['parts','points'])
+
 def _pluto_bldg_count_label(n):
     if n == 0:
         return "A vacant lot"
@@ -111,10 +120,8 @@ def expand_summary(r):
     building = extract_prefixed(r,'building')
     pluto = extract_prefixed(r,'pluto')
     taxlot = extract_shape(pluto)
-    if building:
-        applymems(building,jsonify,['parts','points'])
-    if taxlot:
-        applymems(taxlot,jsonify,['parts','points'])
+    inflate_shape(building)
+    inflate_shape(taxlot)
     if pluto:
         augment_pluto(pluto)
     return  {
