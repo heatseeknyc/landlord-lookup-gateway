@@ -31,7 +31,7 @@ class DataClient(AgentBase):
         query = "select * from deco.property_summary where bbl = %s and (bin = %s or bin is null)";
         r = self.fetchone(query,_bbl,_bin)
         log.debug("r = %s" % str(r))
-        return make_summary(r) if r is not None else None
+        return expand_summary(r) if r is not None else None
 
     def get_contacts(self,_bbl,_bin):
         '''HPD contacts per BBL'''
@@ -106,7 +106,7 @@ def augment_pluto(p):
         return
     p['bldg_count_label'] = _pluto_bldg_count_label(p['bldg_count'])
 
-def make_summary(r):
+def expand_summary(r):
     stable = extract_prefixed(r,'stable')
     building = extract_prefixed(r,'building')
     pluto = extract_prefixed(r,'pluto')
