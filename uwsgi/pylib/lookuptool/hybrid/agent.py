@@ -24,19 +24,19 @@ class LookupAgent(object):
         log.debug(":: response = %s" % r)
         if r is None:
             return {"error":"invalid address (no response)"}
-        nycgeo = make_tiny(r)
-        log.debug(":: nycgeo (before) = %s" % nycgeo)
-        _bbl,_bin = refine_nycgeo(nycgeo)
+        keytup = make_tiny(r)
+        log.debug(":: keytup (before) = %s" % keytup)
+        _bbl,_bin = refine_keytup(keytup)
         if _bbl is not None:
             extras = self.dataclient.get_summary(_bbl,_bin)
-            if 'message' in nycgeo:
+            if 'message' in keytup:
                 log.info(":: WARNING bbl=%s, message=[%s]" % (_bbl,r['message']))
-            return {"nycgeo":nycgeo,"extras":extras}
+            return {"keytup":keytup,"extras":extras}
         else:
-            if 'message' in nycgeo:
-                return {"nycgeo":nycgeo,"extras":None,"error":nycgeo['message']}
+            if 'message' in keytup:
+                return {"keytup":keytup,"extras":None,"error":keytup['message']}
             else:
-                return {"nycgeo":nycgeo,"extras":extras}
+                return {"keytup":keytup,"extras":extras}
 
     def get_contacts(self,bbl):
         contacts = self.dataclient.get_contacts(bbl)
@@ -44,8 +44,8 @@ class LookupAgent(object):
 
 
 
-def refine_nycgeo(r):
-    """Refines an nycgeo struct, in-place.  Returns the pair (bbl,bin) for convenience."""
+def refine_keytup(r):
+    """Refines a keytup struct, in-place.  Returns the pair (bbl,bin) for convenience."""
     _bbl = r.get('bbl')
     _bin = r.get('bin')
     if _bin in nullish:
