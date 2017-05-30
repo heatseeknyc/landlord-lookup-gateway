@@ -78,6 +78,10 @@ def api_building(bbl):
 
 
 def resolve_lookup(query):
+    """
+    Resolves (does some kind of a taxlot summary search on) the given search query,
+    that is, the (whitespace-trimmed) search string as supplied on the main search form.
+    """
     q = query.replace('+',' ').strip()
     log.debug("q = %s" % str(q))
     if q is None:
