@@ -60,10 +60,10 @@ log.info("siteurl = '%s'" % geoconf.get('siteurl'))
 agent = lookuptool.hybrid.instance(dataconf,geoconf)
 
 
-@app.route('/lookup/<address>')
+@app.route('/lookup/<query>')
 @cross_origin()
 def api_lookup(address):
-    return wrapsafe(resolve_lookup,address)
+    return wrapsafe(resolve_lookup,query)
 
 @app.route('/contacts/<keytup>')
 @cross_origin()
@@ -77,8 +77,8 @@ def api_building(bbl):
 
 
 
-def resolve_lookup(address):
-    q = address.replace('+',' ').strip()
+def resolve_lookup(query):
+    q = query.replace('+',' ').strip()
     log.debug("q = %s" % str(q))
     if q is None:
         return errmsg('invalid query string')
