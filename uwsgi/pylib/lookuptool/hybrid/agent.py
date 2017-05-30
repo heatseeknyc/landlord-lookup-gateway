@@ -16,8 +16,7 @@ class LookupAgent(object):
 
     def get_lookup(self,rawaddr):
         ''' Combined geoclient + ownership summary for a given address'''
-        log.info(":: HEY rawaddr  = '%s'" % rawaddr)
-        log.debug(":: rawaddr  = '%s'" % rawaddr)
+        log.info(":: rawaddr  = '%s'" % rawaddr)
         normaddr = fix_borough_name(rawaddr)
         log.debug(":: normaddr = '%s'" % normaddr)
         r,status = self.geoclient.fetch_tiny(normaddr)
