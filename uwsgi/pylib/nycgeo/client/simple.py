@@ -17,7 +17,7 @@ class SimpleGeoClient(object):
         self.siteurl  = siteurl
         self.app_key  = app_key
         self.app_id   = app_id
-        self.verify   = verify 
+        self.verify   = verify
 
     def get(self,suburl):
         log.info("siteurl = %s" % self.siteurl)
