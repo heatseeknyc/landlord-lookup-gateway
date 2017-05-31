@@ -50,17 +50,6 @@ def fix_bin(r):
         r['bin'] = None
     log.debug(":: keytup (after) = %s" % keytup)
 
-def __refine_keytup(r):
-    """Refines a keytup struct, in-place.  Returns the pair (bbl,bin) for convenience."""
-    _bbl = r.get('bbl')
-    _bin = r.get('bin')
-    if _bin in nullish:
-        log.info(":: refine'd: bbl = %s, bin = %s => None" % (_bbl,_bin))
-        _bin = r['bin'] = None
-    else:
-        log.info(":: refine'd: bbl = %s, bin = %s" % (_bbl,_bin))
-    return _bbl,_bin
-
 
 # XXX need a better name for this function + better description.
 def make_tiny(r):
