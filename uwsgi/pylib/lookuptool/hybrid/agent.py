@@ -25,12 +25,11 @@ class LookupAgent(object):
         if r is None:
             return {"error":"invalid address (no response)"}
         keytup = make_tiny(r)
-        log.debug(":: keytup (before) = %s" % keytup)
-        _bbl,_bin = refine_keytup(keytup)
-        if _bbl is not None:
-            extras = self.dataclient.get_summary(_bbl,_bin)
+        fix_bin(keytup)
+        if r['bbl'] is not None:
+            extras = self.dataclient.get_summary(r['bbl'],r['bin'])
             if 'message' in keytup:
-                log.info(":: WARNING bbl=%s, message=[%s]" % (_bbl,r['message']))
+                log.warn(":: bbl=%s, message=[%s]" % (r['bbl'],r['message']))
             return {"keytup":keytup,"extras":extras}
         else:
             if 'message' in keytup:
@@ -44,7 +43,14 @@ class LookupAgent(object):
 
 
 
-def refine_keytup(r):
+def fix_bin(r):
+    """Fixes the keytup's BIN (if null-ish), in-place."""
+    log.debug(":: keytup (before) = %s" % keytup)
+    if r['bin'] in nullish:
+        r['bin'] = None
+    log.debug(":: keytup (after) = %s" % keytup)
+
+def __refine_keytup(r):
     """Refines a keytup struct, in-place.  Returns the pair (bbl,bin) for convenience."""
     _bbl = r.get('bbl')
     _bin = r.get('bin')
