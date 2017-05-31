@@ -62,7 +62,7 @@ agent = lookuptool.hybrid.instance(dataconf,geoconf)
 
 @app.route('/lookup/<query>')
 @cross_origin()
-def api_lookup(address):
+def api_lookup(query):
     return wrapsafe(resolve_lookup,query)
 
 @app.route('/contacts/<keytup>')
