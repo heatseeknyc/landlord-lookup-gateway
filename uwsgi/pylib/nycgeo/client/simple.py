@@ -67,15 +67,6 @@ class SimpleGeoClient(object):
         else:
             return response,status
 
-    def __fetch_norm(self,rawaddr):
-        inforec,status = self.fetch(rawaddr)
-        if inforec:
-            normrec = pivot_nycgeo(inforec)
-            return normrec,status
-        else:
-            return inforec,status
-
-
 
 def _encode(s):
     return '' if s is None else s.replace(' ','%20')
