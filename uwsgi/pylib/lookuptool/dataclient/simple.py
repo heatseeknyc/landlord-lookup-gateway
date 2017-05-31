@@ -26,9 +26,16 @@ class DataClient(AgentBase):
     In either case, we're guaranteed to have at most 1 row match in response.
     """
     def get_summary(self,_bbl,_bin):
-        '''Full ownership summary (Taxbill,DHRC,HPD) for a BBL+BIN pair.'''
+        """
+        Full taxlot+building summary for a BBL+BIN pair.  The whole idea of this accessors is
+        that it does all the internal switching necessary to give you both taxlot and building
+        attributes depending on whether you have both identifiers (BBL,BIN) or just a BBL - and
+        works as you would expected for vacant lots as well as multi-building lots.  Of course,
+        you do need to supply at least a valid BBL.
+        """
         log.debug("bbl = %s, bin = %s" % (_bbl,_bin))
-        query = "select * from deco.property_summary where bbl = %s and (bin = %s or bin is null)";
+        # query = "select * from deco.property_summary where bbl = %s and (bin = %s or bin is null)";
+        query = make_summary_query(_bbl,_bin)
         r = self.fetchone(query,_bbl,_bin)
         log.debug("r = %s" % str(r))
         return expand_summary(r) if r is not None else None
@@ -51,6 +58,22 @@ class DataClient(AgentBase):
             [inflate_shape(_) for _ in r]
         return r
 
+def make_summary_query(_bbl,_bin):
+    """
+    Magically creates our summary query based on BIN status (whether null or non-null).
+    As descriped in the comments to the 'hard.property_summary' table, which the 'deco'
+    view pulls from, the intended select semantics differ depending on whether we're
+    searching on a (BBL,BIN) pair or on a single BBL (hence the 'limit 1' business).
+    So either way, we're guaranteed to fetch at most a single row.
+    """
+    if _bbl is None:
+        raise ValueError("invalid usage -- can't get summary data without a BBL")
+    basequery = "select * from deco.property_summary where bbl = %s" _ bbl
+    if _bin is not None:
+        addendum = "and bin = %s" % _bin
+    else:
+        "limit 1"
+    return basequery+' '+addendum
 
 def extract_taxbill(r):
     if r.get('taxbill_owner_name') is None:
