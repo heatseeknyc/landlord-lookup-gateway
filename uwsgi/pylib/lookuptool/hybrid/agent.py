@@ -27,9 +27,9 @@ class LookupAgent(object):
         keytup = make_tiny(r)
         fix_bin(keytup)
         if r['bbl'] is not None:
-            extras = self.dataclient.get_summary(r['bbl'],r['bin'])
+            extras = self.dataclient.get_summary(keytup['bbl'],keytup['bin'])
             if 'message' in keytup:
-                log.warn(":: bbl=%s, message=[%s]" % (r['bbl'],r['message']))
+                log.warn(":: bbl=%s, message=[%s]" % (keytup['bbl'],keytup['message']))
             return {"keytup":keytup,"extras":extras}
         else:
             if 'message' in keytup:
@@ -45,10 +45,10 @@ class LookupAgent(object):
 
 def fix_bin(r):
     """Fixes the keytup's BIN (if null-ish), in-place."""
-    log.debug(":: keytup (before) = %s" % keytup)
+    log.debug(":: keytup (before) = %s" % r)
     if r['bin'] in nullish:
         r['bin'] = None
-    log.debug(":: keytup (after) = %s" % keytup)
+    log.debug(":: keytup (after) = %s" % r)
 
 
 # XXX need a better name for this function + better description.

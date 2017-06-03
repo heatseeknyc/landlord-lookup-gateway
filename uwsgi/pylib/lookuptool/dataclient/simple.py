@@ -35,8 +35,11 @@ class DataClient(AgentBase):
         """
         log.debug("bbl = %s, bin = %s" % (_bbl,_bin))
         # query = "select * from deco.property_summary where bbl = %s and (bin = %s or bin is null)";
-        query = make_summary_query(_bbl,_bin)
-        r = self.fetchone(query,_bbl,_bin)
+        query,args = make_summary_query(_bbl,_bin)
+        log.debug("query = [%s]" % query)
+        log.debug("args = %s" % str(args))
+        # r = self.fetchone(query,_bbl,_bin)
+        r = self.fetchone(query,*args)
         log.debug("r = %s" % str(r))
         return expand_summary(r) if r is not None else None
 
@@ -60,7 +63,8 @@ class DataClient(AgentBase):
 
 def make_summary_query(_bbl,_bin):
     """
-    Magically creates our summary query based on BIN status (whether null or non-null).
+    Magically creates both SQL query and args tuple based on BIN status (null or non-null).
+
     As descriped in the comments to the 'hard.property_summary' table, which the 'deco'
     view pulls from, the intended select semantics differ depending on whether we're
     searching on a (BBL,BIN) pair or on a single BBL (hence the 'limit 1' business).
@@ -68,12 +72,14 @@ def make_summary_query(_bbl,_bin):
     """
     if _bbl is None:
         raise ValueError("invalid usage -- can't get summary data without a BBL")
-    basequery = "select * from deco.property_summary where bbl = %s" _ bbl
-    if _bin is not None:
-        addendum = "and bin = %s" % _bin
+    basequery = "select * from deco.property_summary where bbl = %s"
+    if _bin is None:
+        query = basequery + " limit 1"
+        args = (_bbl,)
     else:
-        "limit 1"
-    return basequery+' '+addendum
+        query = basequery + " and bin = %s"
+        args = (_bbl,_bin)
+    return query,args
 
 def extract_taxbill(r):
     if r.get('taxbill_owner_name') is None:
