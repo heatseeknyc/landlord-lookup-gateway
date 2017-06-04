@@ -3,10 +3,16 @@ An ugly, but effective "hybrid agent" that pulls from both the
 NYC Geoclient API, and our local database, and smooshes everything
 together.
 """
+import re
 from lookuptool.utils.address import fix_borough_name
 from common.logging import log
 
 nullish = set([1000000,2000000,3000000,4000000,5000000])
+
+
+_intpat = re.compile('^\d+$')
+def _intlike(s):
+    return re.match(_intpat,s)
 
 class LookupAgent(object):
 
@@ -14,32 +20,49 @@ class LookupAgent(object):
         self.dataclient = dataclient
         self.geoclient  = geoclient
 
-    def get_lookup(self,rawaddr):
-        ''' Combined geoclient + ownership summary for a given address'''
+    def resolve_address(self,rawaddr):
         log.info(":: rawaddr  = '%s'" % rawaddr)
         normaddr = fix_borough_name(rawaddr)
         log.debug(":: normaddr = '%s'" % normaddr)
         r,status = self.geoclient.fetch_tiny(normaddr)
         log.debug(":: status = %s " % status)
         log.debug(":: response = %s" % r)
-        if r is None:
-            return {"error":"invalid address (no response)"}
-        keytup = make_tiny(r)
-        fix_bin(keytup)
-        if r['bbl'] is not None:
+        return make_tiny(r) if r else None
+
+    def resolve_query(self,query):
+        if query is None:
+            raise ValueError("invalid usage - null query object")
+        if _intlike(query):
+            if len(query) == 10:
+                bbl = int(query)
+                return {'bbl':bbl,'bin':None}
+            else:
+                return { 'bbl':None, 'bin':None, 'message':'invalid BBL' }
+        else:
+            return self.resolve_address(query)
+
+    def get_lookup(self,query):
+        ''' Combined geoclient + ownership summary for a given address'''
+        log.debug(":: query = '%s'" % query)
+        keytup = self.resolve_query(query)
+        log.debug(":: keytup = '%s'" % keytup)
+        if keytup is None:
+            return {"error":"invalid address (no response from geoclient)"}
+        if keytup['bbl'] is not None:
             extras = self.dataclient.get_summary(keytup['bbl'],keytup['bin'])
             if 'message' in keytup:
+                # If we get an error message at this stage, it's interepreted as a warning
                 log.warn(":: bbl=%s, message=[%s]" % (keytup['bbl'],keytup['message']))
             return {"keytup":keytup,"extras":extras}
+        elif 'message' in keytup:
+            return {"keytup":keytup,"extras":None,"error":keytup['message']}
         else:
-            if 'message' in keytup:
-                return {"keytup":keytup,"extras":None,"error":keytup['message']}
-            else:
-                return {"keytup":keytup,"extras":extras}
+            return {"keytup":keytup,"extras":extras}
 
     def get_contacts(self,bbl):
         contacts = self.dataclient.get_contacts(bbl)
         return {"contacts":contacts}
+
 
 
 
@@ -51,10 +74,7 @@ def fix_bin(r):
     log.debug(":: keytup (after) = %s" % r)
 
 
-# XXX need a better name for this function + better description.
-def make_tiny(r):
-    """Extracts just the fields we need from a Geoclient response, and renames
-    some of them for the final outgoing message blurb."""
+def _make_tiny(r):
     tiny = {
         'bbl': softint(r.get('bbl')),
         'bin': softint(r.get('buildingIdentificationNumber')),
@@ -62,6 +82,14 @@ def make_tiny(r):
     if 'message' in r:
         tiny['message'] = r['message']
     return tiny
+
+def make_tiny(r):
+    """Extracts just the fields we need from a Geoclient response, and renames
+    some of them for the final outgoing message blurb."""
+    tiny = _make_tiny(r)
+    fix_bin(tiny)
+    return tiny
+
 
 def softint(s):
     return int(s) if s is not None else None
