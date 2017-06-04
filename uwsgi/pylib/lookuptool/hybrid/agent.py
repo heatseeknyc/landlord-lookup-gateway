@@ -29,7 +29,7 @@ class LookupAgent(object):
         log.debug(":: response = %s" % r)
         return make_tiny(r) if r else None
 
-    def resolve_query(self,query):
+    def __resolve_query(self,query):
         if query is None:
             raise ValueError("invalid usage - null query object")
         if _intlike(query):
@@ -41,7 +41,7 @@ class LookupAgent(object):
         else:
             return self.resolve_address(query)
 
-    def get_lookup(self,query):
+    def __get_lookup(self,query):
         ''' Combined geoclient + ownership summary for a given address'''
         log.debug(":: query = '%s'" % query)
         keytup = self.resolve_query(query)
@@ -58,6 +58,60 @@ class LookupAgent(object):
             return {"keytup":keytup,"extras":None,"error":keytup['message']}
         else:
             return {"keytup":keytup,"extras":extras}
+
+    #
+    # Note that the next two handlers are nearly congruent (once we decide what
+    # our BBL is), but have subtly different error handling.
+    #
+
+    def get_lookup_by_bbl(self,bbl):
+        log.debug(":: bbl = %s" % bbl)
+        if not isinstance(bbl,int):
+            raise ValueError("invalid bbl '%s'" % str(bbl))
+        keytup = {'bbl':bbl,'bin':None}
+        log.debug(":: keytup = '%s'" % keytup)
+        extras = self.dataclient.get_summary(keytup['bbl'],keytup['bin'])
+        if 'message' in keytup:
+            # If we get an error message at this stage, it's interepreted as a warning
+            log.warn(":: bbl=%s, message=[%s]" % (keytup['bbl'],keytup['message']))
+            return {'keytup':keytup,'extras':extras}
+        else:
+            return {'keytup':keytup,'extras':extras,'message':'invalid bbl'}
+
+    def get_lookup_by_rawaddr(self,rawaddr):
+        log.debug(":: rawaddr = '%s'" % rawaddr)
+        keytup = self.resolve_address(rawaddr)
+        log.debug(":: keytup = '%s'" % keytup)
+        if keytup is None:
+            return {"error":"invalid address (no response from geoclient)"}
+        if keytup['bbl'] is not None:
+            extras = self.dataclient.get_summary(keytup['bbl'],keytup['bin'])
+            if 'message' in keytup:
+                # If we get an error message at this stage, it's interepreted as a warning
+                # Which we hide from the frontend client (else it will think it's an error condition)
+                log.warn(":: bbl=%s, message=[%s]" % (keytup['bbl'],keytup['message']))
+            return {"keytup":keytup,"extras":extras}
+        elif 'message' in keytup:
+            return {'keytup':keytup,'extras':None,"error":keytup['message']}
+        else:
+            # A weird condition which should basically never occur: 
+            # The geoclient returns a BBL, but it's not in Pluto
+            message = "weirdness! geoclient provides invalid BBL '%s'" % keytup['bbl']
+            return {'keytup':keytup,'extras':extras,'message':message}
+
+    def get_lookup(self,query):
+        ''' Combined geoclient + ownership summary for a given address'''
+        log.debug(":: query = '%s'" % query)
+        if query is None:
+            raise ValueError("invalid usage - null query object")
+        if _intlike(query):
+            if len(query) == 10:
+                bbl = int(query)
+                return self.get_lookup_by_bbl(bbl)
+            else:
+                return { 'bbl':None, 'bin':None, 'message':'invalid BBL' }
+        else:
+            return self.get_lookup_by_rawaddr(query)
 
     def get_contacts(self,bbl):
         contacts = self.dataclient.get_contacts(bbl)
