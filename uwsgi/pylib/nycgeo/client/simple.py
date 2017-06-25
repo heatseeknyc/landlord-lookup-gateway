@@ -1,7 +1,6 @@
 """
 A simple interface to the NYC Geoclient API, providing just the query
-functionality we need, along with some necessary pivoting of response
-structs to make the data easier to work with internally.
+functionality we need, with occasional reformatting as needed.
 """
 import requests, time
 import simplejson as json
