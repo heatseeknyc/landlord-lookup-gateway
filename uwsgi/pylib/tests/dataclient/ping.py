@@ -18,8 +18,8 @@ def derive_keytup(args):
         _bbl,_bin = 1011250025,1028637
     return  _bbl,_bin
 
-def dispatch(args,pair):
-    agent = DataClient(**dataconf)
+def dispatch(agent,pair,args):
+    _bbl,_bin = pair
     t0 = time.time()
     if args.mode == 'summary':
         r = agent.get_summary(_bbl,_bin)
@@ -30,12 +30,16 @@ def dispatch(args,pair):
     delta = 1000 * (time.time() - t0)
     return r,delta
 
-def main():
-    configpath = "config/postgres.json"
+def init_agent(configpath):
     dataconf   = json.loads(open(configpath,"r").read())
+    return DataClient(**dataconf)
+
+def main():
+    args = parse_args()
     keytup = derive_keytup(args)
+    agent = init_agent("config/postgres.json")
     print("bbl,bin = %s" % str(keytup))
-    r.delta = dispatch(args,keytup)
+    r,delta = dispatch(agent,keytup,args)
     print("dt = %.2f ms" % delta)
     print(json.dumps(r,indent=4,sort_keys=True))
 
