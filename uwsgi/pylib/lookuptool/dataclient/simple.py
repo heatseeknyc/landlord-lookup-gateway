@@ -21,7 +21,15 @@ class DataClient(AgentBase):
 
     def get_building(self,_bbl,_bin):
         log.debug("bbl = %s, bin = %s" % (_bbl,_bin))
-        return []
+        if _bbl is None:
+            return None
+        if _bin is None:
+            return []
+        else:
+            query = "select * from hard.building where bbl = %s and bin = %s and in_pluto order by doitt_id"
+            r = self.fetch_recs(query,_bbl,_bin)
+            log.debug("fetched r = %s" % r)
+            return r
 
     """
     We return the BBL we're selecting on, along with the boro_id,
