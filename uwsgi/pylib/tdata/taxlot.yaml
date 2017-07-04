@@ -78,6 +78,25 @@
       units_total: 20  
     acris: null
 
+# Same building but accessed via its phyiscal BBL.
+# It's not in Pluto but it is in ACRIS, and last transfered in 2001.
+-
+  query: 
+    bbl: 1007600026 
+    address: '15 West 36th Street'
+  result:  
+    meta:
+      bbltype: 1
+      is_condo: false 
+      is_coop: false 
+      residential: false 
+      stabilized: null 
+    pluto: null
+    acris: 
+      party_count: 1
+      transfer_docid: 'FT_1750007564775'
+
+
 
 # This building last sold in 1979, and hopefully won't be changing hands
 # anytime soon.  But if it does, we'll have to update the ACRIS record.
