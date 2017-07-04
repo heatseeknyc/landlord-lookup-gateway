@@ -22,7 +22,7 @@ class DataClient(AgentBase):
     def get_building(self,_bbl,_bin):
         log.debug("bbl = %s, bin = %s" % (_bbl,_bin))
         if _bbl is None:
-            return None
+            return []
         if _bin is None:
             query = "select * from hard.building where bbl = %s and in_pluto order by bin, doitt_id"
             r = self.fetch_recs(query,_bbl)
