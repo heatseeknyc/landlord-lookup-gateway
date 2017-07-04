@@ -28,6 +28,7 @@ class DataClient(AgentBase):
         else:
             query = "select * from hard.building where bbl = %s and bin = %s and in_pluto order by doitt_id"
             r = self.fetch_recs(query,_bbl,_bin)
+            log.debug("fetched type(r) = %s" % type(r))
             log.debug("fetched r = %s" % r)
             return r
 
