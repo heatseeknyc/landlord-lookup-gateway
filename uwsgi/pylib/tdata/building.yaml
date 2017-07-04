@@ -2,6 +2,12 @@
 # Various interesting test cases.
 #
 
+
+
+
+#
+# The next two cases illustrate a typical bank/phyiscal BBL mixup. 
+#
 -
   query:
     bbl: 1007607501
@@ -20,6 +26,9 @@
     - doitt_id: 978340
 
 
+#
+# A vacant lot (that will probably stay that way!). 
+#
 -
   query: 
     bbl: 1005740008
@@ -29,7 +38,7 @@
 
 
 #
-# Geoclient returns million-BIN - but for a vacant lot
+# Geoclient returns a million-BIN for that lot -- but it's still vacant! 
 #
 -
   query: 
