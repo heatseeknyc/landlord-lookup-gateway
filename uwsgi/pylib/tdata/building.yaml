@@ -37,3 +37,27 @@
   result: []
 
 
+
+# 
+# Multi-building queries
+# 
+
+-
+  query: 
+    bbl: 1002770056
+    address: '39 Catherine St'
+  result:
+    meta:
+      bbl: 1002770056
+      bbytype: 1
+    building:
+      - 
+        bin: 1079617
+      - 
+        bin: 1079618
+      - 
+        bin: 1079619
+
+
+
+
