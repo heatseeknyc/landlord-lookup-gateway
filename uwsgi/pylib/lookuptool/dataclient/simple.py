@@ -11,7 +11,13 @@ import simplejson as json
 class DataClient(AgentBase):
 
     def get_taxlot(self,bbl):
-        return {}
+        log.debug("bbl = %s")
+        if bbl is None:
+            return []
+        query = "select * from hard.taxlot where bbl = %s"
+        r = self.fetchone(query,bbl)
+        log.debug("r = %s" % str(r))
+        return r
 
     """
     We return the BBL we're selecting on, along with the boro_id,
