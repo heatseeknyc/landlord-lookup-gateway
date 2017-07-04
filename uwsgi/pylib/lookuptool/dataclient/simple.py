@@ -10,6 +10,9 @@ import simplejson as json
 
 class DataClient(AgentBase):
 
+    def get_taxlot(self,bbl):
+        return {}
+
     """
     We return the BBL we're selecting on, along with the boro_id,
     along with the response dict, for the convenience of frontend
