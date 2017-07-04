@@ -14,7 +14,7 @@ class DataClient(AgentBase):
         log.debug("bbl = %s")
         if bbl is None:
             return []
-        query = "select * from hard.taxlot where bbl = %s"
+        query = "select * from deco.taxlot where bbl = %s"
         r = self.fetchone(query,bbl)
         log.debug("r = %s" % str(r))
         return r
