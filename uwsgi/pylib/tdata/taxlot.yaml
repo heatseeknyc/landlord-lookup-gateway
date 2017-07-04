@@ -39,15 +39,20 @@
     address: '1 West 72nd St'
     remark: 'The Dakota'
   result:
-    bbltype: 1
-    pluto_year_built: 1900
-    pluto_units_total: 94
+    meta:
+      bbltype: 1
+    pluto:
+      year_built: 1900
+      units_total: 94
 
 -
   query: 
     bbl: 1007607501 
     address: '15 West 36th Street'
   result:  
-    bbltype: 1
-    pluto_year_built: 1926
-    pluto_units_total: 20  
+    meta:
+      bbltype: 1
+    pluto:
+      year_built: 1926
+      units_total: 20  
+
