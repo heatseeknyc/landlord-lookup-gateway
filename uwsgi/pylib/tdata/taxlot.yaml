@@ -10,6 +10,8 @@
     year_built: 1900
     units_total: 94
 
-
-
-
+-
+  query: 
+    bbl: 3333333333 
+    remark: valid but unrecognized BBL 
+  result: null 

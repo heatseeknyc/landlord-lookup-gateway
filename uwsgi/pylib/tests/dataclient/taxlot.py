@@ -24,6 +24,10 @@ def main():
 
 
 def compare(got,exp):
+    if got is None and exp is None:
+        return True
+    if got is not None or exp is not None:
+        return False
     for k in sorted(exp.keys()):
         if k not in got:
             return False
