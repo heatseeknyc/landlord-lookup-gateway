@@ -63,3 +63,24 @@
       in_adr: false 
       parts: "[0]"
 
+
+#
+# A case with a (BBL,BIN) tuple occuring twice in Pluto.
+#
+-
+  query:
+    bbl: 1009900001
+    bin: 1085783
+    address: '276 Avenue C'
+  result:
+    -
+      bin: 1085783
+      doitt_id: 655197
+      in_adr: true
+      parts: "[0]"
+    -
+      bin: 1085783
+      doitt_id: 737315
+      in_adr: true
+      parts: "[0]"
+
