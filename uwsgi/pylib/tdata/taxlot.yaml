@@ -124,3 +124,31 @@
       transfer_docid: 'FT_1000008609500'
    
 
+
+#
+# A vacant lot
+#
+
+-
+  query: 
+    bbl: 1005740008
+    address: '72 West 11th'
+    remark: 'cemetary'
+  result:  
+    meta:
+      bbltype: 1
+      is_condo: false 
+      is_coop: false 
+      residential: false 
+      stabilized: null 
+    pluto:
+      year_built: 0 
+      units_total: 0
+      building_count: 0 
+      blgd_class: 'Z8'
+      owner_name: 'CONG SHEARETH ISRAEL'
+    acris: null
+
+
+
+
