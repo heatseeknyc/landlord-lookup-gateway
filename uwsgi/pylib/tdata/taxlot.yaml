@@ -54,6 +54,7 @@
     pluto:
       year_built: 1900
       units_total: 94
+      building_count: 1
     acris: null
 
 
@@ -77,6 +78,7 @@
     pluto:
       year_built: 1926
       units_total: 20  
+      building_count: 1
     acris: null
 
 # Same building but accessed via its phyiscal BBL.
@@ -116,6 +118,7 @@
     pluto:
       year_built: 1915
       units_total: 22
+      building_count: 1
     acris:
       party_count: 1
       transfer_docid: 'FT_1000008609500'
