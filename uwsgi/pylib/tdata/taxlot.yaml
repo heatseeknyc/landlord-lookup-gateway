@@ -66,6 +66,7 @@
   query: 
     bbl: 1007607501 
     address: '15 West 36th Street'
+    remark: 'condo bbl'
   result:  
     meta:
       bbltype: 1
@@ -84,6 +85,7 @@
   query: 
     bbl: 1007600026 
     address: '15 West 36th Street'
+    remark: 'physical bbl'
   result:  
     meta:
       bbltype: 1
