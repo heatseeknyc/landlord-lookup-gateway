@@ -29,8 +29,8 @@
     remark: 'The Dakota'
   result:
     bbltype: 1
-    year_built: 1900
-    units_total: 94
+    pluto_year_built: 1900
+    pluto_units_total: 94
 
 -
   query: 
@@ -38,5 +38,5 @@
     address: '15 West 36th Street'
   result:  
     bbltype: 1
-    year_built: 1926
-    units_total: 20  
+    pluto_year_built: 1926
+    pluto_units_total: 20  
