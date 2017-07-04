@@ -29,7 +29,7 @@ def compare(got,exp):
             return False
         if got[k] != exp[k]:
             return False
-    return True 
+    return True
 
 def evaltest(agent,r):
     print(r)
