@@ -53,10 +53,19 @@
     building:
       - 
         bin: 1079617
+        doitt_id: 15391
+        in_adr: true
+        parts: "[0]"
       - 
         bin: 1079618
+        doitt_id: 727178 
+        in_adr: false 
+        parts: "[0]"
       - 
         bin: 1079619
+        doitt_id: 459580 
+        in_adr: false 
+        parts: "[0]"
 
 
 

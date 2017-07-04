@@ -19,6 +19,10 @@ class DataClient(AgentBase):
         log.debug("r = %s" % r)
         return stagger_taxlot(r)
 
+    def get_building(self,_bbl,_bin):
+        log.debug("bbl = %s, bin = %s" % (_bbl,_bin))
+        return []
+
     """
     We return the BBL we're selecting on, along with the boro_id,
     along with the response dict, for the convenience of frontend
