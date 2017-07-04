@@ -4,6 +4,7 @@ NYC Geoclient API, and our local database, and smooshes everything
 together.
 """
 import re
+from nycprop.identity import is_valid_bbl
 from lookuptool.utils.address import fix_borough_name
 from common.logging import log
 
@@ -36,7 +37,7 @@ class LookupAgent(object):
 
     def get_lookup_by_bbl(self,bbl):
         log.debug(":: bbl = %s" % bbl)
-        if not isinstance(bbl,int):
+        if not is_valid_bbl(bbl): 
             raise ValueError("invalid bbl '%s'" % str(bbl))
         keytup = {'bbl':bbl,'bin':None}
         log.debug(":: keytup = '%s'" % keytup)
@@ -54,20 +55,25 @@ class LookupAgent(object):
         log.debug(":: keytup = '%s'" % keytup)
         if keytup is None:
             return {"error":"invalid address (no response from geoclient)"}
-        if keytup['bbl'] is not None:
-            extras = self.dataclient.get_summary(keytup['bbl'],keytup['bin'])
+        bbl = keytup.get('bbl')
+        if bbl is not None:
             if 'message' in keytup:
                 # If we get an error message at this stage, it's interepreted as a warning
                 # Which we hide from the frontend client (else it will think it's an error condition)
-                log.warn(":: bbl=%s, message=[%s]" % (keytup['bbl'],keytup['message']))
-            return {"keytup":keytup,"extras":extras}
+                log.warn(":: bbl=%s, message=[%s]" % (bbl,keytup['message']))
+            taxlot = self.dataclient.get_taxlot(bbl)
+            if taxlot is None:
+                # This is actually a weird condition: the Geoclient gave us a BBL, but none of 
+                # our databases recognize it.  Should perhaps handle more forcefully.
+                return {"keytup":keytup,"error":"bbl not recognized"}
+            else:
+                return {"keytup":keytup,"taxlot":taxlot}
         elif 'message' in keytup:
-            return {'keytup':keytup,'extras':None,"error":keytup['message']}
+            return {'keytup':keytup,"error":keytup['message']}
         else:
-            # A weird condition which should basically never occur: 
-            # The geoclient returns a BBL, but it's not in Pluto
-            message = "weirdness! geoclient provides invalid BBL '%s'" % keytup['bbl']
-            return {'keytup':keytup,'extras':extras,'message':message}
+            return {"keytup":keytup,"error":"malformed response from client"}
+            # message = "weirdness! geoclient provides invalid BBL '%s'" % keytup['bbl']
+            # return {'keytup':keytup,'extras':extras,'message':message}
 
     def get_lookup(self,query):
         ''' Combined geoclient + ownership summary for a given address'''
@@ -75,11 +81,11 @@ class LookupAgent(object):
         if query is None:
             raise ValueError("invalid usage - null query object")
         if _intlike(query):
-            if len(query) == 10:
-                bbl = int(query)
+            bbl = int(query)
+            if is_valid_bbl(bbl):
                 return self.get_lookup_by_bbl(bbl)
             else:
-                return { 'bbl':None, 'bin':None, 'message':'invalid BBL' }
+                return { "error":"invalid bbl" }
         else:
             return self.get_lookup_by_rawaddr(query)
 
