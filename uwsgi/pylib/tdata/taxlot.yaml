@@ -1,0 +1,15 @@
+#
+# Various interesting test cases.
+#
+
+-
+  query: 
+    bbl: 1011250025 
+    remark: The Dakota
+  result:
+    year_built: 1900
+    units_total: 94
+
+
+
+
