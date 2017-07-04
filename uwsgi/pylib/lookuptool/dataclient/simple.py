@@ -13,11 +13,11 @@ class DataClient(AgentBase):
     def get_taxlot(self,bbl):
         log.debug("bbl = %s")
         if bbl is None:
-            return []
+            return None
         query = "select * from deco.taxlot where bbl = %s"
         r = self.fetchone(query,bbl)
-        log.debug("r = %s" % str(r))
-        return r
+        log.debug("r = %s" % r)
+        return stagger_taxlot(r)
 
     """
     We return the BBL we're selecting on, along with the boro_id,
@@ -110,11 +110,15 @@ def _trunc(k,n):
     else:
         raise ValueError("invalid key '%s' relative to prefix '%s'" (tag,prefix))
 
-def extract_prefixed(r,prefix,collapse=True):
+def extract_prefixed(r,prefix,collapse=True,prune=False):
     prefix_ = prefix+'_'
+    x,n = {},len(prefix_)
     tags = sorted(k for k in r.keys() if k.startswith(prefix_))
-    n = len(prefix_)
-    x = {_trunc(k,n):deepcopy(r[k]) for k in tags}
+    for k in tags:
+        j = _trunc(k,n)
+        x[j] = deepcopy(r[k])
+        if prune:
+            del r[k]
     if collapse and all(v is None for v in x.values()):
         return None
     return x
@@ -152,6 +156,17 @@ def augment_pluto(p):
     if not p:
         return
     p['bldg_count_label'] = _pluto_bldg_count_label(p['bldg_count'])
+
+def stagger_taxlot(r):
+    """Invasively 'staggers' a database response to a taxlot query. returning
+    a new bilevel dict and mangling the old one beyond recognition."""
+    if r is None:
+        return None
+    rr = {}
+    rr['pluto'] = extract_prefixed(r,'pluto',prune=True)
+    rr['acris'] = extract_prefixed(r,'acris',prune=True)
+    rr['meta'] = deepcopy(r)
+    return rr
 
 def expand_summary(r):
     stable = extract_prefixed(r,'stable')

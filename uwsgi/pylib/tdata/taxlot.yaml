@@ -2,6 +2,11 @@
 # Various interesting test cases.
 #
 
+
+#
+# Null cases that fail to match entirely. 
+#
+
 -
   query: 
     bbl: 42 
@@ -14,13 +19,19 @@
     remark: 'regular but unrecognized BBL'
   result: null 
 
+
+# This one's in ACRIS, but has no identifiable ownership.
+# So it's ACRIS record is null, as its Pluto rec.
 -
   query: 
     bbl: 1000000000 
     remark: 'valid but degenerate BBL'
   result: 
-    bbltype: 2
-    in_acris: true
+    meta:
+      bbltype: 2
+      in_acris: true
+    acris: null
+    pluto: null
 
 -
   query: 
