@@ -90,6 +90,7 @@ class LookupAgent(object):
 
 
 
+# DEPRECATED 
 def fix_bin(r):
     """Fixes the keytup's BIN (if null-ish), in-place."""
     log.debug(":: keytup (before) = %s" % r)
@@ -97,8 +98,7 @@ def fix_bin(r):
         r['bin'] = None
     log.debug(":: keytup (after) = %s" % r)
 
-
-def _make_tiny(r):
+def make_tiny(r):
     tiny = {
         'bbl': softint(r.get('bbl')),
         'bin': softint(r.get('buildingIdentificationNumber')),
@@ -107,7 +107,8 @@ def _make_tiny(r):
         tiny['message'] = r['message']
     return tiny
 
-def make_tiny(r):
+# DEPRECATED 
+def __make_tiny(r):
     """Extracts just the fields we need from a Geoclient response, and renames
     some of them for the final outgoing message blurb."""
     tiny = _make_tiny(r)
