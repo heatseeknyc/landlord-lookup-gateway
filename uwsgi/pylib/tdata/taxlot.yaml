@@ -66,6 +66,9 @@
       year_built: 1926
       units_total: 20  
 
+
+# This building last sold in 1979, and hopefully won't be changing hands
+# anytime soon.  But if it does, we'll have to update the ACRIS record.
 -
   query: 
     bbl: 1001620013 
@@ -80,6 +83,8 @@
     pluto:
       year_built: 1915
       units_total: 22
+    acris:
+      party_count: 1
 
 
 
