@@ -35,6 +35,8 @@
     acris: null
     pluto: null
 
+# A simple case of well-known building with no bank BBL.
+# Also not likely to change hands soon.
 -
   query: 
     bbl: 1011250025 
@@ -51,6 +53,10 @@
       year_built: 1900
       units_total: 94
 
+
+# The next two records provide a slightly messy (but not atypical) case 
+# of a condo building with a bank BBL + physical BBL, with different attribues
+# accessible for each.
 -
   query: 
     bbl: 1007607501 
@@ -85,14 +91,4 @@
       units_total: 22
     acris:
       party_count: 1
-
-
-
-
-
-
-
-
-
-
 
