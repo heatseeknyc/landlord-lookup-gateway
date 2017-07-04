@@ -23,8 +23,8 @@
 -
   query: 
     bbl: 1005740008
-    address: '72 West 11th - cemetary'
-    remarks: "vacant lot - no matches" 
+    address: '72 West 11th'
+    remarks: "cemetery - no matches"
   result: []
 
 
@@ -32,8 +32,8 @@
   query: 
     bbl: 1005740008
     bin: 1000000
-    address: '72 West 11th - cemetary'
-    remarks: "vacant lot - so we still get no matches on the 'million' BIN provided by Geoclient" 
+    address: '72 West 11th'
+    remarks: "cemetery - so we still get no matches on the 'million' BIN provided by Geoclient"
   result: []
 
 
