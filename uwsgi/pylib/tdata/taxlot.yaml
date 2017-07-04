@@ -31,6 +31,7 @@
       bbltype: 2
       in_acris: true
       residential: false 
+      stabilized: null 
     acris: null
     pluto: null
 
@@ -45,6 +46,7 @@
       is_condo: false
       is_coop: true 
       residential: true
+      stabilized: 'possible' 
     pluto:
       year_built: 1900
       units_total: 94
@@ -59,6 +61,7 @@
       is_condo: true 
       is_coop: false 
       residential: true
+      stabilized: 'possible' 
     pluto:
       year_built: 1926
       units_total: 20  
