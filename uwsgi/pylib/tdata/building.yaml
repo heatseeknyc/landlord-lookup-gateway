@@ -28,13 +28,32 @@
   result: []
 
 
+#
+# Geoclient returns million-BIN - but for a vacant lot
+#
 -
   query: 
     bbl: 1005740008
     bin: 1000000
     address: '72 West 11th'
-    remarks: "cemetery - so we still get no matches on the 'million' BIN provided by Geoclient"
+    remarks: 'cemetery - no matches' 
   result: []
+
+
+# 
+# But some million-BINs do have valid Pluto matches - like this one
+# #
+-
+  query:
+    bbl: 3005870035 
+    bin: 3000000 
+    address: '74 Coffey St'
+  result:
+    -
+      bin: 3000000 
+      doitt_id: 1273242  
+      in_adr: true
+      parts: "[0]"
 
 
 
@@ -83,4 +102,5 @@
       doitt_id: 737315
       in_adr: true
       parts: "[0]"
+
 
