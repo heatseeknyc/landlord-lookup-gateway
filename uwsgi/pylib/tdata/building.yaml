@@ -13,7 +13,7 @@
     bbl: 1007607501
     bin: 1013595
     address: '15 West 36th Street'
-    remark: "won't match because it's using the bank bbl"
+    remark: 'bank bbl - no matches'
   result: []
 
 -
@@ -21,9 +21,11 @@
     bbl: 1007600026 
     bin: 1013595
     address: '15 West 36th Street'
-    remark: "this one matches because it's on the physical bbl"
+    remark: 'physical bbl - 1 match'
   result: 
-    - doitt_id: 978340
+    - 
+      bin: 1013595
+      doitt_id: 978340
 
 
 #
