@@ -16,7 +16,7 @@ def init_agent(configpath):
 
 def main():
     agent = init_agent("config/postgres.json")
-    with open("tests/data/building.yaml","rtU") as f:
+    with open("tdata/building.yaml","rtU") as f:
         pairs = yaml.load(f)
     print("that be %d test cases." % len(pairs))
 
