@@ -24,7 +24,11 @@ class DataClient(AgentBase):
         if _bbl is None:
             return None
         if _bin is None:
-            return []
+            query = "select * from hard.building where bbl = %s and in_pluto order by bin, doitt_id"
+            r = self.fetch_recs(query,_bbl)
+            log.debug("fetched type(r) = %s" % type(r))
+            log.debug("fetched r = %s" % r)
+            return r
         else:
             query = "select * from hard.building where bbl = %s and bin = %s and in_pluto order by doitt_id"
             r = self.fetch_recs(query,_bbl,_bin)
