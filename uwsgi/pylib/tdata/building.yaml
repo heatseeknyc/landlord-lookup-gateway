@@ -3,6 +3,31 @@
 #
 
 
+# 
+# For invalid or unrecognized BBLs, we silently return an empty list,
+# even if we're given a valid BIN. 
+# 
+-
+  query:
+    bbl: null 
+    bin: 1013595
+    address: 'nowhere'
+    remark: 'missing BBL'
+  result: []
+-
+  query:
+    bbl: 42
+    bin: 1013595
+    address: 'nowhere'
+    remark: 'invalid BBL'
+  result: []
+-
+  query:
+    bbl: 1111111111 
+    bin: 1013595
+    address: 'nowhere'
+    remark: 'bbl is valid but not recognized'
+  result: []
 
 
 #

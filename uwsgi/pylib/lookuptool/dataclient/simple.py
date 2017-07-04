@@ -19,6 +19,9 @@ class DataClient(AgentBase):
         log.debug("r = %s" % r)
         return stagger_taxlot(r)
 
+    # Note that there's no special treatment for invalid BBLs/BINs at this stage:
+    # in theory they should already excluded from the database, so queries on them
+    # simply return empty results.  We do exclude null BBLs, however.
     def get_building(self,_bbl,_bin):
         log.debug("bbl = %s, bin = %s" % (_bbl,_bin))
         if _bbl is None:
