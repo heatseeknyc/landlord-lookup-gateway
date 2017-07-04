@@ -66,3 +66,28 @@
       year_built: 1926
       units_total: 20  
 
+-
+  query: 
+    bbl: 1001620013 
+    address: '24 Mott St'
+  result:  
+    meta:
+      bbltype: 1
+      is_condo: false 
+      is_coop: false 
+      residential: true
+      stabilized: 'confirmed' 
+    pluto:
+      year_built: 1915
+      units_total: 22
+
+
+
+
+
+
+
+
+
+
+
