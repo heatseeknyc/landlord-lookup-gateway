@@ -1,0 +1,39 @@
+#
+# Various interesting test cases.
+#
+
+-
+  query:
+    bbl: 1007607501
+    bin: 1013595
+    address: '15 West 36th Street'
+    remark: "won't match because it's using the bank bbl"
+  result: []
+
+-
+  query:
+    bbl: 1007600026 
+    bin: 1013595
+    address: '15 West 36th Street'
+    remark: "this one matches because it's on the physical bbl"
+  result: 
+    - doitt_id: 978340
+
+
+-
+  query: 
+    bbl: 1005740008
+    address: '72 West 11th - cemetary'
+    remarks: "vacant lot - no matches" 
+  result: []
+
+
+-
+  query: 
+    bbl: 1005740008
+    bin: 1000000
+    address: '72 West 11th - cemetary'
+    remarks: "vacant lot - so we still get no matches on the 'million' BIN provided by Geoclient" 
+  result: []
+
+
