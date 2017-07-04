@@ -23,20 +23,6 @@ def main():
     dotests(agent,pairs)
     print("done.")
 
-
-# depreated
-def __compare(got,exp):
-    if got is None and exp is None:
-        return True
-    if got is None or exp is None:
-        return False
-    for k in sorted(exp.keys()):
-        if k not in got:
-            return False
-        if got[k] != exp[k]:
-            return False
-    return True
-
 def evaltest(agent,r):
     print(r)
     query = r['query']
