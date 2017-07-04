@@ -41,6 +41,8 @@
   result:
     meta:
       bbltype: 1
+      is_condo: false
+      is_coop: true 
     pluto:
       year_built: 1900
       units_total: 94
@@ -52,6 +54,8 @@
   result:  
     meta:
       bbltype: 1
+      is_condo: true 
+      is_coop: false 
     pluto:
       year_built: 1926
       units_total: 20  
