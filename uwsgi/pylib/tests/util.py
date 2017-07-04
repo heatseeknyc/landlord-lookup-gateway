@@ -35,7 +35,7 @@ def compare_list(got,exp):
     if not both_list(got,exp):
         return False
     if len(got) != len(exp):
-        return false
+        return False
     for a,b in zip(got,exp):
         if not compare(a,b):
             return False
