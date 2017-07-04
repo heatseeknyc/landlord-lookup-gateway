@@ -4,6 +4,7 @@ import yaml
 import time, argparse
 import simplejson as json
 from lookuptool.dataclient import DataClient
+from tests.util import compare
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--mode", help="what to pull")
@@ -23,7 +24,8 @@ def main():
     print("done.")
 
 
-def compare(got,exp):
+# depreated
+def __compare(got,exp):
     if got is None and exp is None:
         return True
     if got is None or exp is None:
