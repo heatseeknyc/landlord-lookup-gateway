@@ -159,6 +159,10 @@ _shape_fields = ('lat_ctr','lon_ctr','radius','points','parts')
 def extract_shape(r):
     return extract_fields(r,_shape_fields)
 
+def fixdates(r):
+    for k,v in r.items():
+        if isinstance(v,datetime.date):
+            r[k] = str(v)
 
 def inflate_shape(r):
     if r:
@@ -187,6 +191,7 @@ def stagger_taxlot(r):
     rr['acris'] = extract_prefixed(r,'acris',prune=True)
     rr['meta'] = deepcopy(r)
     inflate_shape(rr['pluto'])
+    fixdates(rr['acris'])
     return rr
 
 def expand_summary(r):
