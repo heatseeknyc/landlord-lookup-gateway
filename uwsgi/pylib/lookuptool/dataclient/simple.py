@@ -186,6 +186,7 @@ def stagger_taxlot(r):
     rr['pluto'] = extract_prefixed(r,'pluto',prune=True)
     rr['acris'] = extract_prefixed(r,'acris',prune=True)
     rr['meta'] = deepcopy(r)
+    inflate_shape(rr['pluto'])
     return rr
 
 def expand_summary(r):
