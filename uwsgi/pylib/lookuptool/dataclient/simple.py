@@ -7,6 +7,7 @@ from .base import AgentBase
 from common.logging import log
 from copy import deepcopy
 import simplejson as json
+import datetime
 
 class DataClient(AgentBase):
 
@@ -191,7 +192,8 @@ def stagger_taxlot(r):
     rr['acris'] = extract_prefixed(r,'acris',prune=True)
     rr['meta'] = deepcopy(r)
     inflate_shape(rr['pluto'])
-    fixdates(rr['acris'])
+    if rr['acris']:
+        fixdates(rr['acris'])
     return rr
 
 def expand_summary(r):
