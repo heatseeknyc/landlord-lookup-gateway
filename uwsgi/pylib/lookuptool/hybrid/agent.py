@@ -37,8 +37,18 @@ class LookupAgent(object):
 
     def get_lookup_by_bbl(self,bbl):
         log.debug(":: bbl = %s" % bbl)
-        if not is_valid_bbl(bbl): 
+        if not is_valid_bbl(bbl):
             raise ValueError("invalid bbl '%s'" % str(bbl))
+        taxlot = self.dataclient.get_taxlot(bbl)
+        keytup = {'bbl':bbl,'bin':None}
+        if taxlot is None:
+            # This is actually a weird condition: the Geoclient gave us a BBL, but none of 
+            # our databases recognize it.  Should perhaps handle more forcefully.
+            return {"keytup":keytup,"error":"bbl not recognized"}
+        else:
+            return {"keytup":keytup,"taxlot":taxlot}
+
+        """
         keytup = {'bbl':bbl,'bin':None}
         log.debug(":: keytup = '%s'" % keytup)
         extras = self.dataclient.get_summary(keytup['bbl'],keytup['bin'])
@@ -48,6 +58,7 @@ class LookupAgent(object):
             return {'keytup':keytup,'extras':extras}
         else:
             return {'keytup':keytup,'extras':extras,'message':'invalid bbl'}
+        """
 
     def get_lookup_by_rawaddr(self,rawaddr):
         log.debug(":: rawaddr = '%s'" % rawaddr)
