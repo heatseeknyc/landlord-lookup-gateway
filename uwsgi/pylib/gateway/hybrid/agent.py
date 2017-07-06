@@ -4,7 +4,7 @@ NYC Geoclient API, and our local database, and smooshes everything
 together.
 """
 import re
-from nycprop.identity import is_valid_bbl
+from nycprop.identity import is_valid_bbl, is_valid_bin
 from gateway.util.address import fix_borough_name
 from common.logging import log
 
