@@ -1,7 +1,7 @@
 import time
 import yaml
 import simplejson as json
-import lookuptool.hybrid
+import gateway.hybrid
 from tests.util import compare
 
 def initconf(args):
@@ -20,7 +20,7 @@ def initconf(args):
 def __main():
     args = parse_args()
     dataconf,geoconf = init_conf(args)
-    agent = lookuptool.hybrid.instance(dataconf,geoconf)
+    agent = gateway.hybrid.instance(dataconf,geoconf)
     with open("tdata/hybrid.yaml","rtU") as f:
         pairs = yaml.load(f)
     print("that be %d test cases." % len(pairs))

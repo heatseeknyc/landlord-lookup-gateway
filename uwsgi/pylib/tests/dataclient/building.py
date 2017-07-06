@@ -3,7 +3,7 @@ import sys
 import yaml
 import time, argparse
 import simplejson as json
-from lookuptool.dataclient import DataClient
+from gateway.dataclient import DataClient
 from tests.util import compare
 
 parser = argparse.ArgumentParser()

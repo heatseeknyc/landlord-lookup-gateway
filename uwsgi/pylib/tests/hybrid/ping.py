@@ -1,6 +1,6 @@
 import time, argparse
 import simplejson as json
-import lookuptool.hybrid
+import gateway.hybrid
 from tests.hybrid.util import initconf
 
 def parse_args():
@@ -15,7 +15,7 @@ def main():
     rawaddr = args.addr
     print("rawaddr = [%s]" % rawaddr)
     dataconf,geoconf = initconf(args)
-    agent = lookuptool.hybrid.instance(dataconf,geoconf)
+    agent = gateway.hybrid.instance(dataconf,geoconf)
     t0 = time.time()
     r = agent.get_lookup(rawaddr)
     delta = 1000 * (time.time() - t0)

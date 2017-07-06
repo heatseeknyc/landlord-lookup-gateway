@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 import time, argparse
 import simplejson as json
-from lookuptool.dataclient import DataClient
+from gateway.dataclient import DataClient
 
 def parse_args():
     parser = argparse.ArgumentParser()

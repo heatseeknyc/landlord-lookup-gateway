@@ -13,8 +13,8 @@ import simplejson as json
 from traceback import print_tb
 from flask import Flask
 from flask_cors import CORS, cross_origin
-import lookuptool.hybrid
-from lookuptool.utils.misc import slurp_json
+import gateway.hybrid
+from gateway.util.misc import slurp_json
 from common.logging import log
 
 parser = argparse.ArgumentParser()
@@ -57,7 +57,7 @@ else:
 
 log.info("mock = %s, port = %d" % (usemock,port))
 log.info("siteurl = '%s'" % geoconf.get('siteurl'))
-agent = lookuptool.hybrid.instance(dataconf,geoconf)
+agent = gateway.hybrid.instance(dataconf,geoconf)
 
 
 @app.route('/lookup/<query>')

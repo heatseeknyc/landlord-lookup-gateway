@@ -5,7 +5,7 @@ together.
 """
 import re
 from nycprop.identity import is_valid_bbl
-from lookuptool.utils.address import fix_borough_name
+from gateway.util.address import fix_borough_name
 from common.logging import log
 
 nullish = set([1000000,2000000,3000000,4000000,5000000])
