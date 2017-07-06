@@ -39,6 +39,7 @@ def dotests(agent,pairs):
     for r in pairs:
         evaltest(agent,r)
 
+
 if __name__ == '__main__':
     main()
 
