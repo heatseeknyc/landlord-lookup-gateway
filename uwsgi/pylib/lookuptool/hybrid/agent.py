@@ -21,6 +21,15 @@ class LookupAgent(object):
         self.dataclient = dataclient
         self.geoclient  = geoclient
 
+    def dispatch(self,endpoint,*args):
+        """The preferred entry point to our endpoints."""
+        if endpoint == 'lookup':
+            return self.get_lookup(*args)
+        if endpoint == 'building':
+            # this will raise, presently
+            return self.get_building(*args)
+        return {'error':'invalid endpoint'}
+
     def resolve_address(self,rawaddr):
         log.info(":: rawaddr  = '%s'" % rawaddr)
         normaddr = fix_borough_name(rawaddr)

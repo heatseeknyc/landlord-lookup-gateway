@@ -30,7 +30,7 @@ def evaltest(agent,spec):
     expected = spec['result']
     print("rawaddr = '%s'" % rawaddr)
     print("expected = %s" % expected)
-    response = agent.get_lookup(rawaddr)
+    response = agent.dispatch('lookup',rawaddr)
     print("response = %s" % response)
     status = compare(response,expected)
     print("status = %s" % status)
