@@ -10,6 +10,11 @@
 -
   query: '42'
   result:
+    error: 'invalid bbl' 
+
+-
+  query: '1222223333,42'
+  result:
     error: 'invalid bin' 
 
 -
