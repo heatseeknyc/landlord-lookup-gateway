@@ -16,7 +16,7 @@ def main():
     args = parse_args()
     dataconf,geoconf = initconf(args)
     agent = gateway.hybrid.instance(dataconf,geoconf)
-    with open("tdata/lookup.yaml","rtU") as f:
+    with open("tdata/hybrid/lookup.yaml","rtU") as f:
         pairs = yaml.load(f)
     print("that be %d test cases." % len(pairs))
     t0 = time.time()
