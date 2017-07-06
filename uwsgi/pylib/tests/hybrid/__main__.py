@@ -7,7 +7,7 @@ from tests.util import compare
 from tests.hybrid.util import initconf
 from tests.decorators import timedsingle
 
-ENDPOINTS = ('lookup','building')
+ENDPOINTS = ('lookup','buildings')
 
 def parse_args():
     parser = argparse.ArgumentParser()
