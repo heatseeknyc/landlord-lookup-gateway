@@ -10,21 +10,6 @@ def parse_args():
     parser.add_argument('--barf', dest='barf', action='store_true', help="barf up config files after reading")
     return parser.parse_args()
 
-"""
-def init_conf(args):
-    if args.mock:
-        nycgeopath = "config/nycgeo-mock.json"
-    else:
-        nycgeopath = "config/nycgeo-live.json"
-
-    dataconf = json.loads(open("config/postgres.json","r").read())
-    geoconf  = json.loads(open(nycgeopath,"r").read())
-    if args.barf:
-        print("dataconf =",dataconf)
-        print("geoconf = ",geoconf)
-    return dataconf,geoconf
-"""
-
 def main():
     args = parse_args()
     rawaddr = args.addr
