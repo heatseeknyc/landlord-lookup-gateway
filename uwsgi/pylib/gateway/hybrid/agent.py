@@ -25,9 +25,9 @@ class LookupAgent(object):
         """The preferred entry point to our endpoints."""
         if endpoint == 'lookup':
             return self.get_lookup(*args)
-        if endpoint == 'building':
+        if endpoint == 'buildings':
             # this will raise, presently
-            return self.get_building(*args)
+            return self.get_buildings(*args)
         return {'error':'invalid endpoint'}
 
     def resolve_address(self,rawaddr):
