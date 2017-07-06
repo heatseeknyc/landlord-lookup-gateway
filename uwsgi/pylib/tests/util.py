@@ -1,5 +1,4 @@
 
-
 """
 A magical function which recursively compares two nested structs,
 assuming a "left join" wherever it sees a dict (that is, it only checks
@@ -57,5 +56,4 @@ def is_scalar(x):
         or isinstance(x,bool) \
         or isinstance(x,float) \
         or isinstance(x,bytes);
-
 
