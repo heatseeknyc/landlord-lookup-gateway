@@ -23,7 +23,7 @@ def datapath(name):
 
 def load_data(name):
     infile = datapath(name)
-    with open("tdata/hybrid/lookup.yaml","rtU") as f:
+    with open(infile,"rtU") as f:
         return yaml.load(f)
 
 def runfor(agent,endpoint):
