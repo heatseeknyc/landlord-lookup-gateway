@@ -22,7 +22,6 @@ def main():
     print("dt = %.2f millis" % delta)
     print(json.dumps(r,indent=4,sort_keys=True))
 
-    print("the lovely new main")
 
 if __name__ == '__main__':
     main()
