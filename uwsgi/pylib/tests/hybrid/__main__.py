@@ -42,11 +42,11 @@ def main():
     print("done.")
 
 def evaltest(agent,spec):
-    rawaddr  = spec['query']
+    query = spec['query']
     expected = spec['result']
-    print("rawaddr = '%s'" % rawaddr)
+    print("query    = '%s'" % query)
     print("expected = %s" % expected)
-    response = agent.dispatch('lookup',rawaddr)
+    response = agent.dispatch('lookup',query)
     print("response = %s" % response)
     status = compare(response,expected)
     print("status = %s" % status)
