@@ -12,7 +12,7 @@ app = Flask(__name__)
 CORS(app)
 
 servercfg = json.loads(open("config/mockgeo-server.json","r").read())
-mockdata  = json.loads(open("tests/data/mockdata.json","r").read())
+mockdata  = json.loads(open("pylib/tdata/mockdata.json","r").read())
 mockaddr  = [r['address'] for r in mockdata]
 
 agent = GeoServerMockAgent(mockdata)
