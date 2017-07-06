@@ -4,7 +4,7 @@ import simplejson as json
 import lookuptool.hybrid
 from tests.util import compare
 
-def init_conf(args):
+def initconf(args):
     if args.mock:
         nycgeopath = "config/nycgeo-mock.json"
     else:

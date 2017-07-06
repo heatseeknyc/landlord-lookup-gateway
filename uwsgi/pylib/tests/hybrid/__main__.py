@@ -4,7 +4,7 @@ import argparse
 import simplejson as json
 import lookuptool.hybrid
 from tests.util import compare
-from tests.hybrid.util import init_conf
+from tests.hybrid.util import initconf
 
 def parse_args():
     parser = argparse.ArgumentParser()
@@ -14,7 +14,7 @@ def parse_args():
 
 def main():
     args = parse_args()
-    dataconf,geoconf = init_conf(args)
+    dataconf,geoconf = initconf(args)
     agent = lookuptool.hybrid.instance(dataconf,geoconf)
     with open("tdata/hybrid.yaml","rtU") as f:
         pairs = yaml.load(f)
