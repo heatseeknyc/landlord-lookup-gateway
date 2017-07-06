@@ -26,7 +26,7 @@ def main():
     print("done.")
 
 def evaltest(agent,spec):
-    rawaddr  = spec['query']['rawaddr']
+    rawaddr  = spec['query']
     expected = spec['result']
     print("rawaddr = '%s'" % rawaddr)
     print("expected = %s" % expected)

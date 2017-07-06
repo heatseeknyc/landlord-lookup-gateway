@@ -3,22 +3,19 @@
 #
 
 -
-  query:
-    rawaddr: "structurally_invalid_address"
+  query: "structurally_invalid_address"
   result:
     keytup: null,
     error: 'invalid address (no response from geoclient)' 
 -
-  query:
-    rawaddr: "666 Nowhere Lane, Gotham"
+  query: "666 Nowhere Lane, Gotham"
   result:
     keytup:
       bbl: null
       bin: null
 
 -
-  query:
-    rawaddr: "1 West 72nd St, Manhattan"
+  query: "1 West 72nd St, Manhattan"
   result:
     keytup:
       bbl: 1011250025
