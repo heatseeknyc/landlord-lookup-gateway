@@ -50,6 +50,11 @@ def both_list(x,y):
     return isinstance(x,list) and isinstance(y,list)
 
 def is_scalar(x):
+    """
+    By 'scalar' we mean basically that it's not a dict or a list, and is more like
+    a number or a string.  In particular, it should compare with the == operator.
+    Works for now but we should perhaps think about this definition more carefully.
+    """
     return x is None \
         or isinstance(x,int) \
         or isinstance(x,str) \
