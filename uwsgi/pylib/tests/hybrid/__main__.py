@@ -43,5 +43,3 @@ def dotests(agent,pairs):
 if __name__ == '__main__':
     main()
 
-
-
