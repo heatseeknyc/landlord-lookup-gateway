@@ -29,7 +29,7 @@ def load_data(name):
 def runfor(agent,endpoint):
     pairs = load_data(endpoint)
     print("that be %d test cases." % len(pairs))
-    delta,status = dotests(agent,pairs)
+    delta,status = dotests(endpoint,agent,pairs)
     _status = 'OK' if status else 'BAD'
     print("status = %s in  %.2f ms" % (_status,delta))
 
@@ -41,26 +41,27 @@ def main():
     runfor(agent,args.endpoint)
     print("done.")
 
-def evaltest(agent,spec):
+def evaltest(endpoint,agent,spec):
     query = spec['query']
     expected = spec['result']
     print("query    = '%s'" % query)
     print("expected = %s" % expected)
     try:
-        response = agent.dispatch('lookup',query)
+        response = agent.dispatch(endpoint,query)
         print("response = %s" % response)
         status = compare(response,expected)
         print("status = %s" % status)
         return status
     except Exception as e:
-        print("failed, e = = %s" % e)
+        print("FAILED = %s" % str(e))
+        raise e
         return False
 
 
 @timedsingle
-def dotests(agent,pairs):
+def dotests(endpoint,agent,pairs):
     for r in pairs:
-        evaltest(agent,r)
+        evaltest(endpoint,agent,r)
     return True
 
 

@@ -113,7 +113,36 @@ class LookupAgent(object):
         contacts = self.dataclient.get_contacts(bbl)
         return {"contacts":contacts}
 
+    def get_buildings(self,query):
+        # print(":: query = [%s]" % query)
+        keytup = split_buildings_query(query)
+        # print(":: keytup = %s" % str(keytup))
+        if keytup is None:
+            return {'error':'invalid query'}
+        _bbl,_bin = keytup
+        if not is_valid_bbl(_bbl):
+            return {'error':'invalid bbl'}
+        if _bin is not None and not is_valid_bin(_bin):
+            return {'error':'invalid bin'}
+        buildings = self.dataclient.get_building(_bbl,_bin)
+        return {'buildings':buildings}
 
+
+
+_querypat = re.compile('(\d+)(,(\d+))?$')
+def split_buildings_query(query):
+    if query is None:
+        raise ValueError('invalid usage')
+    m = re.match(_querypat,query)
+    if m:
+        _bbl,_bin = m.group(1),m.group(3)
+        # print("bbl = %s" % _bbl)
+        # print("bin = %s" % _bin)
+        _bbl = int(_bbl)
+        _bin = int(_bin) if _bin else None
+        return _bbl,_bin
+    else:
+        return None
 
 
 # DEPRECATED 
