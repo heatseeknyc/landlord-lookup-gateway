@@ -46,10 +46,16 @@ def evaltest(agent,spec):
     expected = spec['result']
     print("query    = '%s'" % query)
     print("expected = %s" % expected)
-    response = agent.dispatch('lookup',query)
-    print("response = %s" % response)
-    status = compare(response,expected)
-    print("status = %s" % status)
+    try:
+        response = agent.dispatch('lookup',query)
+        print("response = %s" % response)
+        status = compare(response,expected)
+        print("status = %s" % status)
+        return status
+    except Exception as e:
+        print("failed, e = = %s" % e)
+        return False
+
 
 @timedsingle
 def dotests(agent,pairs):
