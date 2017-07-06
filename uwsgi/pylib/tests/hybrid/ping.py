@@ -1,14 +1,16 @@
 import time, argparse
 import simplejson as json
 import lookuptool.hybrid
+from tests.hybrid.util import init_conf
 
 def parse_args():
     parser = argparse.ArgumentParser()
-    parser.add_argument('--addr', help="addres to search", default="1 West 72nd St, Manhattan")
+    parser.add_argument('--addr', help="address to search", default="1 West 72nd St, Manhattan")
     parser.add_argument('--mock', dest='mock', action='store_true', help="use the mock service")
     parser.add_argument('--barf', dest='barf', action='store_true', help="barf up config files after reading")
     return parser.parse_args()
 
+"""
 def init_conf(args):
     if args.mock:
         nycgeopath = "config/nycgeo-mock.json"
@@ -21,6 +23,7 @@ def init_conf(args):
         print("dataconf =",dataconf)
         print("geoconf = ",geoconf)
     return dataconf,geoconf
+"""
 
 def main():
     args = parse_args()

@@ -1,18 +1,9 @@
 import time
 import yaml
-import argparse
 import simplejson as json
 import lookuptool.hybrid
 from tests.util import compare
-from tests.hybrid.util import init_conf
 
-def parse_args():
-    parser = argparse.ArgumentParser()
-    parser.add_argument('--mock', dest='mock', action='store_true', help="use the mock service")
-    parser.add_argument('--barf', dest='barf', action='store_true', help="barf up config files after reading")
-    return parser.parse_args()
-
-"""
 def init_conf(args):
     if args.mock:
         nycgeopath = "config/nycgeo-mock.json"
@@ -25,9 +16,8 @@ def init_conf(args):
         print("dataconf =",dataconf)
         print("geoconf = ",geoconf)
     return dataconf,geoconf
-"""
 
-def main():
+def __main():
     args = parse_args()
     dataconf,geoconf = init_conf(args)
     agent = lookuptool.hybrid.instance(dataconf,geoconf)
@@ -40,7 +30,7 @@ def main():
     print("dt = %.2f millis" % delta)
     print("done.")
 
-def evaltest(agent,spec):
+def __evaltest(agent,spec):
     rawaddr  = spec['query']['rawaddr']
     expected = spec['result']
     print("rawaddr = '%s'" % rawaddr)
@@ -50,12 +40,7 @@ def evaltest(agent,spec):
     status = compare(response,expected)
     print("status = %s" % status)
 
-def dotests(agent,pairs):
+def __dotests(agent,pairs):
     for r in pairs:
-        evaltest(agent,r)
-
-if __name__ == '__main__':
-    main()
-
-
+        __evaltest(agent,r)
 
