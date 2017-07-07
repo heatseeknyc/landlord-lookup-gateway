@@ -65,24 +65,30 @@ class LookupAgent(object):
         # If we get here then we still might have a valid address, but if not,
         # at least the Geoclient will provide some explanation for us.
         bbl = keytup.get('bbl')
-        if bbl is not None:
-            if 'message' in keytup:
-                # If we get an error message at this stage, it's interepreted as a warning
-                # Which we hide from the frontend client (else it will think it's an error condition)
-                log.warn(":: bbl=%s, message=[%s]" % (bbl,keytup['message']))
-            taxlot = self.dataclient.get_taxlot(bbl)
-            if taxlot is None:
-                # This is actually a weird condition: the Geoclient gave us a BBL, but none of 
-                # our databases recognize it.  Should perhaps handle more forcefully.
-                return {'keytup':keytup,'error':"bbl not recognized"}
-            else:
-                return {'keytup':keytup,'taxlot':taxlot}
-        else:
+        if bbl is None:
             message = keytup.get('message')
             if message is None:
                 message = "[malformed response from Geoclient]"
             error = "cannot resolve address"
             return {'error':error,'message':message}
+
+        # Successful address resolution - perhaps with caveats. 
+        if 'message' in keytup:
+            # If we get 'message' at this stage, it's interepreted as a warning
+            # or caveat about the address, most likely of no use (and perhaps only confusing)
+            # to the user.  We'll pass it along anyway, but most likely it won't be displayed.
+            log.warn(":: bbl=%s, message=[%s]" % (bbl,keytup['message']))
+
+        taxlot = self.dataclient.get_taxlot(bbl)
+        if taxlot is None:
+            # If we don't get a taxlot lookup at this stage, this means the Geoclient sent 
+            # us a BBL, but it's not in our combined database.  This would be really weird, 
+            # if it ever happens.  However, we'll let the frontend determine how to handle 
+            # that condition.
+            return {'keytup':keytup,'error':'bbl not recognized'}
+        else:
+            # Generic valid lookup. 
+            return {'keytup':keytup,'taxlot':taxlot}
 
 
     def get_lookup(self,query):
