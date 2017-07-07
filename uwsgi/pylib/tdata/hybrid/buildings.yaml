@@ -45,6 +45,19 @@
         bin: 1013595
         doitt_id: 978340
 
+# 
+# Currently fails on the keytup provided by Geoclient.
+#
+-
+  query: '1007607501,1013595'
+  address: '315 West 36th St'
+  result:
+    buildings:
+      - 
+        bin: 1013595
+        doitt_id: 978340
+
+
 -
   query: '1007600026'
   address: '315 West 36th St'
