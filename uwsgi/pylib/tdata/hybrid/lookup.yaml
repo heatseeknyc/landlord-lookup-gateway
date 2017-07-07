@@ -44,7 +44,7 @@
       bin: null 
     taxlot:
       acris:
-        party_count: 666 
+        party_count: 1 
         transfer_date: '1999-05-06'
         transfer_docid: 'FT_1540006592054'
       meta:
@@ -52,7 +52,7 @@
         in_pad: false 
         is_condo: false
         is_coop: false
-        residential: true
-        stabilized: 'possible'
+        residential: null 
+        stabilized: null 
       pluto: null
 
