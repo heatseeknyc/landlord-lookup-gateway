@@ -61,12 +61,12 @@ class LookupAgent(object):
         if keytup is None:
             return {'error':'malformed input'}
 
+        bbl = keytup.get('bbl')
         if 'message' in keytup:
             log.warn(":: weird resolution on bbl=%s, message=[%s]" % (bbl,keytup['message']))
 
         # If we get here then we still might have a valid address, but if not,
         # at least the Geoclient will provide some explanation for us.
-        bbl = keytup.get('bbl')
         if bbl is None:
             message = keytup.get('message')
             if message is None:
