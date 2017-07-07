@@ -9,10 +9,6 @@ from gateway.util.address import fix_borough_name
 from common.logging import log
 
 
-_intpat = re.compile('^\d+$')
-def _intlike(s):
-    return re.match(_intpat,s)
-
 class LookupAgent(object):
 
     def __init__(self,dataclient,geoclient):
@@ -151,6 +147,10 @@ def make_tiny(r):
     if 'message' in r:
         tiny['message'] = r['message']
     return tiny
+
+_intpat = re.compile('^\d+$')
+def _intlike(s):
+    return re.match(_intpat,s)
 
 def softint(s):
     return int(s) if s is not None else None
