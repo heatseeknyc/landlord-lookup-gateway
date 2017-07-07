@@ -142,6 +142,9 @@ def split_buildings_query(query):
         return None
 
 def make_tiny(r):
+    """
+    Returns a canonicalized form of our response from the the 'geoclient' agent.
+    """
     tiny = {
         'bbl': softint(r.get('bbl')),
         'bin': softint(r.get('buildingIdentificationNumber')),
