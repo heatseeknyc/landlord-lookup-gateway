@@ -83,9 +83,9 @@ class LookupAgent(object):
             else:
                 return {"keytup":keytup,"taxlot":taxlot}
         elif 'message' in keytup:
-            return {'keytup':keytup,"error":keytup['message']}
+            return {'keytup':keytup,'error':keytup['message']}
         else:
-            return {"keytup":keytup,"error":"malformed response from client"}
+            return {"keytup":keytup,'error':"malformed response from client"}
             # message = "weirdness! geoclient provides invalid BBL '%s'" % keytup['bbl']
             # return {'keytup':keytup,'extras':extras,'message':message}
 
