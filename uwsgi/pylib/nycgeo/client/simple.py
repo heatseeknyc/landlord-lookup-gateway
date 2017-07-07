@@ -2,6 +2,7 @@
 A simple interface to the NYC Geoclient API, providing just the query
 functionality we need, with occasional reformatting as needed.
 """
+import re
 import requests, time
 import simplejson as json
 from nycgeo.utils.address import split_address
@@ -80,12 +81,13 @@ def namedtuple2query(named):
 
 
 _intlike = re.compile('^\d+$')
+def is_intlike(n):
+    return n is not None and re.match(_intlike,n)
+
 def _softint(n):
-    return int(n) if re.match(_intlike,n) else n
+    return int(n) if is_intlike(n) else None
 
 def make_tiny(r):
-    # fields = ('bbl','buildingIdentificationNumber','message')
-    # return {k:r.get(k) for k in fields}
     tiny = {}
     tiny['bbl'] = _softint(r.get('bbl'))
     tiny['bin'] = _softint(r.get('buildingIdentificationNumber'))
@@ -93,7 +95,6 @@ def make_tiny(r):
     if message is not None:
         tiny['message'] = message
     return tiny
-
 
 
 
