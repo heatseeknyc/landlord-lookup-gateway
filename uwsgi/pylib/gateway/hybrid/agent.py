@@ -73,13 +73,17 @@ class LookupAgent(object):
             error = "cannot resolve address"
             return {'error':error,'message':message}
 
+        # This case can only happen if the Geoclient is grossly malfunctioning somehow.
+        # So f it ever does, we should be sure to distinguish from the case of an 
+        # unrecgnized BBL.
+        if is_invalid_bbl(bbl):
+            return {'keytup':keytup,'error':'invalid bbl from geoclient'}
+
         taxlot = self.dataclient.get_taxlot(bbl)
         if taxlot is None:
-            # If we don't get a taxlot lookup at this stage, this means the Geoclient sent 
-            # us a BBL, but it's not in our combined database.  This would be really weird, 
-            # if it ever happens.  However, we'll let the frontend determine how to handle 
-            # that condition.
-            return {'keytup':keytup,'error':'bbl not recognized'}
+            # This case should also pretty much never happen -- it would mean that theo
+            # Geoclient sent us a BBL, but it's not in our database.  
+            return {'keytup':keytup,'error':'unrecognized bbl from geoclient'}
         else:
             # Generic valid lookup. 
             return {'keytup':keytup,'taxlot':taxlot}
