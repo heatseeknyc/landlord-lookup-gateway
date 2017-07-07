@@ -40,12 +40,11 @@ class LookupAgent(object):
 
     def get_lookup_by_bbl(self,bbl):
         log.debug(":: bbl = %s" % bbl)
-        if not is_valid_bbl(bbl):
-            raise ValueError("invalid bbl '%s'" % str(bbl))
-        taxlot = self.dataclient.get_taxlot(bbl)
         keytup = {'bbl':bbl,'bin':None}
+        if not is_valid_bbl(bbl):
+            return {'keytup':keytup,'error':'invalid bbl'}
+        taxlot = self.dataclient.get_taxlot(bbl)
         if taxlot is None:
-            # This means the user gave us a BBL, but it's not recognized. 
             return {'keytup':keytup,'error':'bbl not recognized'}
         else:
             return {'keytup':keytup,'taxlot':taxlot}
@@ -61,6 +60,9 @@ class LookupAgent(object):
         if keytup is None:
             return {'error':'malformed input'}
 
+        if 'message' in keytup:
+            log.warn(":: weird resolution on bbl=%s, message=[%s]" % (bbl,keytup['message']))
+
         # If we get here then we still might have a valid address, but if not,
         # at least the Geoclient will provide some explanation for us.
         bbl = keytup.get('bbl')
@@ -70,13 +72,6 @@ class LookupAgent(object):
                 message = "[malformed response from Geoclient]"
             error = "cannot resolve address"
             return {'error':error,'message':message}
-
-        # Successful address resolution - perhaps with caveats. 
-        if 'message' in keytup:
-            # If we get 'message' at this stage, it's interepreted as a warning
-            # or caveat about the address, most likely of no use (and perhaps only confusing)
-            # to the user.  We'll pass it along anyway, but most likely it won't be displayed.
-            log.warn(":: bbl=%s, message=[%s]" % (bbl,keytup['message']))
 
         taxlot = self.dataclient.get_taxlot(bbl)
         if taxlot is None:
