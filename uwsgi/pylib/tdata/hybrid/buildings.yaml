@@ -1,5 +1,5 @@
 #
-# Various interesting test cases.
+# Structurally invalid cases 
 #
 
 -
@@ -13,14 +13,46 @@
     error: 'invalid bbl' 
 
 -
+  query: '6666677777'
+  result:
+    error: 'invalid bbl' 
+
+-
   query: '1222223333,42'
   result:
     error: 'invalid bin' 
 
+
+#
+# Structurally valid cases
+#
+
 -
   query: '1011250025'
+  address: '1 West 72nd St'
   result:
     buildings:
       - 
         bin: 1028637
+        doitt_id: 512440
+
+-
+  query: '1007607501'
+  address: '315 West 36th St'
+  result:
+    buildings:
+      - 
+        bin: 1013595
+        doitt_id: 978340
+
+-
+  query: '1007600026'
+  address: '315 West 36th St'
+  result:
+    buildings:
+      - 
+        bin: 1013595
+        doitt_id: 978340
+
+
 
