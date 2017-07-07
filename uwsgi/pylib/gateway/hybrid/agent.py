@@ -20,7 +20,6 @@ class LookupAgent(object):
         if endpoint == 'lookup':
             return self.get_lookup(*args)
         if endpoint == 'buildings':
-            # this will raise, presently
             return self.get_buildings(*args)
         return {'error':'invalid endpoint'}
 
