@@ -122,6 +122,9 @@ class LookupAgent(object):
         return {'buildings':buildings}
 
 
+#
+# Support functions
+#
 
 _querypat = re.compile('(\d+)(,(\d+))?$')
 def split_buildings_query(query):
@@ -137,7 +140,6 @@ def split_buildings_query(query):
         return _bbl,_bin
     else:
         return None
-
 
 def make_tiny(r):
     tiny = {
