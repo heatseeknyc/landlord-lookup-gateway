@@ -28,10 +28,10 @@ class LookupAgent(object):
         log.info(":: rawaddr  = '%s'" % rawaddr)
         normaddr = fix_borough_name(rawaddr)
         log.debug(":: normaddr = '%s'" % normaddr)
-        keytup,status = self.geoclient.fetch_tiny(normaddr)
+        status,keytup = self.geoclient.fetch_tiny(normaddr)
         log.debug(":: status = %s " % status)
         log.debug(":: response = %s" % keytup)
-        return keytup,status
+        return status,keytup
 
     #
     # Note that the next two handlers are nearly congruent (once we decide what
@@ -51,7 +51,8 @@ class LookupAgent(object):
 
     def get_lookup_by_rawaddr(self,rawaddr):
         log.debug(":: rawaddr = '%s'" % rawaddr)
-        keytup,status = self.resolve_address(rawaddr)
+        status,keytup = self.resolve_address(rawaddr)
+        log.debug(":: status = %s" % status)
         if status != 200:
             return {'error':'no response from geoclient'}
 

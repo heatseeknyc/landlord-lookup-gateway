@@ -40,11 +40,16 @@ class SimpleGeoClient(object):
         return self.authget(base,query)
 
     def fetch(self,rawaddr):
+        """
+        The preferred access route to the Geoclient.  Returns a tuple of (status,response).
+        :status: isa dict of response status 
+        :response: the response struct (possibly None)
+        """
         param = split_address(rawaddr)
         if param is None:
             response = None
             status   = {"code":None, "time":0.001, "error":"invalid address"}
-            return response,status
+            return status,response
         r,delta = self.fetch_default(param)
         status = { 'code': r.status_code, 'time': delta }
         if r.status_code == 200:
@@ -52,18 +57,18 @@ class SimpleGeoClient(object):
             inforec = d.get('address')
         else:
             inforec = None
-        return inforec,status
+        return status,inforec
 
     def fetch_tiny(self,rawaddr):
         log.debug("rawaddr = '%s'" % rawaddr)
-        response,status = self.fetch(rawaddr)
+        status,response = self.fetch(rawaddr)
         log.debug("status   = %s" % status)
         log.debug("response = %s" % response)
-        if response:
-            tinyrec = make_tiny(response)
-            return tinyrec,status
+        if response is None:
+            return status,None
         else:
-            return response,status
+            tinyrec = make_tiny(response)
+            return status,tinyrec
 
 
 def _encode(s):
