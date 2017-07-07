@@ -46,9 +46,9 @@ class LookupAgent(object):
         keytup = {'bbl':bbl,'bin':None}
         if taxlot is None:
             # This means the user gave us a BBL, but it's not recognized. 
-            return {"keytup":keytup,"error":"bbl not recognized"}
+            return {'keytup':keytup,'error':'bbl not recognized'}
         else:
-            return {"keytup":keytup,"taxlot":taxlot}
+            return {'keytup':keytup,'taxlot':taxlot}
 
     def get_lookup_by_rawaddr(self,rawaddr):
         log.debug(":: rawaddr = '%s'" % rawaddr)
