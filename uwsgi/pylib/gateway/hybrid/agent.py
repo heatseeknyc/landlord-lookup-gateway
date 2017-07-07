@@ -4,7 +4,7 @@ NYC Geoclient API, and our local database, and smooshes everything
 together.
 """
 import re
-from nycprop.identity import is_valid_bbl, is_valid_bin
+from nycprop.identity import is_degenerate_bbl, is_valid_bbl, is_valid_bin
 from gateway.util.address import fix_borough_name
 from common.logging import log
 
@@ -41,7 +41,10 @@ class LookupAgent(object):
         log.debug(":: bbl = %s" % bbl)
         keytup = {'bbl':bbl,'bin':None}
         if not is_valid_bbl(bbl):
-            return {'keytup':keytup,'error':'invalid bbl'}
+            return {'keytup':keytup,'error':'invalid bbl (out of range)'}
+        if is_degenerate_bbl(bbl):
+            return {'keytup':keytup,'error':'invalid bbl (degenerate)'}
+
         taxlot = self.dataclient.get_taxlot(bbl)
         if taxlot is None:
             return {'keytup':keytup,'error':'bbl not recognized'}
