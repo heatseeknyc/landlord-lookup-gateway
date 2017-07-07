@@ -96,10 +96,7 @@ class LookupAgent(object):
             raise ValueError("invalid usage - null query object")
         if _intlike(query):
             bbl = int(query)
-            if is_valid_bbl(bbl):
-                return self.get_lookup_by_bbl(bbl)
-            else:
-                return { 'error':"invalid bbl" }
+            return self.get_lookup_by_bbl(bbl)
         else:
             return self.get_lookup_by_rawaddr(query)
 
