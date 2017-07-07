@@ -36,6 +36,7 @@ def runfor(agent,endpoint):
     print("status = %s in  %.2f ms" % (_status,delta))
 
 def main():
+    global LOUD
     args = parse_args()
     LOUD = args.loud
     dataconf,geoconf = initconf(args)
