@@ -148,6 +148,10 @@ def _intlike(s):
 def softint(s):
     return int(s) if s is not None else None
 
+
+
+
+# deprecated 
 def make_tiny(r):
     """
     Returns a canonicalized form of our response from the the 'geoclient' agent.
