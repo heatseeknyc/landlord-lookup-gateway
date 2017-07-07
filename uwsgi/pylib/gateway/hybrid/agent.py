@@ -141,6 +141,13 @@ def split_buildings_query(query):
     else:
         return None
 
+_intpat = re.compile('^\d+$')
+def _intlike(s):
+    return re.match(_intpat,s)
+
+def softint(s):
+    return int(s) if s is not None else None
+
 def make_tiny(r):
     """
     Returns a canonicalized form of our response from the the 'geoclient' agent.
@@ -153,11 +160,5 @@ def make_tiny(r):
         tiny['message'] = r['message']
     return tiny
 
-_intpat = re.compile('^\d+$')
-def _intlike(s):
-    return re.match(_intpat,s)
-
-def softint(s):
-    return int(s) if s is not None else None
 
 
