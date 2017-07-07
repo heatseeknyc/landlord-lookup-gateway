@@ -7,10 +7,12 @@ from tests.util import compare
 from tests.hybrid.util import initconf
 from tests.decorators import timedsingle
 
+LOUD = False
 ENDPOINTS = ('lookup','buildings')
 
 def parse_args():
     parser = argparse.ArgumentParser()
+    parser.add_argument('--loud', dest='loud', action='store_true', required=False)
     parser.add_argument('--mock', dest='mock', action='store_true', help="use the mock service")
     parser.add_argument('--barf', dest='barf', action='store_true', help="barf up config files after reading")
     parser.add_argument('endpoint', nargs='?', default='all')
@@ -35,6 +37,7 @@ def runfor(agent,endpoint):
 
 def main():
     args = parse_args()
+    LOUD = args.loud
     dataconf,geoconf = initconf(args)
     agent = gateway.hybrid.instance(dataconf,geoconf)
     print("tag = %s" % args.endpoint)
@@ -44,24 +47,26 @@ def main():
 def evaltest(endpoint,agent,spec):
     query = spec['query']
     expected = spec['result']
-    print("query    = '%s'" % query)
-    print("expected = %s" % expected)
+    if LOUD:
+        print("query    = '%s'" % query)
+        print("expected = %s" % expected)
     try:
         response = agent.dispatch(endpoint,query)
-        print("response = %s" % response)
-        status = compare(response,expected)
-        print("status = %s" % status)
-        return status
+        if LOUD:
+            print("response = %s" % response)
+        return compare(response,expected)
     except Exception as e:
         print("FAILED = %s" % str(e))
-        raise e
+        # raise e
         return False
 
 
 @timedsingle
 def dotests(endpoint,agent,pairs):
-    for r in pairs:
-        evaltest(endpoint,agent,r)
+    for i,r in enumerate(pairs):
+        status = evaltest(endpoint,agent,r)
+        _status = 'ok' if status else 'FAILED'
+        print("test %d => %s" % (i,_status))
     return True
 
 
