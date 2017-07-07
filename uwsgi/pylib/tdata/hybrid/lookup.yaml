@@ -33,6 +33,9 @@
         units_total: 94,
         year_built: 1900
 
+#
+# A condo unit
+# 
 -
   query: '1000041003'
   result:
@@ -40,7 +43,10 @@
       bbl: 1000041003 
       bin: null 
     taxlot:
-      acris: null
+      acris:
+        party_count: 666 
+        transfer_date: '1999-05-06'
+        transfer_docid: 'FT_1540006592054'
       meta:
         in_acris: true
         in_pad: false 
