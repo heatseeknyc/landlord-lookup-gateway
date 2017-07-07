@@ -82,12 +82,12 @@ class LookupAgent(object):
                 return {"keytup":keytup,"error":"bbl not recognized"}
             else:
                 return {"keytup":keytup,"taxlot":taxlot}
-        elif 'message' in keytup:
-            return {'keytup':keytup,'error':keytup['message']}
         else:
-            return {"keytup":keytup,'error':"malformed response from client"}
-            # message = "weirdness! geoclient provides invalid BBL '%s'" % keytup['bbl']
-            # return {'keytup':keytup,'extras':extras,'message':message}
+            message = keytup.get('message')
+            if message is None:
+                message = "[malformed response from Geoclient]"
+            error = "cannot resolve address"
+            return {'error':error,'message':message}
 
     def get_lookup(self,query):
         ''' Combined geoclient + ownership summary for a given address'''
