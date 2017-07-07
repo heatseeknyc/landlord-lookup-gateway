@@ -53,13 +53,20 @@ class LookupAgent(object):
         log.debug(":: rawaddr = '%s'" % rawaddr)
         status,keytup = self.resolve_address(rawaddr)
         log.debug(":: status = %s" % status)
-        if status.get('code') != 200:
+        code = status.get('code')
+
+        # If we have no response code, it means our input was so bad that we
+        # didn't even attempt to conctact the geoclient.
+        if code is None:
+            return {'error':'malformed address'}
+
+        if code != 200:
             return {'error':'no response from geoclient'}
 
         # Geoclient returned something, but had no 'address' member. 
         # So basically it's barfing at us. 
         if keytup is None:
-            return {'error':'malformed input'}
+            return {'error':'malformed response from geoclient'}
 
         bbl = keytup.get('bbl')
         if 'message' in keytup:

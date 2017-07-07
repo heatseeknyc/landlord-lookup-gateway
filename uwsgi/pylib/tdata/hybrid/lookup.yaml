@@ -5,8 +5,7 @@
 -
   query: "structurally_invalid_address"
   result:
-    keytup: null,
-    error: 'invalid address (no response from geoclient)' 
+    error: 'malformed address'
 -
   query: "666 Nowhere Lane, Gotham"
   result:

@@ -43,14 +43,20 @@ class SimpleGeoClient(object):
     def fetch(self,rawaddr):
         """
         The preferred access route to the Geoclient.  Returns a tuple of (status,response).
-        :status: isa dict of response status 
+        :status: isa dict of response status
         :response: the response struct (possibly None)
         """
         param = split_address(rawaddr)
+
+        # We've been given garbage input that doesn't even look like an address.
+        # So we send a response struct conveying this fact, and indicating that 
+        # no Geoclient request was attempted.
         if param is None:
             response = None
             status   = {"code":None, "time":0.001, "error":"invalid address"}
             return status,response
+
+        # Looks like an address -- see what Geoclient says 
         r,delta = self.fetch_default(param)
         status = { 'code': r.status_code, 'time': delta }
         if r.status_code == 200:
