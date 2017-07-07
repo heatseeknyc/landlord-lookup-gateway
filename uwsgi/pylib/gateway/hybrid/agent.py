@@ -59,11 +59,14 @@ class LookupAgent(object):
         if code is None:
             return {'error':'malformed address'}
 
+        # This shouldn't happen very often; if it does, that's kind of bad.
+        # All the user can do is try again!
         if code != 200:
             return {'error':'no response from geoclient'}
 
         # Geoclient returned something, but had no 'address' member. 
-        # So basically it's barfing at us. 
+        # So basically it's barfing at us.  We kind of doubt ths will ever happen,
+        # but if it does we should convey what happened.
         if keytup is None:
             return {'error':'malformed response from geoclient'}
 
