@@ -8,11 +8,13 @@ from tests.hybrid.util import initconf
 from tests.decorators import timedsingle
 
 LOUD = False
+THROW = False
 ENDPOINTS = ('lookup','buildings')
 
 def parse_args():
     parser = argparse.ArgumentParser()
     parser.add_argument('--loud', dest='loud', action='store_true', required=False)
+    parser.add_argument('--throw', dest='throw', action='store_true', required=False)
     parser.add_argument('--mock', dest='mock', action='store_true', help="use the mock service")
     parser.add_argument('--barf', dest='barf', action='store_true', help="barf up config files after reading")
     parser.add_argument('endpoint', nargs='?', default='all')
@@ -36,9 +38,10 @@ def runfor(agent,endpoint):
     print("status = %s in  %.2f ms" % (_status,delta))
 
 def main():
-    global LOUD
+    global THROW,LOUD
     args = parse_args()
     LOUD = args.loud
+    THROW = args.throw
     dataconf,geoconf = initconf(args)
     agent = gateway.hybrid.instance(dataconf,geoconf)
     print("tag = %s" % args.endpoint)
@@ -57,8 +60,9 @@ def evaltest(endpoint,agent,spec):
             print("response = %s" % response)
         return compare(response,expected)
     except Exception as e:
-        print("FAILED = %s" % str(e))
-        # raise e
+        print("EXCEPT %s" % str(e))
+        if THROW:
+            raise e
         return False
 
 
