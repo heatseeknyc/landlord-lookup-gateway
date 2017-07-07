@@ -51,18 +51,6 @@ class LookupAgent(object):
         else:
             return {"keytup":keytup,"taxlot":taxlot}
 
-        """
-        keytup = {'bbl':bbl,'bin':None}
-        log.debug(":: keytup = '%s'" % keytup)
-        extras = self.dataclient.get_summary(keytup['bbl'],keytup['bin'])
-        if 'message' in keytup:
-            # If we get an error message at this stage, it's interepreted as a warning
-            log.warn(":: bbl=%s, message=[%s]" % (keytup['bbl'],keytup['message']))
-            return {'keytup':keytup,'extras':extras}
-        else:
-            return {'keytup':keytup,'extras':extras,'message':'invalid bbl'}
-        """
-
     def get_lookup_by_rawaddr(self,rawaddr):
         log.debug(":: rawaddr = '%s'" % rawaddr)
         keytup = self.resolve_address(rawaddr)
