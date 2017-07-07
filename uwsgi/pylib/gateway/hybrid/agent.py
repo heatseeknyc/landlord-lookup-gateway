@@ -90,14 +90,19 @@ class LookupAgent(object):
 
 
     def get_lookup(self,query):
-        ''' Combined geoclient + ownership summary for a given address'''
+        """Combined geoclient + taxlot summary for an address or a BBL"""
         log.debug(":: query = '%s'" % query)
         if query is None:
+            # This can never happen if we've been properly routed (no matter
+            # the user types, or the client sends).
             raise ValueError("invalid usage - null query object")
         if _intlike(query):
+            # If our query is integer-like, it means we've either come in via
+            # a /taxlot/ URL, or the user has typed in a BBL in the search bar.
             bbl = int(query)
             return self.get_lookup_by_bbl(bbl)
         else:
+            # If not then they're at least attempting to provide a valid address.
             return self.get_lookup_by_rawaddr(query)
 
     def get_contacts(self,bbl):
