@@ -14,12 +14,12 @@
 -
   query: '42'
   result:
-    error: 'invalid bbl' 
+    error: 'invalid bbl (out of range)' 
 
 -
   query: '1000000000'
   result:
-    error: 'degenerate bbl' 
+    error: 'invalid bbl (degenerate)' 
 
 -
   query: '1234512345'

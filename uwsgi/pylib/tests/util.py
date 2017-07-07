@@ -23,11 +23,14 @@ def compare(got,exp):
 def compare_dict(got,exp):
     if not both_dict(got,exp):
         return False
+    # print("got.keys = %s" % list(got.keys()))
+    # print("exp.keys = %s" % list(exp.keys()))
     for k in sorted(exp.keys()):
+        # print("check %s .." % k)
         if k not in got:
             return False
-        else:
-            return compare(got[k],exp[k])
+        if not compare(got[k],exp[k]):
+            return False
     return True
 
 def compare_list(got,exp):
