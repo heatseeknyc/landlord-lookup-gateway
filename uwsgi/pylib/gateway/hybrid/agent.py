@@ -45,8 +45,7 @@ class LookupAgent(object):
         taxlot = self.dataclient.get_taxlot(bbl)
         keytup = {'bbl':bbl,'bin':None}
         if taxlot is None:
-            # This is actually a weird condition: the Geoclient gave us a BBL, but none of 
-            # our databases recognize it.  Should perhaps handle more forcefully.
+            # This means the user gave us a BBL, but it's not recognized. 
             return {"keytup":keytup,"error":"bbl not recognized"}
         else:
             return {"keytup":keytup,"taxlot":taxlot}
