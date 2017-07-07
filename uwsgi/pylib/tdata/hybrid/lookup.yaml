@@ -10,9 +10,7 @@
 -
   query: "666 Nowhere Lane, Gotham"
   result:
-    keytup:
-      bbl: null
-      bin: null
+    error: 'cannot resolve address' 
 
 -
   query: "1 West 72nd St, Manhattan"
