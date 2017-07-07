@@ -28,10 +28,10 @@ class LookupAgent(object):
         log.info(":: rawaddr  = '%s'" % rawaddr)
         normaddr = fix_borough_name(rawaddr)
         log.debug(":: normaddr = '%s'" % normaddr)
-        r,status = self.geoclient.fetch_tiny(normaddr)
+        keytup,status = self.geoclient.fetch_tiny(normaddr)
         log.debug(":: status = %s " % status)
-        log.debug(":: response = %s" % r)
-        return make_tiny(r) if r else None
+        log.debug(":: response = %s" % keytup)
+        return keytup
 
     #
     # Note that the next two handlers are nearly congruent (once we decide what
@@ -68,7 +68,7 @@ class LookupAgent(object):
         keytup = self.resolve_address(rawaddr)
         log.debug(":: keytup = '%s'" % keytup)
         if keytup is None:
-            return {"error":"invalid address (no response from geoclient)"}
+            return {'error':"invalid address (no response from geoclient)"}
         bbl = keytup.get('bbl')
         if bbl is not None:
             if 'message' in keytup:
@@ -79,9 +79,9 @@ class LookupAgent(object):
             if taxlot is None:
                 # This is actually a weird condition: the Geoclient gave us a BBL, but none of 
                 # our databases recognize it.  Should perhaps handle more forcefully.
-                return {"keytup":keytup,"error":"bbl not recognized"}
+                return {'keytup':keytup,'error':"bbl not recognized"}
             else:
-                return {"keytup":keytup,"taxlot":taxlot}
+                return {'keytup':keytup,'taxlot':taxlot}
         else:
             message = keytup.get('message')
             if message is None:
@@ -99,7 +99,7 @@ class LookupAgent(object):
             if is_valid_bbl(bbl):
                 return self.get_lookup_by_bbl(bbl)
             else:
-                return { "error":"invalid bbl" }
+                return { 'error':"invalid bbl" }
         else:
             return self.get_lookup_by_rawaddr(query)
 
