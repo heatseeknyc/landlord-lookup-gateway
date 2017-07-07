@@ -53,7 +53,7 @@ class LookupAgent(object):
         log.debug(":: rawaddr = '%s'" % rawaddr)
         status,keytup = self.resolve_address(rawaddr)
         log.debug(":: status = %s" % status)
-        if status != 200:
+        if status.get('code') != 200:
             return {'error':'no response from geoclient'}
 
         # Geoclient returned something, but had no 'address' member. 
@@ -77,7 +77,7 @@ class LookupAgent(object):
         # This case can only happen if the Geoclient is grossly malfunctioning somehow.
         # So f it ever does, we should be sure to distinguish from the case of an 
         # unrecgnized BBL.
-        if is_invalid_bbl(bbl):
+        if not is_valid_bbl(bbl):
             return {'keytup':keytup,'error':'invalid bbl from geoclient'}
 
         taxlot = self.dataclient.get_taxlot(bbl)
