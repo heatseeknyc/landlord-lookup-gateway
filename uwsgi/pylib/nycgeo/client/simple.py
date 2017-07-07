@@ -78,12 +78,17 @@ def namedtuple2query(named):
     d = named._asdict()
     return '&'.join(['%s=%s' % (_encode(k),_encode(v)) for k,v in d.items()])
 
+
+_intlike = re.compile('^\d+$')
+def _softint(n):
+    return int(n) if re.match(_intlike,n) else n
+
 def make_tiny(r):
     # fields = ('bbl','buildingIdentificationNumber','message')
     # return {k:r.get(k) for k in fields}
     tiny = {}
-    tiny['bbl'] = r.get('bbl')
-    tiny['bin'] = r.get('buildingIdentificationNumber')
+    tiny['bbl'] = _softint(r.get('bbl'))
+    tiny['bin'] = _softint(r.get('buildingIdentificationNumber'))
     message = r.get('message')
     if message is not None:
         tiny['message'] = message
