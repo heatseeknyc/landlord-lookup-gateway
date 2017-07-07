@@ -74,8 +74,16 @@ def namedtuple2query(named):
     return '&'.join(['%s=%s' % (_encode(k),_encode(v)) for k,v in d.items()])
 
 def make_tiny(r):
-    fields = ('bbl','buildingIdentificationNumber','message')
-    return {k:r.get(k) for k in fields}
+    # fields = ('bbl','buildingIdentificationNumber','message')
+    # return {k:r.get(k) for k in fields}
+    tiny = {}
+    tiny['bbl'] = r.get('bbl')
+    tiny['bin'] = r.get('buildingIdentificationNumber')
+    message = r.get('message')
+    if message is not None:
+        tiny['message'] = message
+    return tiny
+
 
 
 

@@ -31,7 +31,7 @@ class LookupAgent(object):
         keytup,status = self.geoclient.fetch_tiny(normaddr)
         log.debug(":: status = %s " % status)
         log.debug(":: response = %s" % keytup)
-        return keytup
+        return keytup,status
 
     #
     # Note that the next two handlers are nearly congruent (once we decide what
@@ -53,10 +53,17 @@ class LookupAgent(object):
 
     def get_lookup_by_rawaddr(self,rawaddr):
         log.debug(":: rawaddr = '%s'" % rawaddr)
-        keytup = self.resolve_address(rawaddr)
-        log.debug(":: keytup = '%s'" % keytup)
+        keytup,status = self.resolve_address(rawaddr)
+        if status != 200:
+            return {'error':'no response from geoclient'}
+
+        # Geoclient returned something, but had no 'address' member. 
+        # So basically it's barfing at us. 
         if keytup is None:
-            return {'error':"invalid address (no response from geoclient)"}
+            return {'error':'malformed input'}
+
+        # If we get here then we still might have a valid address, but if not,
+        # at least the Geoclient will provide some explanation for us.
         bbl = keytup.get('bbl')
         if bbl is not None:
             if 'message' in keytup:
@@ -76,6 +83,7 @@ class LookupAgent(object):
                 message = "[malformed response from Geoclient]"
             error = "cannot resolve address"
             return {'error':error,'message':message}
+
 
     def get_lookup(self,query):
         ''' Combined geoclient + ownership summary for a given address'''
