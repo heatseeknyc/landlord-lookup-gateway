@@ -8,8 +8,6 @@ from nycprop.identity import is_valid_bbl, is_valid_bin
 from gateway.util.address import fix_borough_name
 from common.logging import log
 
-nullish = set([1000000,2000000,3000000,4000000,5000000])
-
 
 _intpat = re.compile('^\d+$')
 def _intlike(s):
@@ -145,14 +143,6 @@ def split_buildings_query(query):
         return None
 
 
-# DEPRECATED 
-def fix_bin(r):
-    """Fixes the keytup's BIN (if null-ish), in-place."""
-    log.debug(":: keytup (before) = %s" % r)
-    if r['bin'] in nullish:
-        r['bin'] = None
-    log.debug(":: keytup (after) = %s" % r)
-
 def make_tiny(r):
     tiny = {
         'bbl': softint(r.get('bbl')),
@@ -161,15 +151,6 @@ def make_tiny(r):
     if 'message' in r:
         tiny['message'] = r['message']
     return tiny
-
-# DEPRECATED 
-def __make_tiny(r):
-    """Extracts just the fields we need from a Geoclient response, and renames
-    some of them for the final outgoing message blurb."""
-    tiny = _make_tiny(r)
-    fix_bin(tiny)
-    return tiny
-
 
 def softint(s):
     return int(s) if s is not None else None
