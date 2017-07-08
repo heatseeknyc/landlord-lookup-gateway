@@ -51,7 +51,7 @@ class DataClient(AgentBase):
     # Deprecated Methods 
     #
 
-    def get_buildings(self,_bbl):
+    def __get_buildings(self,_bbl):
         '''Building IDs + shapes per BBL'''
         query = \
             "select bin,doitt_id,lat_ctr,lon_ctr,radius,parts,points " + \
@@ -77,7 +77,7 @@ class DataClient(AgentBase):
 
     In either case, we're guaranteed to have at most 1 row match in response.
     """
-    def get_summary(self,_bbl,_bin):
+    def __get_summary(self,_bbl,_bin):
         """
         Full taxlot+building summary for a BBL+BIN pair.  The whole idea of this accessors is
         that it does all the internal switching necessary to give you both taxlot and building
