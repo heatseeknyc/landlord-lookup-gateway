@@ -40,6 +40,28 @@ class DataClient(AgentBase):
             log.debug("fetched r = %s" % r)
             return r
 
+    def get_contacts(self,_bbl,_bin):
+        '''HPD contacts per BBL'''
+        query = \
+            "select contact_id, registration_id, contact_type, description, corpname, contact_name, business_address " + \
+            "from hard.contact_info where bbl = %s and bin = %s order by registration_id, contact_rank;"
+        return self.fetch_recs(query,_bbl,_bin)
+
+    #
+    # Deprecated Methods 
+    #
+
+    def get_buildings(self,_bbl):
+        '''Building IDs + shapes per BBL'''
+        query = \
+            "select bin,doitt_id,lat_ctr,lon_ctr,radius,parts,points " + \
+            "from hard.pluto_building where bbl = %s order by doitt_id";
+        r = self.fetch_recs(query,_bbl)
+        log.debug("r = %s" % str(r))
+        if r:
+            [inflate_shape(_) for _ in r]
+        return r
+
     """
     We return the BBL we're selecting on, along with the boro_id,
     along with the response dict, for the convenience of frontend
@@ -73,23 +95,6 @@ class DataClient(AgentBase):
         log.debug("r = %s" % str(r))
         return expand_summary(r) if r is not None else None
 
-    def get_contacts(self,_bbl,_bin):
-        '''HPD contacts per BBL'''
-        query = \
-            "select contact_id, registration_id, contact_type, description, corpname, contact_name, business_address " + \
-            "from hard.contact_info where bbl = %s and bin = %s order by registration_id, contact_rank;"
-        return self.fetch_recs(query,_bbl,_bin)
-
-    def get_buildings(self,_bbl):
-        '''Building IDs + shapes per BBL'''
-        query = \
-            "select bin,doitt_id,lat_ctr,lon_ctr,radius,parts,points " + \
-            "from hard.pluto_building where bbl = %s order by doitt_id";
-        r = self.fetch_recs(query,_bbl)
-        log.debug("r = %s" % str(r))
-        if r:
-            [inflate_shape(_) for _ in r]
-        return r
 
 def make_summary_query(_bbl,_bin):
     """
