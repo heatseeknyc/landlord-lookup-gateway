@@ -198,6 +198,7 @@ def stagger_taxlot(r):
         augment_pluto(rr['pluto'])
     return rr
 
+# deprecated
 def expand_summary(r):
     stable = extract_prefixed(r,'stable')
     building = extract_prefixed(r,'building')
