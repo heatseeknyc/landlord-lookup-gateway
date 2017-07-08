@@ -203,23 +203,6 @@ def stagger_taxlot(r):
         augment_pluto(rr['pluto'])
     return rr
 
-# deprecated
-def expand_summary(r):
-    stable = extract_prefixed(r,'stable')
-    building = extract_prefixed(r,'building')
-    pluto = extract_prefixed(r,'pluto')
-    taxlot = extract_shape(pluto)
-    inflate_shape(building)
-    inflate_shape(taxlot)
-    if pluto:
-        augment_pluto(pluto)
-    return  {
-        'pluto': pluto,
-        'taxlot': taxlot,
-        'stable': stable,
-        'building': building,
-        'nychpd_count': r.get('nychpd_count'),
-    }
 
 
 def applymems(r,callf,keys):
@@ -248,4 +231,28 @@ def expand_address(s):
 
 def cast_as_int(x):
     return 0 if x is None else int(x)
+
+
+
+
+#
+# Deprecated Stuff 
+#
+
+def expand_summary(r):
+    stable = extract_prefixed(r,'stable')
+    building = extract_prefixed(r,'building')
+    pluto = extract_prefixed(r,'pluto')
+    taxlot = extract_shape(pluto)
+    inflate_shape(building)
+    inflate_shape(taxlot)
+    if pluto:
+        augment_pluto(pluto)
+    return  {
+        'pluto': pluto,
+        'taxlot': taxlot,
+        'stable': stable,
+        'building': building,
+        'nychpd_count': r.get('nychpd_count'),
+    }
 
