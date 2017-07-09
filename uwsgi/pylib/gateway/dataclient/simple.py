@@ -193,6 +193,7 @@ def stagger_taxlot(r):
     if r is None:
         return None
     rr = {}
+    rr['hpd'] = extract_prefixed(r,'hpd',prune=True)
     rr['pluto'] = extract_prefixed(r,'pluto',prune=True)
     rr['acris'] = extract_prefixed(r,'acris',prune=True)
     rr['meta'] = deepcopy(r)
