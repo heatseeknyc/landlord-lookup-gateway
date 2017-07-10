@@ -70,7 +70,7 @@ def api_lookup(query):
 def api_contacts(keytup):
     return wrapsafe(resolve_contacts,keytup)
 
-@app.route('/building/<bbl>')
+@app.route('/buildings/<bbl>')
 @cross_origin()
 def api_building(bbl):
     return wrapsafe(resolve_buildings,bbl)

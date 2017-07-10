@@ -30,7 +30,7 @@ def evaltest(agent,r):
     _bbl = r['query'].get('bbl')
     _bin = r['query'].get('bin')
     expected = r['result']
-    bldg_list = agent.get_building(_bbl,_bin)
+    bldg_list = agent.get_buildings(_bbl,_bin)
     print("building.type = %s" % type(bldg_list))
     # print("building.len = %d" % len(bldg_list))
     print("building = %s" % bldg_list)
