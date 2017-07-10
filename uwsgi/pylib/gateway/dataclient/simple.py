@@ -29,16 +29,16 @@ class DataClient(AgentBase):
             return []
         if _bin is None:
             query = "select * from hard.building where bbl = %s and in_pluto order by bin, doitt_id"
-            r = self.fetch_recs(query,_bbl)
-            log.debug("fetched type(r) = %s" % type(r))
-            log.debug("fetched r = %s" % r)
-            return r
+            args = (_bbl,)
         else:
             query = "select * from hard.building where bbl = %s and bin = %s and in_pluto order by doitt_id"
-            r = self.fetch_recs(query,_bbl,_bin)
-            log.debug("fetched type(r) = %s" % type(r))
-            log.debug("fetched r = %s" % r)
-            return r
+            args = (_bbl,_bin)
+        r = self.fetch_recs(query,*args)
+        log.debug("fetched type(r) = %s" % type(r))
+        log.debug("fetched r = %s" % r)
+        if r:
+            [inflate_shape(_) for _ in r]
+        return r
 
     def get_contacts(self,_bbl,_bin):
         '''HPD contacts per BBL'''
