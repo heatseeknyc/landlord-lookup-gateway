@@ -138,7 +138,7 @@ class LookupAgent(object):
             return {'error':'invalid bbl'}
         if _bin is not None and not is_valid_bin(_bin):
             return {'error':'invalid bin'}
-        buildings = self.dataclient.get_building(_bbl,_bin)
+        buildings = self.dataclient.get_buildings(_bbl,_bin)
         return {'buildings':buildings}
 
 

@@ -70,10 +70,10 @@ def api_lookup(query):
 def api_contacts(keytup):
     return wrapsafe(resolve_contacts,keytup)
 
-@app.route('/buildings/<bbl>')
+@app.route('/buildings/<keyarg>')
 @cross_origin()
-def api_building(bbl):
-    return wrapsafe(resolve_buildings,bbl)
+def api_building(keyarg):
+    return wrapsafe(resolve_buildings,keyarg)
 
 
 
@@ -98,14 +98,15 @@ def resolve_contacts(keytup):
         contacts = agent.dataclient.get_contacts(*t)
         return jsonify({"contacts":contacts})
 
-def resolve_buildings(bbl):
+def resolve_buildings(keyarg):
     # log.info("bbl = [%s]" % bbl)
-    n = parsebbl(bbl)
-    if n is None:
-        return errmsg('invalid BBL string')
-    else:
-        buildings = agent.dataclient.get_buildings(n)
-        return jsonify({"buildings":buildings})
+    # n = parsebbl(bbl)
+    #if n is None:
+    #    return errmsg('invalid BBL string')
+    # else:
+    log.debug("keyarg = [%s]" % keyarg)
+    r = agent.get_buildings(keyarg)
+    return jsonify(r)
 
 def wrapsafe(callf,rawarg):
     try:
