@@ -23,7 +23,7 @@ class DataClient(AgentBase):
     # Note that there's no special treatment for invalid BBLs/BINs at this stage:
     # in theory they should already excluded from the database, so queries on them
     # simply return empty results.  We do exclude null BBLs, however.
-    def get_buildings(self,_bbl,_bin):
+    def get_buildings(self,_bbl,_bin=None):
         log.debug("bbl = %s, bin = %s" % (_bbl,_bin))
         if _bbl is None:
             return []
