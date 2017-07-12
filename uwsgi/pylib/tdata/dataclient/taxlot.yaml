@@ -58,12 +58,13 @@
     acris: null
 
 
-# The next two records provide a slightly messy (but not atypical) case 
-# of a condo building with a bank BBL + physical BBL, with different attribues
-# accessible for each.
+# The next two records present a messy corner case that occurs very infrequently, 
+# but is very puzzling when it does occur: of a condo lot where some attributes are
+# on the bank BBL, and others on the physical BBL.  (Ideally all the identifiers  
+# should be "moved" to the bank BBL, but this doesn't always seem to happen).
 
-# This one has a bank BBL, so it's not in ACRIS.
-# And not that building count is 0, because the building shape is on the physical bbl.
+# With this one we have bldg_count == 0, because the building shape is on the physical bbl.
+# Also since it has a bank BBL, it's not in ACRIS.
 -
   query: 
     bbl: 1007607501 
@@ -82,8 +83,8 @@
       bldg_count: 0 
     acris: null
 
-# Same building but accessed via its phyiscal BBL.
-# It's not in Pluto but it is in ACRIS, and last transfered in 2001.
+# Same building but accessed via its physical BBL (which doesn't occur in Pluto at all).
+# But it is in ACRIS, and last transfered in 2001.
 -
   query: 
     bbl: 1007600026 
