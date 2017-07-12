@@ -47,7 +47,6 @@
   result:
     meta:
       bbltype: 1
-      is_condo: false
       is_coop: true 
       residential: true
       stabilized: 3 
@@ -73,10 +72,10 @@
   result:  
     meta:
       bbltype: 1
-      is_condo: true 
       is_coop: false 
       residential: true
       stabilized: 3 
+    condo: {}
     pluto:
       year_built: 1926
       units_total: 20  
@@ -93,7 +92,6 @@
   result:  
     meta:
       bbltype: 1
-      is_condo: false 
       is_coop: false 
       residential: false 
       stabilized: null 
@@ -113,7 +111,6 @@
   result:  
     meta:
       bbltype: 1
-      is_condo: false 
       is_coop: false 
       residential: true
       stabilized: 1 
@@ -139,7 +136,6 @@
   result:  
     meta:
       bbltype: 1
-      is_condo: false 
       is_coop: false 
       residential: false 
       stabilized: null 

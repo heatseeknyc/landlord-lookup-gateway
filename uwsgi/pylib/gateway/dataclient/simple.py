@@ -139,6 +139,7 @@ def augment_pluto(p):
         return
     p['bldg_count_label'] = _pluto_bldg_count_label(p['bldg_count'])
 
+# Sometimes nested is better than flat.
 def stagger_taxlot(r):
     """Invasively 'staggers' a database response to a taxlot query. returning
     a new bilevel dict and mangling the old one beyond recognition."""
@@ -154,9 +155,25 @@ def stagger_taxlot(r):
     if rr['pluto']:
         inflate_shape(rr['pluto'])
         augment_pluto(rr['pluto'])
+    stagger_condo(rr)
     return rr
 
 
+def stagger_condo(r):
+    meta = r['meta']
+    if 'is_condo' not in meta:
+        return False
+    flag = pluck(meta,'is_condo')
+    if flag:
+        meta['condo'] = {}
+
+
+def pluck(d,k):
+    if k not in d:
+        raise KeyError("invalid usage - can't pluck non-existent key '%s'" % k)
+    v = d[k]
+    del d[k]
+    return v
 
 def applymems(r,callf,keys):
     for k in keys:
@@ -208,4 +225,15 @@ def expand_summary(r):
         'building': building,
         'nychpd_count': r.get('nychpd_count'),
     }
+
+def __stagger_condo(r):
+    meta = r.get('meta')
+    if not meta:
+        raise ValueError("corrupted taxlot struct (no 'meta' member)")
+    if 'is_condo' not in meta:
+        raise ValueError("corrupted taxlot struct (bad 'meta' member)")
+    flag = meta['is_condo']
+    if not isinstance(flag,bool):
+        raise TypeError("corrupted taxlot struct (bad 'meta' member - invalid type)")
+
 
