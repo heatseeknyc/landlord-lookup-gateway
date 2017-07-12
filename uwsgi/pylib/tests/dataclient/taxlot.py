@@ -16,14 +16,6 @@ def init_agent(configpath):
     dataconf = json.loads(open(configpath,"r").read())
     return DataClient(**dataconf)
 
-def main():
-    agent = init_agent("config/postgres.json")
-    with open("tdata/dataclient/taxlot.yaml","rtU") as f:
-        pairs = yaml.load(f)
-    print("that be %d test cases." % len(pairs))
-    dotests(agent,pairs)
-    print("done.")
-
 def evaltest(agent,r):
     print(r)
     query = r['query']
@@ -36,6 +28,14 @@ def evaltest(agent,r):
 def dotests(agent,pairs):
     for r in pairs:
         evaltest(agent,r)
+
+def main():
+    agent = init_agent("config/postgres.json")
+    with open("tdata/dataclient/taxlot.yaml","rtU") as f:
+        pairs = yaml.load(f)
+    print("that be %d test cases." % len(pairs))
+    dotests(agent,pairs)
+    print("done.")
 
 if __name__ == '__main__':
     main()
