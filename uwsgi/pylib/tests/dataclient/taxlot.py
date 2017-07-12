@@ -6,11 +6,12 @@ import simplejson as json
 from gateway.dataclient import DataClient
 from tests.util import compare
 
-LOUD = False
+LOUD,FAIL = False,False
 
 def parse_args():
     parser = argparse.ArgumentParser()
     parser.add_argument("--loud", help="be loud", action="store_true")
+    parser.add_argument("--fail", help="fail fast", action="store_true")
     parser.add_argument("--mode", help="what to pull")
     parser.add_argument("--key", help="BBL,BIN pair to use as primary key")
     return parser.parse_args()
@@ -39,6 +40,7 @@ def main():
     global LOUD
     args = parse_args()
     LOUD = args.loud
+    FAIL = args.fail
     agent = init_agent("config/postgres.json")
     with open("tdata/dataclient/taxlot.yaml","rtU") as f:
         pairs = yaml.load(f)
