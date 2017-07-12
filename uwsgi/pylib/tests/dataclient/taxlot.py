@@ -43,7 +43,10 @@ def dotests(agent,pairs):
     for i,r in enumerate(pairs):
         path = evaltest(agent,r)
         status,longpath = displaypath(path)
-        print("status[%d] = %s,%s" % (i,status,longpath))
+        if status:
+            print("status[%d] = ok" % i)
+        else:
+            print("status[%d] = FAILED %s" % (i,longpath))
         if ARGS.fail and not status:
             print("FAILED test %d" % i)
             sys.exit(1)
