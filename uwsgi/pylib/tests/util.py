@@ -10,7 +10,7 @@ def compare(got,exp):
     if got is None and exp is None:
         return None
     if got is None or exp is None:
-        return []
+        return ['--noteq--']
     if both_dict(got,exp):
         return compare_dict(got,exp)
     elif both_list(got,exp):
@@ -18,7 +18,7 @@ def compare(got,exp):
     elif both_scalar(got,exp):
         status = got == exp
         if not status:
-            return []
+            return ['--noteq--']
     else:
         return ['--incompat--']
 
@@ -28,10 +28,12 @@ def compare_dict(got,exp):
     # print("got.keys = %s" % list(got.keys()))
     # print("exp.keys = %s" % list(exp.keys()))
     for k in sorted(exp.keys()):
-        # print("check %s .." % k)
+        # print("k = '%s' .." % k)
         if k not in got:
             return ['--missing--',k]
+        # print("got,exp = '%s','%s'" % (got[k],exp[k]))
         path = compare(got[k],exp[k])
+        # print("path = %s" % path)
         if path:
             path += [k]
             return path
