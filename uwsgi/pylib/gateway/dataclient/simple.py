@@ -175,7 +175,7 @@ def inflate_shape(r):
         applymems(r,jsonify,['parts','points'])
 
 def _pluto_bldg_count_label(n):
-    if n == 0:
+    if n is None or n < 1: 
         return "A vacant lot"
     else:
         s = 's' if n > 1 else ''
