@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 import sys
 import yaml
 import time, argparse
@@ -20,12 +19,15 @@ def init_agent(configpath):
     dataconf = json.loads(open(configpath,"r").read())
     return DataClient(**dataconf)
 
+def perform(agent,query):
+    return agent.get_taxlot(bbl=query['bbl'])
+
 def evaltest(agent,r):
     query = r['query']
     result = r['result']
     if LOUD:
         print("query = %s" % query)
-    taxlot = agent.get_taxlot(bbl=query['bbl'])
+    taxlot = perform(agent,query) 
     if LOUD:
         print("result = %s" % result)
         print("taxlot = %s" % taxlot)

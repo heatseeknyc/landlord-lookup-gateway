@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 import time, argparse
 import simplejson as json
 from gateway.dataclient import DataClient
