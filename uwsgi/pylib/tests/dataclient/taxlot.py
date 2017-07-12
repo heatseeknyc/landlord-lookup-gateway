@@ -27,7 +27,7 @@ def evaltest(agent,r):
     result = r['result']
     if LOUD:
         print("query = %s" % query)
-    taxlot = perform(agent,query) 
+    taxlot = perform(agent,query)
     if LOUD:
         print("result = %s" % result)
         print("taxlot = %s" % taxlot)
