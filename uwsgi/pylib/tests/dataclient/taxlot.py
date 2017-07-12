@@ -6,6 +6,8 @@ import simplejson as json
 from gateway.dataclient import DataClient
 from tests.util import compare
 
+LOUD = False
+
 def parse_args():
     parser = argparse.ArgumentParser()
     parser.add_argument("--loud", help="be loud")
@@ -22,7 +24,9 @@ def evaltest(agent,r):
     query = r['query']
     result = r['result']
     taxlot = agent.get_taxlot(bbl=query['bbl'])
-    print("taxlot = %s" % taxlot)
+    if LOUD:
+        print("result = %s" % taxlot)
+        print("taxlot = %s" % taxlot)
     status = compare(taxlot,result)
     print("status = %s" % status)
 
@@ -31,7 +35,9 @@ def dotests(agent,pairs):
         evaltest(agent,r)
 
 def main():
+    global LOUD
     args = parse_args()
+    LOUD = args.loud
     agent = init_agent("config/postgres.json")
     with open("tdata/dataclient/taxlot.yaml","rtU") as f:
         pairs = yaml.load(f)
