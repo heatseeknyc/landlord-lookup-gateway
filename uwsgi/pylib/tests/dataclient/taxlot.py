@@ -29,7 +29,7 @@ def evaltest(agent,r):
     if LOUD:
         print("result = %s" % result)
         print("taxlot = %s" % taxlot)
-    compare(taxlot,result)
+    return compare(taxlot,result)
 
 def dotests(agent,pairs):
     for i,r in enumerate(pairs):
