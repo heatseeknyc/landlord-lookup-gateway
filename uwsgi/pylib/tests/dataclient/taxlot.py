@@ -10,7 +10,7 @@ LOUD = False
 
 def parse_args():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--loud", help="be loud")
+    parser.add_argument("--loud", help="be loud", action="store_true")
     parser.add_argument("--mode", help="what to pull")
     parser.add_argument("--key", help="BBL,BIN pair to use as primary key")
     return parser.parse_args()
