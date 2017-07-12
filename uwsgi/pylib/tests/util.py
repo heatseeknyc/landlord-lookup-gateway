@@ -8,40 +8,47 @@ XXX probably slow, and doesn't check for cycles!
 """
 def compare(got,exp):
     if got is None and exp is None:
-        return True
+        return None
     if got is None or exp is None:
-        return False
+        return []
     if both_dict(got,exp):
         return compare_dict(got,exp)
     elif both_list(got,exp):
         return compare_list(got,exp)
     elif both_scalar(got,exp):
-        return got == exp
+        status = got == exp
+        if not status:
+            return []
     else:
-        return False
+        return ['--incompat--']
 
 def compare_dict(got,exp):
     if not both_dict(got,exp):
-        return False
+        return False,None
     # print("got.keys = %s" % list(got.keys()))
     # print("exp.keys = %s" % list(exp.keys()))
     for k in sorted(exp.keys()):
         # print("check %s .." % k)
         if k not in got:
-            return False
-        if not compare(got[k],exp[k]):
-            return False
-    return True
+            return ['--missing--',k]
+        path = compare(got[k],exp[k])
+        if path:
+            path += [k]
+            return path
+    return None
 
 def compare_list(got,exp):
     if not both_list(got,exp):
-        return False
+        return ['--incompat--']
     if len(got) != len(exp):
-        return False
-    for a,b in zip(got,exp):
-        if not compare(a,b):
-            return False
-    return True
+        return ['--badlen--']
+    for i,t in enumerate(zip(got,exp)):
+        a,b = t
+        path = compare(a,b)
+        if path:
+            path += [i]
+            return path
+    return None
 
 def both_scalar(x,y):
     return is_scalar(x) and is_scalar(y)
@@ -65,3 +72,8 @@ def is_scalar(x):
         or isinstance(x,float) \
         or isinstance(x,bytes);
 
+
+def displaypath(path):
+    status = not bool(path)
+    longpath = ".".join(reversed(path)) if path else None
+    return status,longpath

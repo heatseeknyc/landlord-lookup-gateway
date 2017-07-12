@@ -3,7 +3,7 @@ import yaml
 import time, argparse
 import simplejson as json
 from gateway.dataclient import DataClient
-from tests.util import compare
+from tests.util import compare, displaypath
 
 ARGS = None
 
@@ -41,8 +41,9 @@ def evaltest(agent,r):
 
 def dotests(agent,pairs):
     for i,r in enumerate(pairs):
-        status = evaltest(agent,r)
-        print("status[%d] = %s" % (i,status))
+        path = evaltest(agent,r)
+        status,longpath = displaypath(path)
+        print("status[%d] = %s,%s" % (i,status,longpath))
         if ARGS.fail and not status:
             print("FAILED test %d" % i)
             sys.exit(1)
