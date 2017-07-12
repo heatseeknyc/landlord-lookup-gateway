@@ -29,12 +29,12 @@ def evaltest(agent,r):
     if LOUD:
         print("result = %s" % result)
         print("taxlot = %s" % taxlot)
-    status = compare(taxlot,result)
-    print("status = %s" % status)
+    compare(taxlot,result)
 
 def dotests(agent,pairs):
-    for r in pairs:
-        evaltest(agent,r)
+    for i,r in enumerate(pairs):
+        status = evaltest(agent,r)
+        print("status[%d] = %s" % (i,status))
 
 def main():
     global LOUD
