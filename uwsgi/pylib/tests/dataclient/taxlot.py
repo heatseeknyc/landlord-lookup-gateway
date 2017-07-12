@@ -5,7 +5,7 @@ import simplejson as json
 from gateway.dataclient import DataClient
 from tests.util import compare
 
-LOUD,FAIL = False,False
+ARGS = None
 
 def parse_args():
     parser = argparse.ArgumentParser()
@@ -25,10 +25,16 @@ def perform(agent,query):
 def evaltest(agent,r):
     query = r['query']
     result = r['result']
-    if LOUD:
+    if ARGS.loud:
         print("query = %s" % query)
-    taxlot = perform(agent,query)
-    if LOUD:
+    try:
+        taxlot = perform(agent,query)
+    except Exception as e:
+        print("FAILED: %s" % e)
+        if ARGS.fail:
+            raise e
+        return False
+    if ARGS.loud:
         print("result = %s" % result)
         print("taxlot = %s" % taxlot)
     return compare(taxlot,result)
@@ -37,12 +43,13 @@ def dotests(agent,pairs):
     for i,r in enumerate(pairs):
         status = evaltest(agent,r)
         print("status[%d] = %s" % (i,status))
+        if ARGS.fail and not status:
+            print("FAILED test %d" % i)
+            sys.exit(1)
 
 def main():
-    global LOUD
-    args = parse_args()
-    LOUD = args.loud
-    FAIL = args.fail
+    global ARGS
+    ARGS = parse_args()
     agent = init_agent("config/postgres.json")
     with open("tdata/dataclient/taxlot.yaml","rtU") as f:
         pairs = yaml.load(f)
