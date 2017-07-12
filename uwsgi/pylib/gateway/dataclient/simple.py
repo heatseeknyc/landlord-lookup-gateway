@@ -47,54 +47,6 @@ class DataClient(AgentBase):
             "from hard.contact_info where bbl = %s and bin = %s order by registration_id, contact_rank;"
         return self.fetch_recs(query,_bbl,_bin)
 
-    #
-    # Deprecated Methods 
-    #
-
-    def __get_buildings(self,_bbl):
-        '''Building IDs + shapes per BBL'''
-        query = \
-            "select bin,doitt_id,lat_ctr,lon_ctr,radius,parts,points " + \
-            "from hard.pluto_building where bbl = %s order by doitt_id";
-        r = self.fetch_recs(query,_bbl)
-        log.debug("r = %s" % str(r))
-        if r:
-            [inflate_shape(_) for _ in r]
-        return r
-
-    """
-    We return the BBL we're selecting on, along with the boro_id,
-    along with the response dict, for the convenience of frontend
-    handlers (which otherwise would have to pass these along as
-    separate parameters for what they need to do).
-
-    Special note about the WHERE clause below:  Basically it's saying
-    "first try to match on BBL and BIN if both present; otherwise just
-    match on BBL with an empty BIN."  Which is precisely our intent:
-    the BIN key disambiguates building-specific (HPD+DHCR), so if the BIN
-    is present, we want to disambiguate those rows.  If it isn't, then we
-    just need the taxbill columns (and the DHCR+HPD columns will be NULL).
-
-    In either case, we're guaranteed to have at most 1 row match in response.
-    """
-    def __get_summary(self,_bbl,_bin):
-        """
-        Full taxlot+building summary for a BBL+BIN pair.  The whole idea of this accessors is
-        that it does all the internal switching necessary to give you both taxlot and building
-        attributes depending on whether you have both identifiers (BBL,BIN) or just a BBL - and
-        works as you would expected for vacant lots as well as multi-building lots.  Of course,
-        you do need to supply at least a valid BBL.
-        """
-        log.debug("bbl = %s, bin = %s" % (_bbl,_bin))
-        # query = "select * from deco.property_summary where bbl = %s and (bin = %s or bin is null)";
-        query,args = make_summary_query(_bbl,_bin)
-        log.debug("query = [%s]" % query)
-        log.debug("args = %s" % str(args))
-        # r = self.fetchone(query,_bbl,_bin)
-        r = self.fetchone(query,*args)
-        log.debug("r = %s" % str(r))
-        return expand_summary(r) if r is not None else None
-
 
 def make_summary_query(_bbl,_bin):
     """
