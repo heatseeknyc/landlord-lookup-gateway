@@ -63,6 +63,7 @@
 # accessible for each.
 
 # This one has a bank BBL, so it's not in ACRIS.
+# And not that building count is 0, because the building shape is on the physical bbl.
 -
   query: 
     bbl: 1007607501 
@@ -78,7 +79,7 @@
     pluto:
       year_built: 1926
       units_total: 20  
-      bldg_count: 1
+      bldg_count: 0 
     acris: null
 
 # Same building but accessed via its phyiscal BBL.
