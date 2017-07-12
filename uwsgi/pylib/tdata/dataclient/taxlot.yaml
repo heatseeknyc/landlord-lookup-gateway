@@ -50,7 +50,7 @@
       is_condo: false
       is_coop: true 
       residential: true
-      stabilized: 'possible' 
+      stabilized: 3 
     pluto:
       year_built: 1900
       units_total: 94
@@ -74,7 +74,7 @@
       is_condo: true 
       is_coop: false 
       residential: true
-      stabilized: 'possible' 
+      stabilized: 3 
     pluto:
       year_built: 1926
       units_total: 20  
@@ -114,7 +114,7 @@
       is_condo: false 
       is_coop: false 
       residential: true
-      stabilized: 'confirmed' 
+      stabilized: 1 
     pluto:
       year_built: 1915
       units_total: 22
