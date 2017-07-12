@@ -20,12 +20,13 @@ def init_agent(configpath):
     return DataClient(**dataconf)
 
 def evaltest(agent,r):
-    print(r)
     query = r['query']
     result = r['result']
+    if LOUD:
+        print("query = %s" % query)
     taxlot = agent.get_taxlot(bbl=query['bbl'])
     if LOUD:
-        print("result = %s" % taxlot)
+        print("result = %s" % result)
         print("taxlot = %s" % taxlot)
     status = compare(taxlot,result)
     print("status = %s" % status)
