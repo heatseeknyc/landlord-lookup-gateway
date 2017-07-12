@@ -160,12 +160,12 @@ def stagger_taxlot(r):
 
 
 def stagger_condo(r):
+    """Provies a new member struct for condo details IFF we're a condo."""
     meta = r['meta']
-    if 'is_condo' not in meta:
-        return False
-    flag = pluck(meta,'is_condo')
-    if flag:
-        meta['condo'] = {}
+    if meta['is_condo']:
+        condo = {}
+        condo['declare_count'] = 1
+        r['condo'] = condo
 
 
 def pluck(d,k):
