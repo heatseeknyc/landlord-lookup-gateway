@@ -133,7 +133,7 @@
   query: 
     bbl: 1005740008
     address: '72 West 11th'
-    remark: 'cemetary'
+    remark: 'cemetery'
   result:  
     meta:
       bbltype: 1
