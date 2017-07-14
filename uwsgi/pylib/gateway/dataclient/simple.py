@@ -161,13 +161,17 @@ def stagger_taxlot(r):
     rr['condo'] = extract_prefixed(r,'condo',prune=True)
     rr['meta'] = deepcopy(r)
     if rr['acris']:
-        fixdates(rr['acris'])
+        tweak_acris(rr['acris'])
     if rr['pluto']:
         inflate_shape(rr['pluto'])
         augment_pluto(rr['pluto'])
     tweak_condo(rr['condo'])
     return rr
 
+def tweak_acris(acris):
+    fixdates(acris)
+    if 'amount' in acris:
+        acris['amount'] = round(acris['amount'])
 
 # Doesn't do much - basically a placeholder for now
 def tweak_condo(condo):
