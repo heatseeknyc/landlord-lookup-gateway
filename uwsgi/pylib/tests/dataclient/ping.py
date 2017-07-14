@@ -4,7 +4,7 @@ from gateway.dataclient import DataClient
 
 def parse_args():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--mode", help="what to pull")
+    parser.add_argument("--mode", help="what to pull", default="taxlot")
     parser.add_argument("--key", help="BBL,BIN pair to use as primary key")
     return parser.parse_args()
 
@@ -18,14 +18,15 @@ def derive_keytup(args):
     return  _bbl,_bin
 
 def dispatch(agent,pair,args):
+    print("pair = %s" % str(pair))
     _bbl,_bin = pair
     t0 = time.time()
-    if args.mode == 'summary':
-        r = agent.get_summary(_bbl,_bin)
+    if args.mode == 'taxlot':
+        r = agent.get_taxlot(_bbl)
     elif args.mode == 'contacts':
         r = agent.get_contacts(_bbl,_bin)
     else:
-        r = agent.get_summary(_bbl,_bin)
+        raise ValueError("invalid usage - unknown mode")
     delta = 1000 * (time.time() - t0)
     return r,delta
 
