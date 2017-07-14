@@ -88,6 +88,11 @@ def _trunc(k,n):
     else:
         raise ValueError("invalid key '%s' relative to prefix '%s'" (tag,prefix))
 
+def trim_null(r,members):
+    for k in members:
+        if k in r and r[k] is None:
+            del r[k]
+
 def extract_prefixed(r,prefix,collapse=True,prune=False):
     prefix_ = prefix+'_'
     x,n = {},len(prefix_)
@@ -170,6 +175,7 @@ def tweak_condo(condo):
     if condo['is_bank']:
         # Set a fake declaration count for now
         condo['declare_count'] = 1
+    trim_null(condo,['parent'])
 
 
 def pluck(d,k):
