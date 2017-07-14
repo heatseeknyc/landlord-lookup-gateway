@@ -167,7 +167,7 @@ def stagger_taxlot(r):
 # Doesn't do much - basically a placeholder for now
 def tweak_condo(condo):
     """Tweaks the condo struct, as needed."""
-    if condo and condo['is_bank']:
+    if condo['is_bank']:
         # Set a fake declaration count for now
         condo['declare_count'] = 1
 
