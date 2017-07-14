@@ -162,7 +162,7 @@
 #
 -
   query: 
-    bbl: 1007601001 
+    bbl: 1007601007
     address: '15 West 36th Street, unit 12C'
   result:
     meta:
