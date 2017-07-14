@@ -149,23 +149,23 @@ def stagger_taxlot(r):
     rr['hpd'] = extract_prefixed(r,'hpd',prune=True)
     rr['pluto'] = extract_prefixed(r,'pluto',prune=True)
     rr['acris'] = extract_prefixed(r,'acris',prune=True)
+    rr['condo'] = extract_prefixed(r,'condo',prune=True)
     rr['meta'] = deepcopy(r)
     if rr['acris']:
         fixdates(rr['acris'])
     if rr['pluto']:
         inflate_shape(rr['pluto'])
         augment_pluto(rr['pluto'])
-    stagger_condo(rr)
+    tweak_condo(rr['condo'])
     return rr
 
 
-def stagger_condo(r):
-    """Provies a new member struct for condo details IFF we're a condo."""
-    meta = r['meta']
-    if meta['is_condo']:
-        condo = {}
+# Doesn't do much - basically a placeholder for now
+def tweak_condo(condo):
+    """Tweaks the condo struct, as needed."""
+    if condo and condo['is_bank']:
+        # Set a fake declaration count
         condo['declare_count'] = 1
-        r['condo'] = condo
 
 
 def pluck(d,k):
