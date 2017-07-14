@@ -55,6 +55,8 @@
       units_total: 94
       bldg_count: 1
     acris: null
+    condo: 
+      is_bank: false 
 
 
 # The next two records present a messy corner case that occurs very infrequently, 
@@ -76,6 +78,7 @@
       residential: true
       stabilized: 3 
     condo: 
+      is_bank: true 
       declare_count: 1
     pluto:
       year_built: 1926
@@ -100,6 +103,8 @@
     acris: 
       party_count: 1
       transfer_docid: 'FT_1750007564775'
+    condo: 
+      is_bank: false 
 
 
 
@@ -122,6 +127,8 @@
     acris:
       party_count: 1
       transfer_docid: 'FT_1000008609500'
+    condo: 
+      is_bank: false 
    
 
 
@@ -147,6 +154,8 @@
       bldg_class: 'Z8'
       owner: 'CONG SHEARETH ISRAEL'
     acris: null
+    condo: 
+      is_bank: false 
 
 
 
