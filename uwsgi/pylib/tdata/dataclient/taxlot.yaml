@@ -157,6 +157,27 @@
     condo: 
       is_bank: false 
 
+#
+# A condo unit
+#
+-
+  query: 
+    bbl: 1007601001 
+    address: '15 West 36th Street, unit 12C'
+  result:
+    meta:
+      bbltype: 1
+      is_coop: false 
+      residential: false 
+      stabilized: null 
+    pluto: null
+    acris:
+      party_count: 1
+      transfer_docid: '2009061700133001'
+      amount: 1439000
+    condo: 
+      is_bank: false 
+      parent: 1007607501
 
 
 
