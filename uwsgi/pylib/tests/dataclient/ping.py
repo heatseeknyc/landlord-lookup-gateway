@@ -8,11 +8,21 @@ def parse_args():
     parser.add_argument("--key", help="BBL,BIN pair to use as primary key")
     return parser.parse_args()
 
+# quick and dirty for now
+def split_keytup(keyarg):
+    if ',' in keyarg:
+        _bbl,_bin = map(int,args.key.split(','))
+        return _bbl,_bin
+    else:
+        # BBL only
+        return int(keyarg),None
+
 def derive_keytup(args):
     if args.key:
         print(args)
         print("key = ", args.key)
-        _bbl,_bin = map(int,args.key.split(','))
+        # _bbl,_bin = map(int,args.key.split(','))
+        return split_keytup(args.key)
     else:
         _bbl,_bin = 1011250025,1028637
     return  _bbl,_bin
