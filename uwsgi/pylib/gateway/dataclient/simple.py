@@ -127,7 +127,6 @@ def adjust_pluto(p):
         return
     p['bldg_count_label'] = _pluto_bldg_count_label(p['bldg_count'])
 
-
 def adjust_acris(acris):
     fixdates(acris)
     amount = acris.get('amount')
