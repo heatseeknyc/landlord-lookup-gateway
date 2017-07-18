@@ -93,16 +93,27 @@ def trim_null(r,members):
         if k in r and r[k] is None:
             del r[k]
 
-def extract_prefixed(r,prefix,collapse=True,prune=False):
+def clear_none(r):
+    """Given a dict, delete all keys which reference None values"""
+    print("clear!!!!")
+    keys = sorted(r.keys())
+    for k in keys:
+        if r[k] is None:
+            del r[k]
+
+def extract_prefixed(r,prefix,collapse=True,prune=False,clear=False):
     prefix_ = prefix+'_'
     x,n = {},len(prefix_)
     tags = sorted(k for k in r.keys() if k.startswith(prefix_))
     for k in tags:
+        print("extract %s .." % k)
         j = _trunc(k,n)
         x[j] = deepcopy(r[k])
         if prune:
             del r[k]
-    if collapse and all(v is None for v in x.values()):
+    if clear:
+        clear_none(x)
+    if collapse and len(x) == 0 or all(v is None for v in x.values()):
         return None
     return x
 
@@ -157,7 +168,7 @@ def stagger_taxlot(r):
     # at some point, we have the option of doing that.
     rr['hpd']   = extract_prefixed(r,'hpd',prune=True)
     rr['pluto'] = extract_prefixed(r,'pluto',prune=True)
-    rr['acris'] = extract_prefixed(r,'acris',prune=True)
+    rr['acris'] = extract_prefixed(r,'acris',prune=True,clear=True)
     rr['condo'] = extract_prefixed(r,'condo',prune=True)
     rr['meta'] = deepcopy(r)
     if rr['acris']:
