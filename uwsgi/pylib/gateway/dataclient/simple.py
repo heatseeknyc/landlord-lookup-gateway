@@ -48,26 +48,6 @@ class DataClient(AgentBase):
         return self.fetch_recs(query,_bbl,_bin)
 
 
-def make_summary_query(_bbl,_bin):
-    """
-    Magically creates both SQL query and args tuple based on BIN status (null or non-null).
-
-    As descriped in the comments to the 'hard.property_summary' table, which the 'deco'
-    view pulls from, the intended select semantics differ depending on whether we're
-    searching on a (BBL,BIN) pair or on a single BBL (hence the 'limit 1' business).
-    So either way, we're guaranteed to fetch at most a single row.
-    """
-    if _bbl is None:
-        raise ValueError("invalid usage -- can't get summary data without a BBL")
-    basequery = "select * from deco.property_summary where bbl = %s"
-    if _bin is None:
-        query = basequery + " limit 1"
-        args = (_bbl,)
-    else:
-        query = basequery + " and bin = %s"
-        args = (_bbl,_bin)
-    return query,args
-
 def _trunc(k,n):
     """Simply truncates first :n characters fron the (presumably) well-formed dict :key
     if possible to do so; otherwise, throws an exception relevant to the particular
@@ -221,4 +201,23 @@ def extract_fields(d,keys):
             x[k] = None
     return x
 
+def make_summary_query(_bbl,_bin):
+    """
+    Magically creates both SQL query and args tuple based on BIN status (null or non-null).
+
+    As descriped in the comments to the 'hard.property_summary' table, which the 'deco'
+    view pulls from, the intended select semantics differ depending on whether we're
+    searching on a (BBL,BIN) pair or on a single BBL (hence the 'limit 1' business).
+    So either way, we're guaranteed to fetch at most a single row.
+    """
+    if _bbl is None:
+        raise ValueError("invalid usage -- can't get summary data without a BBL")
+    basequery = "select * from deco.property_summary where bbl = %s"
+    if _bin is None:
+        query = basequery + " limit 1"
+        args = (_bbl,)
+    else:
+        query = basequery + " and bin = %s"
+        args = (_bbl,_bin)
+    return query,args
 
