@@ -68,17 +68,6 @@ def make_summary_query(_bbl,_bin):
         args = (_bbl,_bin)
     return query,args
 
-def extract_taxbill(r):
-    if r.get('taxbill_owner_name') is None:
-        return None
-    active_date = r['taxbill_active_date']
-    owner_address = r['taxbill_owner_address']
-    return {
-        'active_date': str(active_date) if active_date else None,
-        'owner_address': expand_address(owner_address) if owner_address else [],
-        'owner_name': r['taxbill_owner_name'],
-    }
-
 def _trunc(k,n):
     """Simply truncates first :n characters fron the (presumably) well-formed dict :key
     if possible to do so; otherwise, throws an exception relevant to the particular
@@ -210,6 +199,12 @@ def applymems(r,callf,keys):
 def jsonify(x):
     return None if x is None else json.loads(x)
 
+
+
+#
+# Deprecated Section
+#
+
 """
 Splits the taxbill owner addresss on the embedded '\\n' string
 (literally '\'+'\'+'n') from an incoming string, which we take to
@@ -225,9 +220,4 @@ def expand_address(s):
         return None
     terms = s.split('\\n')
     return [t.strip() for t in terms]
-
-def cast_as_int(x):
-    return 0 if x is None else int(x)
-
-
 
