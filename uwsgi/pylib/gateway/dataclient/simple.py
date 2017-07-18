@@ -66,9 +66,9 @@ def stagger_taxlot(r):
     rr['stable'] = extract_prefixed(r,'stable',prune=True,clear=True)
     rr['condo'] = extract_prefixed(r,'condo',prune=True,clear=True)
     rr['meta'] = deepcopy(r)
-    adjust_stable(rr['stable'])
     adjust_acris(rr['acris'])
     adjust_pluto(rr['pluto'])
+    adjust_stable(rr['stable'])
     return rr
 
 def _trunc(k,n):
