@@ -57,13 +57,6 @@ def _trunc(k,n):
     else:
         raise ValueError("invalid key '%s' relative to prefix '%s'" (tag,prefix))
 
-"""
-def trim_null(r,members):
-    for k in members:
-        if k in r and r[k] is None:
-            del r[k]
-"""
-
 def clear_none(r,members=None):
     """Given a dict, delete all keys which reference None values"""
     if members is None:
@@ -141,14 +134,6 @@ def adjust_acris(acris):
     if amount is not None:
         acris['amount'] = round(amount)
 
-"""
-# Doesn't do much - basically a placeholder for now
-def adjust_condo(condo):
-    """Tweaks the condo struct, as needed."""
-    trim_null(condo,['parent'])
-"""
-
-
 def pluck(d,k):
     if k not in d:
         raise KeyError("invalid usage - can't pluck non-existent key '%s'" % k)
@@ -221,4 +206,19 @@ def make_summary_query(_bbl,_bin):
         query = basequery + " and bin = %s"
         args = (_bbl,_bin)
     return query,args
+
+"""
+def trim_null(r,members):
+    for k in members:
+        if k in r and r[k] is None:
+            del r[k]
+"""
+
+"""
+# Doesn't do much - basically a placeholder for now
+def adjust_condo(condo):
+    """Tweaks the condo struct, as needed."""
+    trim_null(condo,['parent'])
+"""
+
 
