@@ -64,7 +64,6 @@ def trim_null(r,members):
 
 def clear_none(r):
     """Given a dict, delete all keys which reference None values"""
-    print("clear!!!!")
     keys = sorted(r.keys())
     for k in keys:
         if r[k] is None:
@@ -75,7 +74,6 @@ def extract_prefixed(r,prefix,collapse=True,prune=False,clear=False):
     x,n = {},len(prefix_)
     tags = sorted(k for k in r.keys() if k.startswith(prefix_))
     for k in tags:
-        print("extract %s .." % k)
         j = _trunc(k,n)
         x[j] = deepcopy(r[k])
         if prune:
