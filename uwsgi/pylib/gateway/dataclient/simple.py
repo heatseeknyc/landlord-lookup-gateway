@@ -68,7 +68,6 @@ def stagger_taxlot(r):
     rr['meta'] = deepcopy(r)
     adjust_acris(rr['acris'])
     adjust_pluto(rr['pluto'])
-    adjust_stable(rr['stable'])
     return rr
 
 def _trunc(k,n):
@@ -118,12 +117,6 @@ def _pluto_bldg_count_label(n):
     else:
         s = 's' if n > 1 else ''
         return "A lot with %d building%s" % (n,s)
-
-def adjust_stable(stable):
-    if 'class' in stable:
-        # An ugly hack to make the outgoing struct more JS-friendly.
-        stable['klass'] = stable['class']
-        del stable ['class']
 
 def adjust_pluto(pluto):
     """Augment pluto struct with nice descriptive fields (in-place)."""
@@ -219,4 +212,12 @@ def trim_null(r,members):
         if k in r and r[k] is None:
             del r[k]
 """
+
+# deprecated
+def adjust_stable(stable):
+    if 'class' in stable:
+        # An ugly hack to make the outgoing struct more JS-friendly.
+        stable['klass'] = stable['class']
+        del stable ['class']
+
 
