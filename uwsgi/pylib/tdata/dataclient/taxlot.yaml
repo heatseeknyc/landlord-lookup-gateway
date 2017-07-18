@@ -50,8 +50,9 @@
       bbltype: 1
       is_bank: false 
       is_coop: true 
-      residential: true
-      stabilized: 3 
+      is_resi: true
+    stable:
+      code: 3 
     pluto:
       year_built: 1900
       units_total: 94
