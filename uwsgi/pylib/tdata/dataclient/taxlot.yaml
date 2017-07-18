@@ -191,7 +191,7 @@
 -
   query: 
     bbl: 1013330023 
-    address: '1 Tudor Place'
+    address: '1 Tudor City Place'
   result:
     meta:
       is_coop: true
