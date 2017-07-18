@@ -170,8 +170,9 @@ def stagger_taxlot(r):
 
 def tweak_acris(acris):
     fixdates(acris)
-    if 'amount' in acris:
-        acris['amount'] = round(acris['amount'])
+    amount = acris.get('amount')
+    if amount is not None:
+        acris['amount'] = round(amount)
 
 # Doesn't do much - basically a placeholder for now
 def tweak_condo(condo):
