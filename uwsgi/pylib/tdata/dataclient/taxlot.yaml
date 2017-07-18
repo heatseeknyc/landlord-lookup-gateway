@@ -175,6 +175,7 @@
       bbltype: 1
       is_coop: false 
       is_resi: false 
+      is_bank: false 
     stable: null 
     pluto: null
     acris:
@@ -182,7 +183,6 @@
       transfer_docid: '2009061700133001'
       amount: 1439000
     condo: 
-      is_bank: false 
       parent: 1007607501
 
 
