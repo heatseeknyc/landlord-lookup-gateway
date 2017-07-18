@@ -125,7 +125,6 @@ def stagger_taxlot(r):
     if rr['pluto']:
         inflate_shape(rr['pluto'])
         adjust_pluto(rr['pluto'])
-    # adjust_condo(rr['condo'])
     return rr
 
 def adjust_acris(acris):
