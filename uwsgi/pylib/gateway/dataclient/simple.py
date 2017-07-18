@@ -96,7 +96,7 @@ def _pluto_bldg_count_label(n):
         s = 's' if n > 1 else ''
         return "A lot with %d building%s" % (n,s)
 
-def augment_pluto(p):
+def adjust_pluto(p):
     """Augment pluto struct with nice descriptive fields (in-place)."""
     if not p:
         return
@@ -124,7 +124,7 @@ def stagger_taxlot(r):
         adjust_acris(rr['acris'])
     if rr['pluto']:
         inflate_shape(rr['pluto'])
-        augment_pluto(rr['pluto'])
+        adjust_pluto(rr['pluto'])
     # adjust_condo(rr['condo'])
     return rr
 
