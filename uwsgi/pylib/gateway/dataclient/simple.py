@@ -62,10 +62,11 @@ def trim_null(r,members):
         if k in r and r[k] is None:
             del r[k]
 
-def clear_none(r):
+def clear_none(r,members=None):
     """Given a dict, delete all keys which reference None values"""
-    keys = sorted(r.keys())
-    for k in keys:
+    if members is None:
+        members = sorted(r.keys())
+    for k in members:
         if r[k] is None:
             del r[k]
 
