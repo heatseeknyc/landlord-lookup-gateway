@@ -23,6 +23,7 @@
 # This one's in ACRIS, but has no identifiable ownership.
 # So it's ACRIS record is null, as its Pluto rec.
 -
+  skip: True
   query: 
     bbl: 1000000000 
     remark: 'valid but degenerate BBL'
