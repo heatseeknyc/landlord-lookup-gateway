@@ -106,8 +106,9 @@ def augment_pluto(p):
         return
     p['bldg_count_label'] = _pluto_bldg_count_label(p['bldg_count'])
 
-# Sometimes nested is better than flat.
-
+#
+# Because nested is better than flat.
+#
 def stagger_taxlot(r):
     """Invasively 'staggers' a database response to a taxlot query. returning
     a new bilevel dict and mangling the old one beyond recognition."""
@@ -120,6 +121,7 @@ def stagger_taxlot(r):
     rr['hpd']   = extract_prefixed(r,'hpd',prune=True)
     rr['pluto'] = extract_prefixed(r,'pluto',prune=True)
     rr['acris'] = extract_prefixed(r,'acris',prune=True,clear=True)
+    rr['stable'] = extract_prefixed(r,'stable',prune=True,clear=True)
     rr['condo'] = extract_prefixed(r,'condo',prune=True)
     rr['meta'] = deepcopy(r)
     if rr['acris']:
