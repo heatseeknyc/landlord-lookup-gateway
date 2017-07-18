@@ -199,4 +199,6 @@
       is_resi: true
     stable:
       code: 1
+      dhcr_ok: 1
+      taxbill_lastyear: 2015
 

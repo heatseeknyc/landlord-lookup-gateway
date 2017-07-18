@@ -65,9 +65,13 @@ def stagger_taxlot(r):
     rr['acris'] = extract_prefixed(r,'acris',prune=True,clear=True)
     rr['stable'] = extract_prefixed(r,'stable',prune=True,clear=True)
     rr['condo'] = extract_prefixed(r,'condo',prune=True,clear=True)
-    rr['meta'] = deepcopy(r)
     adjust_acris(rr['acris'])
     adjust_pluto(rr['pluto'])
+    adjust_stable(rr['stable'])
+    # Clear all member structs, if void.   
+    # But the 'meta' struct should always be present.
+    clear_none(rr);
+    rr['meta'] = deepcopy(r)
     return rr
 
 def _trunc(k,n):
@@ -132,6 +136,13 @@ def adjust_acris(acris):
     amount = acris.get('amount')
     if amount is not None:
         acris['amount'] = round(amount)
+
+def adjust_stable(stable):
+    # These have been coming out of the database as float for some reason
+    lastyear = stable.get('taxbill_lastyear')
+    if lastyear is not None:
+        stable['taxbill_lastyear'] = round(lastyear)
+
 
 def pluck(d,k):
     if k not in d:
@@ -212,12 +223,5 @@ def trim_null(r,members):
         if k in r and r[k] is None:
             del r[k]
 """
-
-# deprecated
-def adjust_stable(stable):
-    if 'class' in stable:
-        # An ugly hack to make the outgoing struct more JS-friendly.
-        stable['klass'] = stable['class']
-        del stable ['class']
 
 
