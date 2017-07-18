@@ -66,11 +66,9 @@ def stagger_taxlot(r):
     rr['stable'] = extract_prefixed(r,'stable',prune=True,clear=True)
     rr['condo'] = extract_prefixed(r,'condo',prune=True,clear=True)
     rr['meta'] = deepcopy(r)
-    if rr['acris']:
-        adjust_acris(rr['acris'])
-    if rr['pluto']:
-        inflate_shape(rr['pluto'])
-        adjust_pluto(rr['pluto'])
+    adjust_acris(rr['acris'])
+    inflate_shape(rr['pluto'])
+    adjust_pluto(rr['pluto'])
     return rr
 
 def _trunc(k,n):
@@ -121,13 +119,15 @@ def _pluto_bldg_count_label(n):
         s = 's' if n > 1 else ''
         return "A lot with %d building%s" % (n,s)
 
-def adjust_pluto(p):
+def adjust_pluto(pluto):
     """Augment pluto struct with nice descriptive fields (in-place)."""
-    if not p:
+    if not pluto:
         return
-    p['bldg_count_label'] = _pluto_bldg_count_label(p['bldg_count'])
+    pluto['bldg_count_label'] = _pluto_bldg_count_label(p['bldg_count'])
 
 def adjust_acris(acris):
+    if not acris:
+        return
     fixdates(acris)
     amount = acris.get('amount')
     if amount is not None:
