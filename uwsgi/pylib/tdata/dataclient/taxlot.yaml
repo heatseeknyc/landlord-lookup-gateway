@@ -55,7 +55,8 @@
       year_built: 1900
       units_total: 94
       bldg_count: 1
-    acris: null
+    acris:
+      code: 0
     condo: 
       is_bank: false 
 
@@ -102,7 +103,8 @@
       stabilized: null 
     pluto: null
     acris: 
-      party_count: 1
+      code: 1
+      buyers: 1
       transfer_docid: 'FT_1750007564775'
     condo: 
       is_bank: false 
