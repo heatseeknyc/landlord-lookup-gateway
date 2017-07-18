@@ -123,6 +123,7 @@
       bbltype: 1
       is_coop: false 
       is_resi: true
+      is_bank: false 
     stable:
       code: 1 
     pluto:
@@ -132,8 +133,7 @@
     acris:
       buyers: 1
       transfer_docid: 'FT_1000008609500'
-    condo: 
-      is_bank: false 
+    condo: null
    
 
 
