@@ -67,7 +67,6 @@ def stagger_taxlot(r):
     rr['condo'] = extract_prefixed(r,'condo',prune=True,clear=True)
     rr['meta'] = deepcopy(r)
     adjust_acris(rr['acris'])
-    inflate_shape(rr['pluto'])
     adjust_pluto(rr['pluto'])
     return rr
 
@@ -123,6 +122,7 @@ def adjust_pluto(pluto):
     """Augment pluto struct with nice descriptive fields (in-place)."""
     if not pluto:
         return
+    inflate_shape(pluto)
     pluto['bldg_count_label'] = _pluto_bldg_count_label(p['bldg_count'])
 
 def adjust_acris(acris):
