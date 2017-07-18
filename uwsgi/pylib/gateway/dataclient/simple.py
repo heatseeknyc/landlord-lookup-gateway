@@ -48,6 +48,31 @@ class DataClient(AgentBase):
         return self.fetch_recs(query,_bbl,_bin)
 
 
+#
+# Because nested is better than flat.
+#
+def stagger_taxlot(r):
+    """Invasively 'staggers' a database response to a taxlot query. returning
+    a new bilevel dict and mangling the old one beyond recognition."""
+    if r is None:
+        return None
+    rr = {}
+    # There's a bit of repetition here, but it make it clear which members 
+    # we're extracting.  Also, if we need to tweak the extraction parameters
+    # at some point, we have the option of doing that.
+    rr['hpd']   = extract_prefixed(r,'hpd',prune=True)
+    rr['pluto'] = extract_prefixed(r,'pluto',prune=True)
+    rr['acris'] = extract_prefixed(r,'acris',prune=True,clear=True)
+    rr['stable'] = extract_prefixed(r,'stable',prune=True,clear=True)
+    rr['condo'] = extract_prefixed(r,'condo',prune=True,clear=True)
+    rr['meta'] = deepcopy(r)
+    if rr['acris']:
+        adjust_acris(rr['acris'])
+    if rr['pluto']:
+        inflate_shape(rr['pluto'])
+        adjust_pluto(rr['pluto'])
+    return rr
+
 def _trunc(k,n):
     """Simply truncates first :n characters fron the (presumably) well-formed dict :key
     if possible to do so; otherwise, throws an exception relevant to the particular
@@ -102,30 +127,6 @@ def adjust_pluto(p):
         return
     p['bldg_count_label'] = _pluto_bldg_count_label(p['bldg_count'])
 
-#
-# Because nested is better than flat.
-#
-def stagger_taxlot(r):
-    """Invasively 'staggers' a database response to a taxlot query. returning
-    a new bilevel dict and mangling the old one beyond recognition."""
-    if r is None:
-        return None
-    rr = {}
-    # There's a bit of repetition here, but it make it clear which members 
-    # we're extracting.  Also, if we need to tweak the extraction parameters
-    # at some point, we have the option of doing that.
-    rr['hpd']   = extract_prefixed(r,'hpd',prune=True)
-    rr['pluto'] = extract_prefixed(r,'pluto',prune=True)
-    rr['acris'] = extract_prefixed(r,'acris',prune=True,clear=True)
-    rr['stable'] = extract_prefixed(r,'stable',prune=True,clear=True)
-    rr['condo'] = extract_prefixed(r,'condo',prune=True,clear=True)
-    rr['meta'] = deepcopy(r)
-    if rr['acris']:
-        adjust_acris(rr['acris'])
-    if rr['pluto']:
-        inflate_shape(rr['pluto'])
-        adjust_pluto(rr['pluto'])
-    return rr
 
 def adjust_acris(acris):
     fixdates(acris)
