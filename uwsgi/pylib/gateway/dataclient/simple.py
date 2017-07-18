@@ -66,6 +66,7 @@ def stagger_taxlot(r):
     rr['stable'] = extract_prefixed(r,'stable',prune=True,clear=True)
     rr['condo'] = extract_prefixed(r,'condo',prune=True,clear=True)
     rr['meta'] = deepcopy(r)
+    adjust_stable(rr['stable'])
     adjust_acris(rr['acris'])
     adjust_pluto(rr['pluto'])
     return rr
@@ -117,6 +118,12 @@ def _pluto_bldg_count_label(n):
     else:
         s = 's' if n > 1 else ''
         return "A lot with %d building%s" % (n,s)
+
+def adjust_stable(stable):
+    if 'class' in stable:
+        # An ugly hack to make the outgoing struct more JS-friendly.
+        stable['klass'] = stable['class']
+        del stable ['class']
 
 def adjust_pluto(pluto):
     """Augment pluto struct with nice descriptive fields (in-place)."""
