@@ -141,10 +141,6 @@ def tweak_acris(acris):
 # Doesn't do much - basically a placeholder for now
 def tweak_condo(condo):
     """Tweaks the condo struct, as needed."""
-    # Set a fake declaration count for now
-    if not condo.get('parent'):
-        condo['declare_count'] = 1
-    # Tidy up a bit
     trim_null(condo,['parent'])
 
 
