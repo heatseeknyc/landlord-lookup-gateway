@@ -130,7 +130,7 @@ def adjust_pluto(pluto):
     if not pluto:
         return
     inflate_shape(pluto)
-    pluto['bldg_count_label'] = _pluto_bldg_count_label(p['bldg_count'])
+    pluto['bldg_count_label'] = _pluto_bldg_count_label(pluto['bldg_count'])
 
 def adjust_acris(acris):
     if not acris:
