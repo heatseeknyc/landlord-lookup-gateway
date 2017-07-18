@@ -130,7 +130,7 @@
       units_total: 22
       bldg_count: 1
     acris:
-      party_count: 1
+      buyers: 1
       transfer_docid: 'FT_1000008609500'
     condo: 
       is_bank: false 
@@ -177,7 +177,7 @@
     stable: null 
     pluto: null
     acris:
-      party_count: 1
+      buyers: 1
       transfer_docid: '2009061700133001'
       amount: 1439000
     condo: 
