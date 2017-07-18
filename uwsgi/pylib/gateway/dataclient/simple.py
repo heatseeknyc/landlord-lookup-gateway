@@ -118,10 +118,6 @@ def extract_fields(d,keys):
             x[k] = None
     return x
 
-_shape_fields = ('lat_ctr','lon_ctr','radius','points','parts')
-def extract_shape(r):
-    return extract_fields(r,_shape_fields)
-
 def fixdates(r):
     for k,v in r.items():
         if isinstance(v,datetime.date):
@@ -220,4 +216,9 @@ def expand_address(s):
         return None
     terms = s.split('\\n')
     return [t.strip() for t in terms]
+
+_shape_fields = ('lat_ctr','lon_ctr','radius','points','parts')
+def extract_shape(r):
+    return extract_fields(r,_shape_fields)
+
 
