@@ -57,10 +57,12 @@ def _trunc(k,n):
     else:
         raise ValueError("invalid key '%s' relative to prefix '%s'" (tag,prefix))
 
+"""
 def trim_null(r,members):
     for k in members:
         if k in r and r[k] is None:
             del r[k]
+"""
 
 def clear_none(r,members=None):
     """Given a dict, delete all keys which reference None values"""
@@ -123,14 +125,14 @@ def stagger_taxlot(r):
     rr['pluto'] = extract_prefixed(r,'pluto',prune=True)
     rr['acris'] = extract_prefixed(r,'acris',prune=True,clear=True)
     rr['stable'] = extract_prefixed(r,'stable',prune=True,clear=True)
-    rr['condo'] = extract_prefixed(r,'condo',prune=True)
+    rr['condo'] = extract_prefixed(r,'condo',prune=True,clear=True)
     rr['meta'] = deepcopy(r)
     if rr['acris']:
         adjust_acris(rr['acris'])
     if rr['pluto']:
         inflate_shape(rr['pluto'])
         augment_pluto(rr['pluto'])
-    adjust_condo(rr['condo'])
+    # adjust_condo(rr['condo'])
     return rr
 
 def adjust_acris(acris):
@@ -139,10 +141,12 @@ def adjust_acris(acris):
     if amount is not None:
         acris['amount'] = round(amount)
 
+"""
 # Doesn't do much - basically a placeholder for now
 def adjust_condo(condo):
     """Tweaks the condo struct, as needed."""
     trim_null(condo,['parent'])
+"""
 
 
 def pluck(d,k):
