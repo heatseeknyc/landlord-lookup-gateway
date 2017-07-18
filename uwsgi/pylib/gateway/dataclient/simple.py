@@ -106,18 +106,6 @@ def extract_prefixed(r,prefix,collapse=True,prune=False,clear=False):
         return None
     return x
 
-def extract_fields(d,keys):
-    """Invasively extracts a sequence of key-val from a given dict :d,
-    returning these as a new dict."""
-    x = {}
-    for k in keys:
-        if k in d:
-            x[k] = d[k]
-            del d[k]
-        else:
-            x[k] = None
-    return x
-
 def fixdates(r):
     for k,v in r.items():
         if isinstance(v,datetime.date):
@@ -220,5 +208,17 @@ def expand_address(s):
 _shape_fields = ('lat_ctr','lon_ctr','radius','points','parts')
 def extract_shape(r):
     return extract_fields(r,_shape_fields)
+
+def extract_fields(d,keys):
+    """Invasively extracts a sequence of key-val from a given dict :d,
+    returning these as a new dict."""
+    x = {}
+    for k in keys:
+        if k in d:
+            x[k] = d[k]
+            del d[k]
+        else:
+            x[k] = None
+    return x
 
 
