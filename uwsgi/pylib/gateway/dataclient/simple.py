@@ -214,11 +214,3 @@ def trim_null(r,members):
             del r[k]
 """
 
-"""
-# Doesn't do much - basically a placeholder for now
-def adjust_condo(condo):
-    """Tweaks the condo struct, as needed."""
-    trim_null(condo,['parent'])
-"""
-
-
