@@ -185,5 +185,18 @@
     condo: 
       parent: 1007607501
 
-
+#
+# A co-op with rent stabilized units
+#
+-
+  query: 
+    bbl: 1013330023 
+    address: '1 Tudor Place'
+  result:
+    meta:
+      is_coop: true
+      is_bank: false
+      is_resi: true
+    stable:
+      code: 1
 
