@@ -42,7 +42,7 @@ def evaltest(agent,r):
 def dotests(agent,pairs):
     for i,r in enumerate(pairs):
         if r.get('skip'):
-            print("status[%d] = SKIP")
+            print("status[%d] = SKIP" % i)
             continue
         path = evaltest(agent,r)
         status,longpath = displaypath(path)
