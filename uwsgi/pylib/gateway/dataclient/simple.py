@@ -219,36 +219,3 @@ def cast_as_int(x):
 
 
 
-
-#
-# Deprecated Stuff 
-#
-
-def expand_summary(r):
-    stable = extract_prefixed(r,'stable')
-    building = extract_prefixed(r,'building')
-    pluto = extract_prefixed(r,'pluto')
-    taxlot = extract_shape(pluto)
-    inflate_shape(building)
-    inflate_shape(taxlot)
-    if pluto:
-        augment_pluto(pluto)
-    return  {
-        'pluto': pluto,
-        'taxlot': taxlot,
-        'stable': stable,
-        'building': building,
-        'nychpd_count': r.get('nychpd_count'),
-    }
-
-def __stagger_condo(r):
-    meta = r.get('meta')
-    if not meta:
-        raise ValueError("corrupted taxlot struct (no 'meta' member)")
-    if 'is_condo' not in meta:
-        raise ValueError("corrupted taxlot struct (bad 'meta' member)")
-    flag = meta['is_condo']
-    if not isinstance(flag,bool):
-        raise TypeError("corrupted taxlot struct (bad 'meta' member - invalid type)")
-
-
