@@ -151,6 +151,7 @@
       bbltype: 1
       is_coop: false 
       is_resi: false 
+      is_bank: false 
     stable: null 
     pluto:
       year_built: 0 
@@ -158,9 +159,9 @@
       bldg_count: 0 
       bldg_class: 'Z8'
       owner: 'CONG SHEARETH ISRAEL'
-    acris: null
-    condo: 
-      is_bank: false 
+    acris: 
+      code: 0
+    condo: null
 
 #
 # A condo unit
