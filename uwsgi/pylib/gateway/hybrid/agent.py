@@ -39,9 +39,17 @@ class LookupAgent(object):
 
 
     def get_lookup_by_bbl(self,bbl):
+        """
+        The primary resolution for all '/lookup/' calls - whether by address or
+        BBL, they all go through here.  So in particular, the :bbl argument can be
+        either user-supplied, or it can come from the Geoclient (via a call from
+        'get_lookup_by_addr', below).  So when interpreting the various switches
+        for error chacking and so forth below, keep that in mind.
+        """
         log.debug(":: bbl = %s" % bbl)
         keytup = {'bbl':bbl,'bin':None}
 
+        # Carefully distinguish junk BBL cases.
         if not is_valid_bbl(bbl):
             return {'keytup':keytup,'error':'invalid bbl (out of range)'}
         if is_degenerate_bbl(bbl):
@@ -49,6 +57,14 @@ class LookupAgent(object):
 
         taxlot = self.dataclient.get_taxlot(bbl)
         if taxlot is None:
+            """
+            This case should in theory never happen if we're coming in via the
+            Geoclient - it would meant that it gave us a BBL that its own databases
+            (PAD/Pluto, presumably) fail to recognize.  So if we've gotten here,
+            much more likely it's from a user inputting a BBL directly.
+
+            Either way we have nothing to display, and need to bail gracefully.
+            """
             return {'keytup':keytup,'error':'bbl not recognized'}
         else:
             if is_condo_unit(taxlot):
