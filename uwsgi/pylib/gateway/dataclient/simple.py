@@ -139,6 +139,8 @@ def adjust_acris(acris):
 
 def adjust_stable(stable):
     # These have been coming out of the database as float for some reason
+    if not stable:
+        return
     lastyear = stable.get('taxbill_lastyear')
     if lastyear is not None:
         stable['taxbill_lastyear'] = round(lastyear)
