@@ -156,13 +156,14 @@ class LookupAgent(object):
     def attach_baselot(self,taxlot):
         """Assuming the given taxlot represents a condo unit, mangles that struct
         by attaching a new member, 'baselot', presenting a somewhat minified 'pluto'
-        struct for the unit's parent condo lot."""
+        struct for the unit's parent condo lot.  We attach it to the 'condo' member
+        struct of the :taxlot struct, which is presumed to already exist."""
         if not is_condo_unit(taxlot):
             return
-        parent = taxlot['condo']['parent']
-        baselot = self.dataclient.get_baselot(parent)
+        condo = taxlot['condo']
+        baselot = self.dataclient.get_baselot(condo['parent'])
         if baselot:
-            taxlot['baselot'] = baselot
+            condo['baselot'] = baselot
 
 
 #

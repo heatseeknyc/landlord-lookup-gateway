@@ -87,6 +87,8 @@
       acris:
         buyers: 1 
       pluto: null
+    condo:
+      parent: 1010107506
       baselot:
         year_built:2009
  
