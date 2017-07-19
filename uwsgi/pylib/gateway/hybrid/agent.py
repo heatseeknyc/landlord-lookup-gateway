@@ -77,17 +77,6 @@ class LookupAgent(object):
                 self.attach_baselot(taxlot)
             return {'keytup':keytup,'taxlot':taxlot}
 
-    def attach_baselot(self,taxlot):
-        """Assuming the given taxlot represents a condo unit, mangles that struct
-        by attaching a new member, 'baselot', presenting a somewhat minified 'pluto'
-        struct for the unit's parent condo lot."""
-        if not is_condo_unit(taxlot):
-            return
-        parent = taxlot['condo']['parent']
-        baselot = self.dataclient.get_baselot(parent)
-        if baselot:
-            taxlot['baselot'] = baselot
-
     def get_lookup_by_rawaddr(self,rawaddr):
         log.debug(":: rawaddr = '%s'" % rawaddr)
         status,keytup = self.resolve_address(rawaddr)
@@ -159,6 +148,21 @@ class LookupAgent(object):
             return {'error':'invalid bin'}
         buildings = self.dataclient.get_buildings(_bbl,_bin)
         return {'buildings':buildings}
+
+    #
+    # A supporting accessor, not meant to be called as an endpoint.
+    #
+
+    def attach_baselot(self,taxlot):
+        """Assuming the given taxlot represents a condo unit, mangles that struct
+        by attaching a new member, 'baselot', presenting a somewhat minified 'pluto'
+        struct for the unit's parent condo lot."""
+        if not is_condo_unit(taxlot):
+            return
+        parent = taxlot['condo']['parent']
+        baselot = self.dataclient.get_baselot(parent)
+        if baselot:
+            taxlot['baselot'] = baselot
 
 
 #
