@@ -20,6 +20,17 @@ class DataClient(AgentBase):
         log.debug("r = %s" % r)
         return stagger_taxlot(r)
 
+    def get_baselot(self,bbl):
+        log.debug("bbl = %s")
+        if bbl is None:
+            return None
+        query = "select * from deco.baselot where bbl = %s"
+        r = self.fetchone(query,bbl)
+        log.debug("r = %s" % r)
+        return adjust_baselot(r)
+
+    # Note that there's no special treatment for invalid BBLs/BINs at this stage:
+
     # Note that there's no special treatment for invalid BBLs/BINs at this stage:
     # in theory they should already excluded from the database, so queries on them
     # simply return empty results.  We do exclude null BBLs, however.
@@ -48,6 +59,7 @@ class DataClient(AgentBase):
         return self.fetch_recs(query,_bbl,_bin)
 
 
+
 #
 # Because nested is better than flat.
 #
@@ -73,6 +85,11 @@ def stagger_taxlot(r):
     clear_none(rr);
     rr['meta'] = deepcopy(r)
     return rr
+
+def adjust_baselot(r):
+    pluto = extract_prefixed(r,'pluto',prune=True)
+    inflate_shape(pluto)
+    return pluto
 
 def _trunc(k,n):
     """Simply truncates first :n characters fron the (presumably) well-formed dict :key
