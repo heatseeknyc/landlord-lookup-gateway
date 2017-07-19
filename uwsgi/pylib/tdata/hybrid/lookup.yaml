@@ -90,6 +90,7 @@
     condo:
       parent: 1010107506
       baselot:
-        year_built:2009
+        bldg_count: 1
+        year_built: 2009
  
 
