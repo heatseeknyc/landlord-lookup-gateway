@@ -123,6 +123,10 @@ class LookupAgent(object):
             error = "cannot resolve address"
             return {'error':error,'message':message}
 
+        # to the lookup-by-bbl case.
+        return self.get_lookup_by_bbl(bbl)
+
+        """
         # This case can only happen if the Geoclient is grossly malfunctioning somehow.
         # So if it ever does, we should be sure to distinguish from the case of an 
         # unrecgnized BBL.
@@ -143,6 +147,7 @@ class LookupAgent(object):
             if is_condo_unit(taxlot):
                 self.attach_baselot(taxlot)
             return {'keytup':keytup,'taxlot':taxlot}
+        """
 
 
     def get_lookup(self,query):
