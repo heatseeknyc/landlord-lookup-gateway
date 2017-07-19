@@ -67,6 +67,12 @@ class LookupAgent(object):
             """
             return {'keytup':keytup,'error':'bbl not recognized'}
         else:
+            """
+            If we get here, we're good to go.  There's just one last thing:
+            if this is a condo unit, we want to slide in a minified pluto rec
+            corresponding to the building (or project)'s baselot.  The does
+            involve another database fetch, but the overhead should be minimal.
+            """
             if is_condo_unit(taxlot):
                 self.attach_baselot(taxlot)
             return {'keytup':keytup,'taxlot':taxlot}
