@@ -37,6 +37,7 @@ class LookupAgent(object):
     # our BBL is), but have subtly different error handling.
     #
 
+
     def get_lookup_by_bbl(self,bbl):
         log.debug(":: bbl = %s" % bbl)
         keytup = {'bbl':bbl,'bin':None}
@@ -50,7 +51,20 @@ class LookupAgent(object):
         if taxlot is None:
             return {'keytup':keytup,'error':'bbl not recognized'}
         else:
+            if is_condo_unit(taxlot):
+                self.attach_baselot(taxlot)
             return {'keytup':keytup,'taxlot':taxlot}
+
+    def attach_baselot(self,taxlot):
+        """Assuming the given taxlot represents a condo unit, mangles that struct
+        by attaching a new member, 'baselot', presenting a somewhat minified 'pluto'
+        struct for the unit's parent condo lot."""
+        if not is_condo_unit(taxlot):
+            return
+        parent = taxlot['condo']['parent']
+        baselot = self.dataclient.get_baselot(parent)
+        if baselot:
+            taxlot['baselot'] = baselot
 
     def get_lookup_by_rawaddr(self,rawaddr):
         log.debug(":: rawaddr = '%s'" % rawaddr)
@@ -104,6 +118,8 @@ class LookupAgent(object):
             return {'keytup':keytup,'error':'unrecognized bbl'}
         else:
             # Generic valid lookup. 
+            if is_condo_unit(taxlot):
+                self.attach_baselot(taxlot)
             return {'keytup':keytup,'taxlot':taxlot}
 
 
@@ -145,6 +161,14 @@ class LookupAgent(object):
 #
 # Support functions
 #
+
+def is_condo_unit(taxlot):
+    """Tells us whether this taxlot struct represents a condo unit.""" 
+    condo = taxlot.get('condo')
+    if not condo:
+        return False
+    parent = condo.get('parent')
+    return parent is not None
 
 _querypat = re.compile('(\d+)(,(\d+))?$')
 def split_buildings_query(query):

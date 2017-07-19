@@ -39,8 +39,9 @@
         in_pad: true
         is_condo: false
         is_coop: true
-        residential: true
-        stabilized: 'possible'
+        is_resi: true
+      stable:
+        code: 3
       pluto:
         address: '121 CENTRAL PARK WEST'
         bldg_class: 'D4'
@@ -61,7 +62,7 @@
       bin: null 
     taxlot:
       acris:
-        party_count: 1 
+        buuyers: 1 
         transfer_date: '1999-05-06'
         transfer_docid: 'FT_1540006592054'
       meta:
@@ -69,7 +70,24 @@
         in_pad: true   # what? 
         is_condo: false
         is_coop: false
-        residential: null 
-        stabilized: null 
+        is_resi: false
+      stabe: null
       pluto: null
+
+
+#
+# Another condo unit - with baselot struct
+#
+-
+  query: '1010101688'
+  result:
+    keytup:
+      bbl: 1010101688 
+    taxlot:
+      acris:
+        buyers: 1 
+      pluto: null
+      baselot:
+        year_built:2009
+ 
 
