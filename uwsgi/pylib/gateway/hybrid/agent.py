@@ -126,30 +126,6 @@ class LookupAgent(object):
         # to the lookup-by-bbl case.
         return self.get_lookup_by_bbl(bbl)
 
-        """
-        # This case can only happen if the Geoclient is grossly malfunctioning somehow.
-        # So if it ever does, we should be sure to distinguish from the case of an 
-        # unrecgnized BBL.
-        if not is_valid_bbl(bbl):
-            return {'keytup':keytup,'error':'invalid bbl (out of range)'}
-        # Or the Geoclient just might return a degenerate BBL.  If so, it's probably meant 
-        # as an error, and in any case we can't any meaningful searches on it.
-        if is_degenerate_bbl(bbl):
-            return {'keytup':keytup,'error':'invalid bbl (degenerate)'}
-
-        taxlot = self.dataclient.get_taxlot(bbl)
-        if taxlot is None:
-            # This case should also pretty much never happen -- it would mean that theo
-            # Geoclient sent us a BBL, but it's not in our database.  
-            return {'keytup':keytup,'error':'unrecognized bbl'}
-        else:
-            # Generic valid lookup. 
-            if is_condo_unit(taxlot):
-                self.attach_baselot(taxlot)
-            return {'keytup':keytup,'taxlot':taxlot}
-        """
-
-
     def get_lookup(self,query):
         """Combined geoclient + taxlot summary for an address or a BBL"""
         log.debug(":: query = '%s'" % query)
@@ -234,6 +210,32 @@ def make_tiny(r):
     if 'message' in r:
         tiny['message'] = r['message']
     return tiny
+
+
+if False:
+    if False:
+        """
+        # This case can only happen if the Geoclient is grossly malfunctioning somehow.
+        # So if it ever does, we should be sure to distinguish from the case of an 
+        # unrecgnized BBL.
+        if not is_valid_bbl(bbl):
+            return {'keytup':keytup,'error':'invalid bbl (out of range)'}
+        # Or the Geoclient just might return a degenerate BBL.  If so, it's probably meant 
+        # as an error, and in any case we can't any meaningful searches on it.
+        if is_degenerate_bbl(bbl):
+            return {'keytup':keytup,'error':'invalid bbl (degenerate)'}
+
+        taxlot = self.dataclient.get_taxlot(bbl)
+        if taxlot is None:
+            # This case should also pretty much never happen -- it would mean that theo
+            # Geoclient sent us a BBL, but it's not in our database.  
+            return {'keytup':keytup,'error':'unrecognized bbl'}
+        else:
+            # Generic valid lookup. 
+            if is_condo_unit(taxlot):
+                self.attach_baselot(taxlot)
+            return {'keytup':keytup,'taxlot':taxlot}
+        """
 
 
 
