@@ -107,7 +107,7 @@
     acris: 
       code: 1
       buyers: 1
-      transfer_docid: '2003031801588001' 
+      docid: '2003031801588001' 
     condo:  null
 
 
@@ -132,7 +132,7 @@
       bldg_count: 1
     acris:
       buyers: 1
-      transfer_docid: 'FT_1000008609500'
+      docid: 'FT_1000008609500'
     condo: null
    
 
@@ -180,7 +180,7 @@
     pluto: null
     acris:
       buyers: 1
-      transfer_docid: '2009061700133001'
+      docid: '2009061700133001'
       amount: 1439000
     condo: 
       parent: 1007607501
