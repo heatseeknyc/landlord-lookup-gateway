@@ -106,7 +106,7 @@
     pluto: null
     acris: 
       code: 1
-      buyers: 1
+      party2_count: 1
       docid: '2003031801588001' 
     condo:  null
 
@@ -131,7 +131,7 @@
       units_total: 22
       bldg_count: 1
     acris:
-      buyers: 1
+      party2_count: 1
       docid: 'FT_1000008609500'
     condo: null
    
@@ -161,6 +161,7 @@
       owner: 'CONG SHEARETH ISRAEL'
     acris: 
       code: 0
+      mindate: '1969-04-29'
     condo: null
 
 #
@@ -179,7 +180,7 @@
     stable: null 
     pluto: null
     acris:
-      buyers: 1
+      party2_count: 1
       docid: '2009061700133001'
       amount: 1439000
     condo: 
@@ -200,7 +201,11 @@
     stable:
       code: 1
       dhcr_ok: 1
-      taxbill_lastyear: 2015
+      taxbill_lastyear: 2016
+    acris:
+      code: 1
+      party2_count: 1,
+      party2_name: 'WINDSOR OWNERS CORP.'
 
 
 -
