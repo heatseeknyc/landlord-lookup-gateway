@@ -214,7 +214,7 @@ def split_keyarg(keyarg):
 
 _intpat = re.compile('^\d+$')
 def _intlike(s):
-    return re.match(_intpat,s)
+    return bool(re.match(_intpat,s))
 
 
 
