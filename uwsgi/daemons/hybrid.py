@@ -23,39 +23,40 @@ from common.logging import log
 parser = argparse.ArgumentParser()
 parser.add_argument('--mock',    dest='mock',   action='store_true')
 parser.add_argument('--no-mock', dest='nomock', action='store_true')
-parser.add_argument("--port", help="port to listen at", type=int)
+parser.add_argument("--port", type=int, default=5002, help="port to listen at")
 args = parser.parse_args()
 
-port = args.port if args.port else 5002
 app = Flask(__name__)
 CORS(app)
 
-metaconf = slurp_json("config/hybrid-settings.json")
-dataconf = slurp_json("config/postgres.json")
 
 #
-# Resolution order for the 'mock' flag:
+# Resolution order for the 'mock/no-mock' flags:
 #
 #  - if either of the arg flags '--mock' or '--no-mock' are invoked, 
 #    go with that.
-#
 #  - otherwise rely on what the hybrid settings config says.
+#  - idea being that either flag can override what's in the metaconf. 
 #
+def load_conf(args):
+    """Loads the requisite config files (subject to arg switches),
+    and returns them as a tuple of dataconf,geoconf."""
+    metaconf = slurp_json("config/hybrid-settings.json")
+    dataconf = slurp_json("config/postgres.json")
+    if args.mock:
+        usemock = True
+    elif args.nomock:
+        usemock = False
+    else:
+        usemock = metaconf['mock']
+    log.info("mock = %s, port = %d" % (usemock,args.port))
+    suffix = 'mock' if usemock else 'live';
+    geopath = "config/nycgeo-%s.json" % suffix
+    geoconf = slurp_json(geopath)
+    log.info("siteurl = '%s'" % geoconf.get('siteurl'))
+    return dataconf,geoconf
 
-if args.mock:
-    usemock = True
-elif args.nomock:
-    usemock = False
-else:
-    usemock = metaconf['mock']
-
-if usemock:
-    geoconf  = slurp_json("config/nycgeo-mock.json")
-else:
-    geoconf  = slurp_json("config/nycgeo-live.json")
-
-log.info("mock = %s, port = %d" % (usemock,port))
-log.info("siteurl = '%s'" % geoconf.get('siteurl'))
+dataconf,geoconf = load_conf(args)
 agent = gateway.hybrid.instance(dataconf,geoconf)
 
 #
