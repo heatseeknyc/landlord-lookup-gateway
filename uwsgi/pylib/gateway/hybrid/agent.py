@@ -49,15 +49,6 @@ class LookupAgent(object):
             return self.get_lookup_by_rawaddr(query)
 
 
-    def resolve_address(self,rawaddr):
-        log.info(":: rawaddr  = '%s'" % rawaddr)
-        normaddr = fix_borough_name(rawaddr)
-        log.debug(":: normaddr = '%s'" % normaddr)
-        status,keytup = self.geoclient.fetch_tiny(normaddr)
-        log.debug(":: status = %s " % status)
-        log.debug(":: response = %s" % keytup)
-        return status,keytup
-
     #
     # The next two handlers are nearly congruent - one acts on an address; 
     # the other works directly on a BBL.
@@ -138,6 +129,16 @@ class LookupAgent(object):
 
         # to the lookup-by-bbl case.
         return self.get_lookup_by_bbl(bbl)
+
+    # A supporting method used by the two above handlers
+    def resolve_address(self,rawaddr):
+        log.info(":: rawaddr  = '%s'" % rawaddr)
+        normaddr = fix_borough_name(rawaddr)
+        log.debug(":: normaddr = '%s'" % normaddr)
+        status,keytup = self.geoclient.fetch_tiny(normaddr)
+        log.debug(":: status = %s " % status)
+        log.debug(":: response = %s" % keytup)
+        return status,keytup
 
     # We used to act on BBL-BIN pairs, but that's been temporarily disabled.
     # For the time being we only act on single BBL arguments.
