@@ -90,12 +90,9 @@ def resolve_lookup(query):
     q = query.replace('+',' ').strip()
     log.debug("q = %s" % str(q))
     if q is None:
-        # return errmsg('invalid query string')
         return {'error':'invalid query string'}
     else:
         return agent.get_lookup(q)
-        # response = agent.get_lookup(q)
-        # return jsonify(response)
 
 def resolve_contacts(keytup):
     t = split_keytup(keytup)
@@ -106,11 +103,6 @@ def resolve_contacts(keytup):
         return jsonify({"contacts":contacts})
 
 def resolve_buildings(keyarg):
-    # log.info("bbl = [%s]" % bbl)
-    # n = parsebbl(bbl)
-    #if n is None:
-    #    return errmsg('invalid BBL string')
-    # else:
     log.debug("keyarg = [%s]" % keyarg)
     r = agent.get_buildings(keyarg)
     return jsonify(r)
