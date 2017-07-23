@@ -30,34 +30,6 @@ app = Flask(__name__)
 CORS(app)
 
 
-#
-# Resolution order for the 'mock/no-mock' flags:
-#
-#  - if either of the arg flags '--mock' or '--no-mock' are invoked, 
-#    go with that.
-#  - otherwise rely on what the hybrid settings config says.
-#  - idea being that either flag can override what's in the metaconf. 
-#
-def load_conf(args):
-    """Loads the requisite config files (subject to arg switches),
-    and returns them as a tuple of dataconf,geoconf."""
-    metaconf = slurp_json("config/hybrid-settings.json")
-    dataconf = slurp_json("config/postgres.json")
-    if args.mock:
-        usemock = True
-    elif args.nomock:
-        usemock = False
-    else:
-        usemock = metaconf['mock']
-    log.info("mock = %s, port = %d" % (usemock,args.port))
-    suffix = 'mock' if usemock else 'live';
-    geopath = "config/nycgeo-%s.json" % suffix
-    geoconf = slurp_json(geopath)
-    log.info("siteurl = '%s'" % geoconf.get('siteurl'))
-    return dataconf,geoconf
-
-dataconf,geoconf = load_conf(args)
-agent = gateway.hybrid.instance(dataconf,geoconf)
 
 #
 # There's some obvious repetition in the next 3 method declarations.
@@ -121,6 +93,39 @@ def errmsg(message):
 
 def jsonify(r):
     return json.dumps(r,sort_keys=True)
+
+#
+# Helper functions
+#
+
+#
+# Resolution order for the 'mock/no-mock' flags:
+#
+#  - if either of the arg flags '--mock' or '--no-mock' are invoked, 
+#    go with that.
+#  - otherwise rely on what the hybrid settings config says.
+#  - idea being that either flag can override what's in the metaconf. 
+#
+def load_conf(args):
+    """Loads the requisite config files (subject to arg switches),
+    and returns them as a tuple of dataconf,geoconf."""
+    metaconf = slurp_json("config/hybrid-settings.json")
+    dataconf = slurp_json("config/postgres.json")
+    if args.mock:
+        usemock = True
+    elif args.nomock:
+        usemock = False
+    else:
+        usemock = metaconf['mock']
+    log.info("mock = %s, port = %d" % (usemock,args.port))
+    suffix = 'mock' if usemock else 'live';
+    geopath = "config/nycgeo-%s.json" % suffix
+    geoconf = slurp_json(geopath)
+    log.info("siteurl = '%s'" % geoconf.get('siteurl'))
+    return dataconf,geoconf
+
+dataconf,geoconf = load_conf(args)
+agent = gateway.hybrid.instance(dataconf,geoconf)
 
 def split_keytup(keytup):
     terms = keytup.split(',')
