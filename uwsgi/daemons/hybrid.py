@@ -1,11 +1,13 @@
-#!/usr/bin/env python
 #
-# Our actual public-facing REST gateway.  For details as to the 
-# endpoints and protocol, please see:
+# Our actual public-facing REST gateway, as such.
+# Currently provides 3 endpoints:
 #
-#   documentation/ABOUT-rest-protocol.rst
+#      /lookup/
+#      /buildings/
+#      /contacts/
 #
-# in this repo.
+# We'll get around to documenting them, at some point.
+# But they're really quite simple.
 #
 import re
 import argparse
