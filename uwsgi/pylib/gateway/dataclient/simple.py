@@ -112,9 +112,9 @@ def stagger_taxlot(r):
     return rr
 
 def adjust_baselot(r):
-    pluto = extract_prefixed(r,'pluto',prune=True)
-    inflate_shape(pluto)
-    return pluto
+    baselot = extract_prefixed(r,'pluto',prune=True)
+    inflate_shape(baselot)
+    return baselot
 
 def _trunc(k,n):
     """Simply truncates first :n characters fron the (presumably) well-formed dict :key
