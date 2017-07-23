@@ -19,10 +19,14 @@ class LookupAgent(object):
     @wrapsafe(log)
     def dispatch(self,endpoint,*args):
         """The preferred entry point to our endpoints."""
+        # Yes, there's a bit of repetition here.  
+        # We'll be addressing it shortly.
         if endpoint == 'lookup':
             return self.get_lookup(*args)
         if endpoint == 'buildings':
             return self.get_buildings(*args)
+        if endpoint == 'contacts':
+            return self.get_contacts(*args)
         return {'error':'invalid endpoint'}
 
     def resolve_address(self,rawaddr):
@@ -136,14 +140,20 @@ class LookupAgent(object):
             # If not then they're at least attempting to provide a valid address.
             return self.get_lookup_by_rawaddr(query)
 
-    def get_contacts(self,bbl):
-        contacts = self.dataclient.get_contacts(bbl)
+    # We used to act on BBL-BIN pairs, but that's been temporarily disabled.
+    # FOr the time being we only act on single BBL arguments.
+    def get_contacts(self,keyarg):
+        keytup = split_keyarg(keyarg)
+        if keytup is None:
+            return {'error':'invalid query'}
+        _bbl,_bin = keytup
+        if _bin is None:
+            return {'error':'invalid query (accepts BBL only)'}
+        contacts = self.dataclient.get_contacts(_bbl)
         return {"contacts":contacts}
 
-    def get_buildings(self,query):
-        # print(":: query = [%s]" % query)
-        keytup = split_buildings_query(query)
-        # print(":: keytup = %s" % str(keytup))
+    def get_buildings(self,keyarg):
+        keytup = split_keyarg(keyarg)
         if keytup is None:
             return {'error':'invalid query'}
         _bbl,_bin = keytup
@@ -183,15 +193,20 @@ def is_condo_unit(taxlot):
     parent = condo.get('parent')
     return parent is not None
 
-_querypat = re.compile('(\d+)(,(\d+))?$')
-def split_buildings_query(query):
-    if query is None:
+_keypat = re.compile('(\d+)(,(\d+))?$')
+def split_keyarg(keyarg):
+    """
+    Takes an arbitrary string expected to be of the so-called 'keyarg'
+    format, that is, either a single BBL, or a tuple of (BBL,BIN).
+    Returns either a 2-tuple (where the first element is always a BBL,
+    and the second element either a BIN or None) if the string can be
+    thus parsed, or None if it can't be.
+    """
+    if keyarg is None:
         raise ValueError('invalid usage')
-    m = re.match(_querypat,query)
+    m = re.match(_keypat,query)
     if m:
         _bbl,_bin = m.group(1),m.group(3)
-        # print("bbl = %s" % _bbl)
-        # print("bin = %s" % _bin)
         _bbl = int(_bbl)
         _bin = int(_bin) if _bin else None
         return _bbl,_bin

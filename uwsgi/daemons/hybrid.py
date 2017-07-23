@@ -32,8 +32,6 @@ hybrid = gateway.hybrid.instance(dataconf,geoconf)
 app = Flask(__name__)
 CORS(app)
 
-
-
 #
 # There's some obvious repetition in the next 3 method declarations.
 # Which could be avoided by adding another decorator.  However, we'd 
@@ -48,13 +46,41 @@ def api_lookup(query):
 @app.route('/buildings/<keyarg>')
 @cross_origin()
 def api_building(keyarg):
-    return _wrapsafe(resolve_buildings,keyarg)
+    r = hybrid.dispatch('buildings',keyarg)
+    return jsonify(r)
 
-@app.route('/contacts/<keytup>')
+@app.route('/contacts/<keyarg>')
 @cross_origin()
-def api_contacts(keytup):
-    return _wrapsafe(resolve_contacts,keytup)
+def api_contacts(keyarg):
+    r = hybrid.dispatch('contacts',keyarg)
+    return jsonify(r)
 
+#
+# A little helper function
+#
+def jsonify(r):
+    return json.dumps(r,sort_keys=True)
+
+#
+# This switch is for testing purposes only, so you can run the 
+# service under the default Flask environment (that is, if you 
+# invoke this module as a script from the shell enviroment).
+#
+# Hence, the branch doesn't get entered under WSGI (and the 
+# port number below has nothing to do with where the service 
+# runs under WSGI).
+#
+if __name__ == '__main__':
+    app.run(port=port)
+
+
+
+
+
+
+#
+# Deprecated City
+#
 
 def resolve_lookup(agent,query):
     """
@@ -92,8 +118,6 @@ def _wrapsafe(callf,rawarg):
 def errmsg(message):
     return json.dumps({'error':message})
 
-def jsonify(r):
-    return json.dumps(r,sort_keys=True)
 
 #
 # Helper functions
@@ -109,17 +133,4 @@ def split_keytup(keytup):
 _bblpat = re.compile('^\d{10}$')
 def parsebbl(s):
     return int(s) if re.match(_bblpat,s) else None
-
-#
-# This switch is for testing purposes only, so you can run the 
-# service under the default Flask environment (that is, if you 
-# invoke this module as a script from the shell enviroment).
-#
-# Hence, the branch doesn't get entered under WSGI (and the 
-# port number below has nothing to do with where the service 
-# runs under WSGI).
-#
-if __name__ == '__main__':
-    app.run(port=port)
-
 
