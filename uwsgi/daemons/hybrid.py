@@ -25,9 +25,6 @@ parser.add_argument("--port", help="port to listen at", type=int)
 args = parser.parse_args()
 
 port = args.port if args.port else 5002
-
-
-
 app = Flask(__name__)
 CORS(app)
 
