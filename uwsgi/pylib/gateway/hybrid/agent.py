@@ -130,16 +130,6 @@ class LookupAgent(object):
         # to the lookup-by-bbl case.
         return self.get_lookup_by_bbl(bbl)
 
-    # A supporting method used by the two above handlers
-    def resolve_address(self,rawaddr):
-        log.info(":: rawaddr  = '%s'" % rawaddr)
-        normaddr = fix_borough_name(rawaddr)
-        log.debug(":: normaddr = '%s'" % normaddr)
-        status,keytup = self.geoclient.fetch_tiny(normaddr)
-        log.debug(":: status = %s " % status)
-        log.debug(":: response = %s" % keytup)
-        return status,keytup
-
     def get_buildings(self,keyarg):
         keytup = split_keyarg(keyarg)
         if keytup is None:
@@ -165,8 +155,17 @@ class LookupAgent(object):
         return {"contacts":contacts}
 
     #
-    # A supporting accessor, not meant to be called as an endpoint.
+    # Supporting methods, not meant to be called as endpoints. 
     #
+
+    def resolve_address(self,rawaddr):
+        log.info(":: rawaddr  = '%s'" % rawaddr)
+        normaddr = fix_borough_name(rawaddr)
+        log.debug(":: normaddr = '%s'" % normaddr)
+        status,keytup = self.geoclient.fetch_tiny(normaddr)
+        log.debug(":: status = %s " % status)
+        log.debug(":: response = %s" % keytup)
+        return status,keytup
 
     def attach_baselot(self,taxlot):
         """Assuming the given taxlot represents a condo unit, mangles that struct
