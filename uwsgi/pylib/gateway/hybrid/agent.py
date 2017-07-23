@@ -216,7 +216,5 @@ _intpat = re.compile('^\d+$')
 def _intlike(s):
     return re.match(_intpat,s)
 
-def softint(s):
-    return int(s) if s is not None else None
 
 
