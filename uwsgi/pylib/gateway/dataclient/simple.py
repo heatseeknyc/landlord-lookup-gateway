@@ -114,6 +114,12 @@ def stagger_taxlot(r):
 def adjust_baselot(r):
     baselot = extract_prefixed(r,'pluto',prune=True)
     inflate_shape(baselot)
+    # As a graceful fudge, we slot in one crucial field from our 'meta' struct 
+    # that will be helpful in displaying information about this lot, client side.  
+    # Note that this field will be different from the value 'is_resi' up in the 
+    # parent taxlot struct.
+    if r.get('is_resi'):
+        baselot['is_resi'] = 1
     return baselot
 
 def _trunc(k,n):

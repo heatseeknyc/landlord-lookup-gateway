@@ -86,7 +86,7 @@ def namedtuple2query(named):
     return '&'.join(['%s=%s' % (_encode(k),_encode(v)) for k,v in d.items()])
 
 
-_intlike = re.compile('^\d+$')
+_intlike = re.compile('^[+-]?\d+$')
 def is_intlike(n):
     return n is not None and re.match(_intlike,n)
 
