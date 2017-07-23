@@ -35,6 +35,16 @@ class DataClient(AgentBase):
         return stagger_taxlot(r)
 
     def get_baselot(self,bbl):
+        """
+        This method is currently more of a helper accessor for 'get_taxlot',
+        as it isn't currently (directly) attached to any endpoint.  It feches
+        a minified 'plutoid' struct for the given BBL (assumed to be a 'bank' BBL),
+        so that it can be attached a child to the 'condo' struct in the outgoing
+        taxlot struct proper.
+
+        Currently it's only intended usage is to be called via from the hybrid
+        agent if it detects that the incoming BBL is a bank bbl.
+        """
         log.debug("bbl = %s")
         if bbl is None:
             return None
