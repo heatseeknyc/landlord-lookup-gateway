@@ -63,17 +63,17 @@ agent = gateway.hybrid.instance(dataconf,geoconf)
 @app.route('/lookup/<query>')
 @cross_origin()
 def api_lookup(query):
-    return wrapsafe(resolve_lookup,query)
+    return _wrapsafe(resolve_lookup,query)
 
 @app.route('/contacts/<keytup>')
 @cross_origin()
 def api_contacts(keytup):
-    return wrapsafe(resolve_contacts,keytup)
+    return _wrapsafe(resolve_contacts,keytup)
 
 @app.route('/buildings/<keyarg>')
 @cross_origin()
 def api_building(keyarg):
-    return wrapsafe(resolve_buildings,keyarg)
+    return _wrapsafe(resolve_buildings,keyarg)
 
 
 
@@ -108,7 +108,7 @@ def resolve_buildings(keyarg):
     r = agent.get_buildings(keyarg)
     return jsonify(r)
 
-def wrapsafe(callf,rawarg):
+def _wrapsafe(callf,rawarg):
     try:
         return callf(rawarg)
     except Exception as e:
