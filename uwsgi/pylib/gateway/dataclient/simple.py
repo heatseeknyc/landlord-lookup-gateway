@@ -12,11 +12,23 @@ import datetime
 class DataClient(AgentBase):
 
     def get_taxlot(self,bbl):
+        """
+        The 'taxlot' struct is a catch-all container for "everything we know
+        about the taxlot for a given BBL."  The final struct will have variously
+        different members, depending on whether we're in Pluto, ACRIS, or both;
+        whether we're a condo baselot or unit, etc.
+
+        But it always has a 'meta' member which provides a few high-level flags
+        (like 'is_bank', 'is_resi', etc) as well as reflecting the BBL back as well,
+        to make response handling a bit easier.
+        """
         log.debug("bbl = %s")
         if bbl is None:
             return None
-        if bbl % 2:
-            raise ValueError("odd-numbered BBLs not allowed")
+        # A silly switch we sometimes activate to force a high-level
+        # exception to be triggered.
+        # if bbl % 2:
+        #    raise ValueError("odd-numbered BBLs not allowed")
         query = "select * from deco.taxlot where bbl = %s"
         r = self.fetchone(query,bbl)
         log.debug("r = %s" % r)
