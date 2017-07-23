@@ -49,7 +49,6 @@ elif args.nomock:
 else:
     usemock = metaconf['mock']
 
-
 if usemock:
     geoconf  = slurp_json("config/nycgeo-mock.json")
 else:
@@ -58,7 +57,6 @@ else:
 log.info("mock = %s, port = %d" % (usemock,port))
 log.info("siteurl = '%s'" % geoconf.get('siteurl'))
 agent = gateway.hybrid.instance(dataconf,geoconf)
-
 
 #
 # There's some obvious repetition in the next 3 method declarations.
