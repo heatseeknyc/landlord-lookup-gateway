@@ -59,11 +59,9 @@ class LookupAgent(object):
         return status,keytup
 
     #
-    # Note that the next two handlers are nearly congruent (once we decide what
-    # our BBL is), but have subtly different error handling.
+    # The next two handlers are nearly congruent - one acts on an address; 
+    # the other works directly on a BBL.
     #
-
-
     def get_lookup_by_bbl(self,bbl):
         """
         The primary resolution for all '/lookup/' calls - whether by address or
