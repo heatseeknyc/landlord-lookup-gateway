@@ -203,7 +203,7 @@ def split_keyarg(keyarg):
     """
     if keyarg is None:
         raise ValueError('invalid usage')
-    m = re.match(_keypat,query)
+    m = re.match(_keypat,keyarg)
     if m:
         _bbl,_bin = m.group(1),m.group(3)
         _bbl = int(_bbl)
