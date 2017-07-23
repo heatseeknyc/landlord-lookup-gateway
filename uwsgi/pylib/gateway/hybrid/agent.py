@@ -140,18 +140,6 @@ class LookupAgent(object):
         log.debug(":: response = %s" % keytup)
         return status,keytup
 
-    # We used to act on BBL-BIN pairs, but that's been temporarily disabled.
-    # For the time being we only act on single BBL arguments.
-    def get_contacts(self,keyarg):
-        keytup = split_keyarg(keyarg)
-        if keytup is None:
-            return {'error':'invalid query'}
-        _bbl,_bin = keytup
-        if _bin is None:
-            return {'error':'invalid query (accepts BBL only)'}
-        contacts = self.dataclient.get_contacts(_bbl)
-        return {"contacts":contacts}
-
     def get_buildings(self,keyarg):
         keytup = split_keyarg(keyarg)
         if keytup is None:
@@ -163,6 +151,18 @@ class LookupAgent(object):
             return {'error':'invalid bin'}
         buildings = self.dataclient.get_buildings(_bbl,_bin)
         return {'buildings':buildings}
+
+    # We used to act on BBL-BIN pairs, but that's been temporarily disabled.
+    # For the time being we only act on single BBL arguments.
+    def get_contacts(self,keyarg):
+        keytup = split_keyarg(keyarg)
+        if keytup is None:
+            return {'error':'invalid query'}
+        _bbl,_bin = keytup
+        if _bin is None:
+            return {'error':'invalid query (accepts BBL only)'}
+        contacts = self.dataclient.get_contacts(_bbl)
+        return {"contacts":contacts}
 
     #
     # A supporting accessor, not meant to be called as an endpoint.
