@@ -6,6 +6,7 @@ together.
 import re
 from nycprop.identity import is_degenerate_bbl, is_valid_bbl, is_valid_bin
 from gateway.util.address import fix_borough_name
+from gateway.util.decorators import wrapsafe
 from common.logging import log
 
 
@@ -15,6 +16,7 @@ class LookupAgent(object):
         self.dataclient = dataclient
         self.geoclient  = geoclient
 
+    @wrapsafe(log)
     def dispatch(self,endpoint,*args):
         """The preferred entry point to our endpoints."""
         if endpoint == 'lookup':
@@ -117,11 +119,14 @@ class LookupAgent(object):
 
     def get_lookup(self,query):
         """Combined geoclient + taxlot summary for an address or a BBL"""
-        log.debug(":: query = '%s'" % query)
+        log.debug(":: query = '%s', type=%s" % (query,type(query)))
         if query is None:
-            # This can never happen if we've been properly routed (no matter
-            # the user types, or the client sends).
+            # This can never happen if we've been properly routed (no matter what 
+            # the user types, or the client sends).  But if it does we should treat 
+            # it gracefully.
             raise ValueError("invalid usage - null query object")
+        q = query.replace('+',' ').strip()
+        log.debug("query(stripped) = %s" % str(q))
         if _intlike(query):
             # If our query is integer-like, it means we've either come in via
             # a /taxlot/ URL, or the user has typed in a BBL in the search bar.

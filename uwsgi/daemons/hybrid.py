@@ -16,8 +16,7 @@ from traceback import print_tb
 from flask import Flask
 from flask_cors import CORS, cross_origin
 import gateway.hybrid
-from gateway.util.misc import slurp_json
-from daemons.util.decorators import wrapsafe
+from daemons.util.config import load_hybrid_conf
 from common.logging import log
 
 parser = argparse.ArgumentParser()
@@ -26,6 +25,10 @@ parser.add_argument('--no-mock', dest='nomock', action='store_true')
 parser.add_argument("--port", type=int, default=5002, help="port to listen at")
 args = parser.parse_args()
 
+CONFDIR = 'config'
+
+dataconf,geoconf = load_hybrid_conf(CONFDIR,args)
+hybrid = gateway.hybrid.instance(dataconf,geoconf)
 app = Flask(__name__)
 CORS(app)
 
@@ -39,7 +42,7 @@ CORS(app)
 @app.route('/lookup/<query>')
 @cross_origin()
 def api_lookup(query):
-    r = resolve_lookup(query)
+    r = hybrid.dispatch('lookup',query)
     return jsonify(r)
 
 @app.route('/contacts/<keytup>')
@@ -52,10 +55,7 @@ def api_contacts(keytup):
 def api_building(keyarg):
     return _wrapsafe(resolve_buildings,keyarg)
 
-
-
-@wrapsafe(log)
-def resolve_lookup(query):
+def resolve_lookup(agent,query):
     """
     Resolves (does some kind of a taxlot summary search on) the given search query,
     that is, the (whitespace-trimmed) search string as supplied on the main search form.
@@ -97,35 +97,6 @@ def jsonify(r):
 #
 # Helper functions
 #
-
-#
-# Resolution order for the 'mock/no-mock' flags:
-#
-#  - if either of the arg flags '--mock' or '--no-mock' are invoked, 
-#    go with that.
-#  - otherwise rely on what the hybrid settings config says.
-#  - idea being that either flag can override what's in the metaconf. 
-#
-def load_conf(args):
-    """Loads the requisite config files (subject to arg switches),
-    and returns them as a tuple of dataconf,geoconf."""
-    metaconf = slurp_json("config/hybrid-settings.json")
-    dataconf = slurp_json("config/postgres.json")
-    if args.mock:
-        usemock = True
-    elif args.nomock:
-        usemock = False
-    else:
-        usemock = metaconf['mock']
-    log.info("mock = %s, port = %d" % (usemock,args.port))
-    suffix = 'mock' if usemock else 'live';
-    geopath = "config/nycgeo-%s.json" % suffix
-    geoconf = slurp_json(geopath)
-    log.info("siteurl = '%s'" % geoconf.get('siteurl'))
-    return dataconf,geoconf
-
-dataconf,geoconf = load_conf(args)
-agent = gateway.hybrid.instance(dataconf,geoconf)
 
 def split_keytup(keytup):
     terms = keytup.split(',')

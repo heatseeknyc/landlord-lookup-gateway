@@ -15,6 +15,8 @@ class DataClient(AgentBase):
         log.debug("bbl = %s")
         if bbl is None:
             return None
+        if bbl % 2:
+            raise ValueError("odd-numbered BBLs not allowed")
         query = "select * from deco.taxlot where bbl = %s"
         r = self.fetchone(query,bbl)
         log.debug("r = %s" % r)
@@ -84,6 +86,7 @@ def stagger_taxlot(r):
     # But the 'meta' struct should always be present.
     clear_none(rr);
     rr['meta'] = deepcopy(r)
+    adjust_meta(rr['meta'])
     return rr
 
 def adjust_baselot(r):
@@ -107,6 +110,17 @@ def clear_none(r,members=None):
     for k in members:
         if r[k] is None:
             del r[k]
+
+def clear_bool(r,members=None):
+    """Given a dict, set all True values to 1, and delete False valuse."""
+    if members is None:
+        members = sorted(r.keys())
+    for k in members:
+        if isinstance(r[k],bool):
+            if r[k]:
+                r[k] = 1
+            else:
+                del r[k]
 
 def extract_prefixed(r,prefix,collapse=True,prune=False,clear=False):
     prefix_ = prefix+'_'
@@ -161,6 +175,11 @@ def adjust_stable(stable):
     lastyear = stable.get('taxbill_lastyear')
     if lastyear is not None:
         stable['taxbill_lastyear'] = round(lastyear)
+
+def adjust_meta(meta):
+    if not meta:
+        return
+    clear_bool(meta)
 
 
 def pluck(d,k):
