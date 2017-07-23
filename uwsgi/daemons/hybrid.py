@@ -45,15 +45,16 @@ def api_lookup(query):
     r = hybrid.dispatch('lookup',query)
     return jsonify(r)
 
+@app.route('/buildings/<keyarg>')
+@cross_origin()
+def api_building(keyarg):
+    return _wrapsafe(resolve_buildings,keyarg)
+
 @app.route('/contacts/<keytup>')
 @cross_origin()
 def api_contacts(keytup):
     return _wrapsafe(resolve_contacts,keytup)
 
-@app.route('/buildings/<keyarg>')
-@cross_origin()
-def api_building(keyarg):
-    return _wrapsafe(resolve_buildings,keyarg)
 
 def resolve_lookup(agent,query):
     """
