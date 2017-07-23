@@ -15,6 +15,7 @@ from flask import Flask
 from flask_cors import CORS, cross_origin
 import gateway.hybrid
 from gateway.util.misc import slurp_json
+from daemons.util.decorators import wrapsafe
 from common.logging import log
 
 parser = argparse.ArgumentParser()
@@ -60,10 +61,16 @@ log.info("siteurl = '%s'" % geoconf.get('siteurl'))
 agent = gateway.hybrid.instance(dataconf,geoconf)
 
 
+#
+# There's some obvious repetition in the next 3 method declarations.
+# Which could be avoided by adding another decorator.  However, we'd 
+# prefer not to go that route for the time being.
+#
 @app.route('/lookup/<query>')
 @cross_origin()
 def api_lookup(query):
-    return _wrapsafe(resolve_lookup,query)
+    r = resolve_lookup(query)
+    return jsonify(r)
 
 @app.route('/contacts/<keytup>')
 @cross_origin()
@@ -77,6 +84,7 @@ def api_building(keyarg):
 
 
 
+@wrapsafe(log)
 def resolve_lookup(query):
     """
     Resolves (does some kind of a taxlot summary search on) the given search query,
@@ -85,10 +93,12 @@ def resolve_lookup(query):
     q = query.replace('+',' ').strip()
     log.debug("q = %s" % str(q))
     if q is None:
-        return errmsg('invalid query string')
+        # return errmsg('invalid query string')
+        return {'error':'invalid query string'}
     else:
-        response = agent.get_lookup(q)
-        return jsonify(response)
+        return agent.get_lookup(q)
+        # response = agent.get_lookup(q)
+        # return jsonify(response)
 
 def resolve_contacts(keytup):
     t = split_keytup(keytup)
