@@ -192,7 +192,7 @@ def is_condo_unit(taxlot):
     parent = condo.get('parent')
     return parent is not None
 
-_keypat = re.compile('(\d+)(,(\d+))?$')
+_keypat = re.compile('^(\d+)(,(\d+))?$')
 def split_keyarg(keyarg):
     """
     Takes an arbitrary string expected to be of the so-called 'keyarg'
@@ -212,7 +212,7 @@ def split_keyarg(keyarg):
     else:
         return None
 
-_intpat = re.compile('^\d+$')
+_intpat = re.compile('^[+-]?\d+$')
 def _intlike(s):
     return bool(re.match(_intpat,s))
 
