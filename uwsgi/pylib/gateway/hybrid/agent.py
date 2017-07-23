@@ -29,6 +29,26 @@ class LookupAgent(object):
             return self.get_contacts(*args)
         return {'error':'invalid endpoint'}
 
+    def get_lookup(self,query):
+        """Combined geoclient + taxlot summary for an address or a BBL"""
+        log.debug(":: query = '%s', type=%s" % (query,type(query)))
+        if query is None:
+            # This can never happen if we've been properly routed (no matter what 
+            # the user types, or the client sends).  But if it does we should treat 
+            # it gracefully.
+            raise ValueError("invalid usage - null query object")
+        q = query.replace('+',' ').strip()
+        log.debug("query(stripped) = %s" % str(q))
+        if _intlike(query):
+            # If our query is integer-like, it means we've either come in via
+            # a /taxlot/ URL, or the user has typed in a BBL in the search bar.
+            bbl = int(query)
+            return self.get_lookup_by_bbl(bbl)
+        else:
+            # If not then they're at least attempting to provide a valid address.
+            return self.get_lookup_by_rawaddr(query)
+
+
     def resolve_address(self,rawaddr):
         log.info(":: rawaddr  = '%s'" % rawaddr)
         normaddr = fix_borough_name(rawaddr)
@@ -121,27 +141,8 @@ class LookupAgent(object):
         # to the lookup-by-bbl case.
         return self.get_lookup_by_bbl(bbl)
 
-    def get_lookup(self,query):
-        """Combined geoclient + taxlot summary for an address or a BBL"""
-        log.debug(":: query = '%s', type=%s" % (query,type(query)))
-        if query is None:
-            # This can never happen if we've been properly routed (no matter what 
-            # the user types, or the client sends).  But if it does we should treat 
-            # it gracefully.
-            raise ValueError("invalid usage - null query object")
-        q = query.replace('+',' ').strip()
-        log.debug("query(stripped) = %s" % str(q))
-        if _intlike(query):
-            # If our query is integer-like, it means we've either come in via
-            # a /taxlot/ URL, or the user has typed in a BBL in the search bar.
-            bbl = int(query)
-            return self.get_lookup_by_bbl(bbl)
-        else:
-            # If not then they're at least attempting to provide a valid address.
-            return self.get_lookup_by_rawaddr(query)
-
     # We used to act on BBL-BIN pairs, but that's been temporarily disabled.
-    # FOr the time being we only act on single BBL arguments.
+    # For the time being we only act on single BBL arguments.
     def get_contacts(self,keyarg):
         keytup = split_keyarg(keyarg)
         if keytup is None:
