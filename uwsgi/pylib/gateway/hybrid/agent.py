@@ -39,14 +39,14 @@ class LookupAgent(object):
             raise ValueError("invalid usage - null query object")
         q = query.replace('+',' ').strip()
         log.debug("query(stripped) = %s" % str(q))
-        if _intlike(query):
+        if _intlike(q):
             # If our query is integer-like, it means we've either come in via
             # a /taxlot/ URL, or the user has typed in a BBL in the search bar.
-            bbl = int(query)
+            bbl = int(q)
             return self.get_lookup_by_bbl(bbl)
         else:
             # If not then they're at least attempting to provide a valid address.
-            return self.get_lookup_by_rawaddr(query)
+            return self.get_lookup_by_rawaddr(q)
 
 
     #
