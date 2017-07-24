@@ -1,7 +1,8 @@
 The REST protocol itself is extremely simple.  As performed by ``daemos/hybrid.py``, it's just a one-way GET responder that listens for requests following two endpoints::
 
-  /lookup/<address>
-  /contacts/<keytup>
+  /lookup/<query>
+  /buildings/<keyarg>
+  /contacts/<keyarg>
 
 Each described in more detail below.
 
