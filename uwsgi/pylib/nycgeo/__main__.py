@@ -40,12 +40,18 @@ def process(geoclient,r,i):
     rawaddr = makeaddr(r)
     log.info(f'{i}: {rawaddr} ..')
     d = OrderedDict(r)
-    status, keytup = do_single(geoclient,rawaddr)
-    d['code'] = status.get('code')
-    d['bbl'] = keytup['bbl']
-    d['bin'] = keytup['bin']
-    d['error'] = status.get('error')
-    d['message'] = keytup.get('message')
+    try:
+        status, keytup = do_single(geoclient,rawaddr)
+        d['code'] = status.get('code')
+        d['bbl'] = keytup['bbl']
+        d['bin'] = keytup['bin']
+        d['error'] = status.get('error')
+        d['message'] = keytup.get('message')
+    except Exception as e:
+        errmsg = str(e)
+        log.info(f'{i}: ERROR {errmsg}')
+        log.error(e)
+        d['error'] = errmsg
     return d
 
 def makeaddr(r):
