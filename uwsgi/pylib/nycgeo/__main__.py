@@ -18,6 +18,7 @@ def parse_args():
     group.add_argument('--rawaddr', type=str, help="raw address")
     parser.add_argument('--loud', action="store_true", help="loudness")
     parser.add_argument('--throw', action="store_true", help="throw all exceptions")
+    parser.add_argument('--limit', type=int, required=False, help="limit")
     return parser.parse_args()
 
 def do_single(geoclient,rawaddr):
@@ -67,7 +68,7 @@ def main():
         infile = args.infile
         print(f'slurp from {infile} ..')
         inrecs = ioany.read_recs(infile)
-        inrecs = islice(inrecs,5)
+        inrecs = islice(inrecs,args.limit)
         do_multi(geoclient,inrecs)
 
     print('done')
