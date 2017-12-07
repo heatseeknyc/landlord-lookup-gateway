@@ -2,6 +2,9 @@ import time
 import yaml
 import argparse
 import simplejson as json
+import ioany
+from itertools import islice
+from collections import OrderedDict
 from nycgeo.client import SimpleGeoClient
 from common.logging import log
 
@@ -19,8 +22,30 @@ def parse_args():
 
 def do_single(geoclient,rawaddr):
     print(f"rawaddr = '{rawaddr}' ..")
-    status,keytup = geoclient.fetch_tiny(rawaddr)
+    status, keytup = geoclient.fetch_tiny(rawaddr)
     print(f'status = {status}, keytup = {keytup}')
+    return status, keytup
+
+def do_multi(geoclient,records):
+    procmulti(geoclient,records)
+
+def procmulti(geoclient,records):
+    for i,r in enumerate(records):
+        log.info(f'proc {i} ..')
+        d = process(geoclient,r,i)
+        print(d)
+
+def process(geoclient,r,i):
+    rawaddr = makeaddr(r)
+    log.info(f'{i}: {rawaddr} ..')
+    d = OrderedDict(r)
+    status, keytup = do_single(geoclient,rawaddr)
+    d['status'] = status
+    d['keytup'] = keytup
+    return d
+
+def makeaddr(r):
+    return "{address}, {borough}".format(**r)
 
 def main():
     global THROW,LOUD
@@ -36,7 +61,12 @@ def main():
     if args.rawaddr:
         do_single(geoclient,args.rawaddr)
     else:
-        raise NotImplementedError("not yet")
+        infile = args.infile
+        print(f'slurp from {infile} ..')
+        inrecs = ioany.read_recs(infile)
+        inrecs = islice(inrecs,5)
+        do_multi(geoclient,inrecs)
+
     print('done')
 
 if __name__ == '__main__':
