@@ -27,14 +27,18 @@ def do_single(geoclient,rawaddr):
     log.debug(f'status = {status}, keytup = {keytup}')
     return status, keytup
 
-def do_multi(geoclient,records):
-    procmulti(geoclient,records)
+def do_multi(geoclient,records,loud=False):
+    log.info("let's do this ...")
+    stream = procmulti(geoclient,records,loud)
+    ioany.save_recs("this.csv",stream)
 
-def procmulti(geoclient,records):
+def procmulti(geoclient,records,loud=False):
     for i,r in enumerate(records):
         log.info(f'proc {i} ..')
         d = process(geoclient,r,i)
-        print(d)
+        if loud:
+            print(d)
+        yield d
 
 def process(geoclient,r,i):
     rawaddr = makeaddr(r)
