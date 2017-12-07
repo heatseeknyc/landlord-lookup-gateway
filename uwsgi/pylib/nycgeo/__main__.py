@@ -45,7 +45,7 @@ def process(geoclient,r,i):
     d['bbl'] = keytup['bbl']
     d['bin'] = keytup['bin']
     d['error'] = status.get('error')
-    d['message'] = status.get('message')
+    d['message'] = keytup.get('message')
     return d
 
 def makeaddr(r):
