@@ -21,9 +21,9 @@ def parse_args():
     return parser.parse_args()
 
 def do_single(geoclient,rawaddr):
-    print(f"rawaddr = '{rawaddr}' ..")
+    log.debug(f"rawaddr = '{rawaddr}' ..")
     status, keytup = geoclient.fetch_tiny(rawaddr)
-    print(f'status = {status}, keytup = {keytup}')
+    log.debug(f'status = {status}, keytup = {keytup}')
     return status, keytup
 
 def do_multi(geoclient,records):
@@ -40,8 +40,11 @@ def process(geoclient,r,i):
     log.info(f'{i}: {rawaddr} ..')
     d = OrderedDict(r)
     status, keytup = do_single(geoclient,rawaddr)
-    d['status'] = status
-    d['keytup'] = keytup
+    d['code'] = status.get('code')
+    d['bbl'] = keytup['bbl']
+    d['bin'] = keytup['bin']
+    d['error'] = status.get('error')
+    d['message'] = status.get('message')
     return d
 
 def makeaddr(r):
