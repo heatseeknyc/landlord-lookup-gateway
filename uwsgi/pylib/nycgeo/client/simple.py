@@ -66,16 +66,20 @@ class SimpleGeoClient(object):
             inforec = None
         return status,inforec
 
-    def fetch_tiny(self,rawaddr):
+    def fetch_tiny_plus(self,rawaddr):
         log.debug("rawaddr = '%s'" % rawaddr)
         status,response = self.fetch(rawaddr)
         log.debug("status   = %s" % status)
         log.debug("response = %s" % response)
         if response is None:
-            return status,None
+            return status,None,None
         else:
             tinyrec = make_tiny(response)
-            return status,tinyrec
+            return status,tinyrec,response
+
+    def fetch_tiny(self,rawaddr):
+        status,tinyrec,response = self.fetch_tiny_plus(rawaddr)
+        return status,tinyrec
 
 
 def _encode(s):
