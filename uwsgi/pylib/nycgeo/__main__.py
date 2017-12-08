@@ -19,38 +19,44 @@ def parse_args():
     group.add_argument('--rawaddr', type=str, help="raw address")
     parser.add_argument('--loud', action="store_true", help="loudness")
     parser.add_argument('--throw', action="store_true", help="throw all exceptions")
+    parser.add_argument('--capture', action="store_true", help="capture response structs")
     parser.add_argument('--limit', type=int, required=False, help="limit")
     return parser.parse_args()
 
 def do_single(geoclient,rawaddr):
     log.debug(f"rawaddr = '{rawaddr}' ..")
-    status, keytup = geoclient.fetch_tiny(rawaddr)
+    status, keytup, response = geoclient.fetch_tiny_plus(rawaddr)
     log.debug(f'status = {status}, keytup = {keytup}')
-    return status, keytup
+    return status, keytup, response
 
 def do_multi(geoclient,records,capture=False,loud=False):
     log.info("let's do this ...")
+    log.info(f'capture = {capture}')
     stream = procmulti(geoclient,records,capture,loud)
     ioany.save_recs("this.csv",stream)
 
 def capture_object(i,o):
     outfile = "%s/%.6d.json" % (STASH,i)
+    log.debug('capture to {outfile} ..')
     ioany.save_json(outfile,o)
 
 def procmulti(geoclient,records,capture=False,loud=False):
     for i,r in enumerate(records):
         log.info(f'proc {i} ..')
-        d = process(geoclient,r,i)
+        d = process(geoclient,r,i,capture)
         if loud:
             print(d)
         yield d
 
-def process(geoclient,r,i):
+def process(geoclient,r,i,capture=False):
     rawaddr = makeaddr(r)
     log.info(f'{i}: {rawaddr} ..')
+    log.info(f'capture = {capture}')
     d = OrderedDict(r)
     try:
-        status, keytup = do_single(geoclient,rawaddr)
+        status, keytup, response = do_single(geoclient,rawaddr)
+        if capture:
+            capture_object(i,response)
         d['code'] = status.get('code')
         d['bbl'] = keytup['bbl']
         d['bin'] = keytup['bin']
@@ -84,7 +90,7 @@ def main():
         print(f'slurp from {infile} ..')
         inrecs = ioany.read_recs(infile)
         inrecs = islice(inrecs,args.limit)
-        do_multi(geoclient,inrecs,capture=False)
+        do_multi(geoclient,inrecs,capture=args.capture)
 
     print('done')
 
