@@ -10,6 +10,7 @@ from common.logging import log
 
 LOUD = False
 THROW = False
+STASH = './_stash'
 
 def parse_args():
     parser = argparse.ArgumentParser()
@@ -27,12 +28,16 @@ def do_single(geoclient,rawaddr):
     log.debug(f'status = {status}, keytup = {keytup}')
     return status, keytup
 
-def do_multi(geoclient,records,loud=False):
+def do_multi(geoclient,records,capture=False,loud=False):
     log.info("let's do this ...")
-    stream = procmulti(geoclient,records,loud)
+    stream = procmulti(geoclient,records,capture,loud)
     ioany.save_recs("this.csv",stream)
 
-def procmulti(geoclient,records,loud=False):
+def capture_object(i,o):
+    outfile = "%s/%.6d.json" % (STASH,i)
+    ioany.save_json(outfile,o)
+
+def procmulti(geoclient,records,capture=False,loud=False):
     for i,r in enumerate(records):
         log.info(f'proc {i} ..')
         d = process(geoclient,r,i)
@@ -79,7 +84,7 @@ def main():
         print(f'slurp from {infile} ..')
         inrecs = ioany.read_recs(infile)
         inrecs = islice(inrecs,args.limit)
-        do_multi(geoclient,inrecs)
+        do_multi(geoclient,inrecs,capture=False)
 
     print('done')
 
