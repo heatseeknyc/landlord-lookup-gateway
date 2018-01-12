@@ -1,3 +1,4 @@
+import os
 import time
 import yaml
 import argparse
@@ -35,9 +36,16 @@ def do_multi(geoclient,records,capture=False,loud=False):
     stream = procmulti(geoclient,records,capture,loud)
     ioany.save_recs("this.csv",stream)
 
+def savepath(i):
+    return "%s/%.6d.json" % (STASH,i)
+
+def detect_object(i):
+    outfile = savepath(i)
+    return os.path.exists(outfile)
+
 def capture_object(i,o):
-    outfile = "%s/%.6d.json" % (STASH,i)
-    log.debug('capture to {outfile} ..')
+    outfile = savepath(i)
+    log.debug(f'capture to {outfile} ..')
     ioany.save_json(outfile,o)
 
 def procmulti(geoclient,records,capture=False,loud=False):
@@ -45,23 +53,28 @@ def procmulti(geoclient,records,capture=False,loud=False):
         log.info(f'proc {i} ..')
         d = process(geoclient,r,i,capture)
         if loud:
-            print(d)
-        yield d
+            print(f'd[{i}] = {d}')
+        if d is not None:
+            yield d
 
 def process(geoclient,r,i,capture=False):
     rawaddr = makeaddr(r)
     log.info(f'{i}: {rawaddr} ..')
     log.info(f'capture = {capture}')
     d = OrderedDict(r)
+    if capture and detect_object(i):
+        log.info(f'{i}: status = SKIP')
+        return None
     try:
         status, keytup, response = do_single(geoclient,rawaddr)
+        log.info(f'{i}: status = {status}')
         if capture:
             capture_object(i,response)
         d['code'] = status.get('code')
-        d['bbl'] = keytup['bbl']
-        d['bin'] = keytup['bin']
+        d['bbl'] = keytup.get('bbl') if keytup else None
+        d['bin'] = keytup.get('bin') if keytup else None
         d['error'] = status.get('error')
-        d['message'] = keytup.get('message')
+        d['message'] = keytup.get('message') if keytup else None
     except Exception as e:
         errmsg = str(e)
         log.info(f'{i}: ERROR {errmsg}')
@@ -84,7 +97,8 @@ def main():
     geoclient = SimpleGeoClient(**geoconf)
     print(f'agent = {geoclient}')
     if args.rawaddr:
-        do_single(geoclient,args.rawaddr)
+        status, keytup, response = do_single(geoclient,args.rawaddr)
+        print(f'status = {status}, keytup = {keytup}')
     else:
         infile = args.infile
         print(f'slurp from {infile} ..')
