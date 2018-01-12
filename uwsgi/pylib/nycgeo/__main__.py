@@ -75,6 +75,7 @@ def process(geoclient,r,i,capture=False):
         d['bin'] = keytup.get('bin') if keytup else None
         d['error'] = status.get('error')
         d['message'] = keytup.get('message') if keytup else None
+        d['message2'] = keytup.get('message2') if keytup else None
     except Exception as e:
         errmsg = str(e)
         log.info(f'{i}: ERROR {errmsg}')
