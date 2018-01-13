@@ -70,7 +70,7 @@ class SimpleGeoClient(object):
         log.debug("rawaddr = '%s'" % rawaddr)
         status,response = self.fetch(rawaddr)
         log.debug("status   = %s" % status)
-        log.debug("response = %s" % response)
+        # log.debug("response = %s" % response)
         if response is None:
             return status,None,None
         else:
