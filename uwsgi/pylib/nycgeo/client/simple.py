@@ -104,9 +104,9 @@ def make_tiny(r):
     # The following two k/v pairs are assigned only if not null.
     # Otherwise, let's shorten our response payload.
     for k in ('message','message2'):
-    v = r.get(k)
-    if v is not None:
-        tiny[k] = v
+        v = r.get(k)
+        if v is not None:
+            tiny[k] = v
     return tiny
 
 
