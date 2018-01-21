@@ -185,7 +185,7 @@ class LookupAgent(object):
 #
 
 def is_condo_unit(taxlot):
-    """Tells us whether this taxlot struct represents a condo unit.""" 
+    """Tells us whether this taxlot struct represents a condo unit."""
     condo = taxlot.get('condo')
     if not condo:
         return False
